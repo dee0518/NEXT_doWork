@@ -7,7 +7,13 @@ const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    list-style: none;
     box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Poppins', 'Noto Sans KR', sans-serif;
+    font-size: 0.625em;
   }
 
   body {
