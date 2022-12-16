@@ -37,6 +37,7 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
+          <div id="snack__bar" />
           <Main />
           <NextScript />
         </body>

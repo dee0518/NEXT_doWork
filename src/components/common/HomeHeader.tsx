@@ -1,28 +1,32 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import ContentInner from 'components/common/ContentInner';
+import ContentInner from 'components/Common/ContentInner';
 import styled from 'styled-components';
 import { blind, buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { useState } from 'react';
+import LinkBtn from 'components/Common/LinkBtn';
+import { TMenuLinkItem } from 'types/home';
+
+const linkList: TMenuLinkItem[] = [
+  {
+    id: 'docs',
+    link: '/',
+  },
+  {
+    id: 'contact us',
+    link: '/',
+  },
+  {
+    id: 'try it out',
+    link: '/',
+  },
+];
 
 const HomeHeader = () => {
-  const linkList = [
-    {
-      id: 'docs',
-      link: '/',
-    },
-    {
-      id: 'contact us',
-      link: '/',
-    },
-    {
-      id: 'try it out',
-      link: '/',
-    },
-  ];
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
+
   const onClickOpenNav = () => {
     setIsOpenNav(prev => !prev);
   };
@@ -46,7 +50,9 @@ const HomeHeader = () => {
             {linkList.map(({ id, link }) => (
               <NavItem key={id}>
                 {id === 'try it out' ? (
-                  <LinkLogin href={link}>Try it out</LinkLogin>
+                  <LinkBtn href={link} type="secondary" fontSize="1.4rem" lineheight="38px">
+                    Try it out
+                  </LinkBtn>
                 ) : (
                   <NavLink href={link}>{id}</NavLink>
                 )}
@@ -65,7 +71,7 @@ const Header = styled.header`
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 3;
   min-width: 360px;
   width: 100%;
   padding: 15px 0;
@@ -84,6 +90,7 @@ const LogoLink = styled(Link)`
 `;
 
 const Logo = styled(Image)`
+  width: auto;
   height: 100%;
 `;
 
@@ -191,17 +198,5 @@ const NavLink = styled(Link)`
   color: ${({ theme }) => theme.color_gray_100};
   font-size: 1.6rem;
   line-height: 40px;
-  text-transform: capitalize;
-`;
-
-const LinkLogin = styled(Link)`
-  display: block;
-  padding: 0 16px;
-  border: 1px solid ${({ theme }) => theme.color_purple_60};
-  border-radius: 6px;
-  color: ${({ theme }) => theme.color_purple_60};
-  font-size: 1.4rem;
-  line-height: 38px;
-  text-align: center;
   text-transform: capitalize;
 `;

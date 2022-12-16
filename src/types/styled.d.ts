@@ -15,6 +15,7 @@ declare module 'styled-components' {
     color_purple_30: string;
     color_purple_20: string;
     color_purple_10: string;
+    color_purple_0: string;
     color_purple_shadow: string;
     color_gray_100: string;
     color_gray_90: string;
@@ -36,5 +37,6 @@ declare module 'styled-components' {
     linear_gradient_green: string;
     box_shadow_gray_1: string;
     box_shadow_gray_2: string;
+    bgColor: string;
   }
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ContentInner from 'components/common/ContentInner';
+import ContentInner from 'components/Common/ContentInner';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import { mediaQuery768 } from 'styles/mediaQuery';
