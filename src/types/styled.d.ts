@@ -4,6 +4,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     white: string;
     black: string;
+    black_transparent_15: string;
     color_purple_100: string;
     color_purple_90: string;
     color_purple_80: string;
@@ -33,6 +34,7 @@ declare module 'styled-components' {
     linear_gradient_orange: string;
     linear_gradient_skyblue: string;
     linear_gradient_green: string;
-    box_shadow_gray: string;
+    box_shadow_gray_1: string;
+    box_shadow_gray_2: string;
   }
 }

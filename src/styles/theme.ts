@@ -9,7 +9,9 @@ const common = {
   linear_gradient_orange: '#',
   linear_gradient_skyblue: '#',
   linear_gradient_green: '#',
-  box_shadow_gray: '0 4px 30px 0 rgba(224,224,224, .5)',
+  black_transparent_15: 'rgba(0, 0, 0, .15)',
+  box_shadow_gray_1: '0 4px 30px 0 rgba(224,224,224, .5)',
+  box_shadow_gray_2: `4px 0 20px 0 rgba(0, 0, 0, .15)`,
 };
 
 export const lightTheme = {
