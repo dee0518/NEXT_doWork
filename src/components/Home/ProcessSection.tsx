@@ -1,38 +1,49 @@
+import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
 import Title from 'components/Common/Title';
 import styled from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import { TProcessItem } from 'types/home';
+import tada from 'images/home/process_tada.svg';
+import userSchedule from 'images/home/process_user_and_schedule_off.svg';
+import trello from 'images/home/process_trello_off.svg';
+import designTool from 'images/home/process_design_tool_off.svg';
+import final from 'images/home/process_final_off.svg';
 
 const processList: TProcessItem[] = [
   {
     id: 'start',
-    imgUrl: '',
+    imgUrl: tada,
+    imgAlt: 'tada',
     content: 'doWork와 함께가는 여정 시작!',
     complete: true,
   },
   {
     id: 'step1',
-    imgUrl: '',
+    imgUrl: userSchedule,
+    imgAlt: 'user and schedule',
     content: '회원가입과 로그인이 가능하고 일정을 관리할 수 있어요',
     complete: false,
   },
   {
     id: 'step2',
-    imgUrl: '',
+    imgUrl: trello,
+    imgAlt: 'trello',
     content: 'Trello를 이용하여 해야할 일과 끝낸 일 등으로 프로젝트를 관리할 수 있어요 ',
     complete: false,
   },
   {
     id: 'step3',
-    imgUrl: '',
+    imgUrl: designTool,
+    imgAlt: 'design tool',
     content: '디자인 툴을 사용하여 유연하게 프로젝트를 관리해봐요',
     complete: false,
   },
   {
     id: 'final',
-    imgUrl: '',
+    imgUrl: final,
+    imgAlt: 'finish',
     content: 'Docs를 통해 doWork 서비스를 알아가봐요>ㅁ<',
     complete: false,
   },
@@ -51,9 +62,11 @@ const ProcessSection = () => {
             <Line aria-hidden="true" index={calcStep} />
           </LineWrap>
           <ProcessList>
-            {processList.map(({ id, imgUrl, content, complete }, i) => (
+            {processList.map(({ id, imgUrl, imgAlt, content, complete }, i) => (
               <ProcessItem key={id} className={complete ? 'on' : ''}>
-                <ItemImageWrap />
+                <ItemImageWrap>
+                  <ItemImage src={imgUrl} alt={imgAlt} />
+                </ItemImageWrap>
                 <ItemDescWrap>
                   <H3>{id.indexOf('step') === -1 ? id : `step ${i}`}</H3>
                   <Description>{content}</Description>
@@ -177,6 +190,12 @@ const ItemImageWrap = styled.div`
   ${mediaQuery1024} {
     margin: 0;
   }
+`;
+
+const ItemImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  object-fit: cotain;
 `;
 
 const ItemDescWrap = styled.div`

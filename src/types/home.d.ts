@@ -1,6 +1,7 @@
 export type TProcessItem = {
   id: string;
   imgUrl: string;
+  imgAlt: string;
   content: string;
   complete: boolean;
 };
