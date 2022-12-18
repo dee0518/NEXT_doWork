@@ -4,12 +4,12 @@ import Title from 'components/Common/Title';
 import styled from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
-import { TProcessItem } from 'types/home';
 import tada from 'images/home/process_tada.svg';
 import userSchedule from 'images/home/process_user_and_schedule_off.svg';
 import trello from 'images/home/process_trello_off.svg';
 import designTool from 'images/home/process_design_tool_off.svg';
 import final from 'images/home/process_final_off.svg';
+import { TProcessItem } from 'types/home';
 
 const processList: TProcessItem[] = [
   {

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import ContentInner from 'components/Common/ContentInner';
 import styled from 'styled-components';
-import { flexbox } from 'styles/mixin';
 import { mediaQuery768 } from 'styles/mediaQuery';
+import { flexbox } from 'styles/mixin';
 
 const HomeFooter = () => {
   const year = new Date().getFullYear();

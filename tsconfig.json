@@ -15,12 +15,13 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "images/*": ["./public/images/*"],
       "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
       "hooks/*": ["./src/hooks/*"],
       "redux/*": ["./src/redux/*"],
       "styles/*": ["./src/styles/*"],
-      "types/*": ["./src/types/*"],
-      "images/*": ["./public/images/*"]
+      "types/*": ["./src/types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

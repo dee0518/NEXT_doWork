@@ -1,41 +1,58 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, MouseEvent } from 'react';
 import ContentInner from 'components/Common/ContentInner';
+import LinkBtn from 'components/Common/LinkBtn';
 import styled from 'styled-components';
+import { mediaQuery768 } from 'styles/mediaQuery';
 import { blind, buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
-import { mediaQuery768 } from 'styles/mediaQuery';
-import { useState } from 'react';
-import LinkBtn from 'components/Common/LinkBtn';
-import { TMenuLinkItem } from 'types/home';
+import { HOME, LOGIN } from 'constants/navigation';
+import { TContent, TMenuLinkItem } from 'types/home';
+import useSnackbar from 'hooks/useSnackBar';
+import SnackBar from './SnackBar';
 
 const linkList: TMenuLinkItem[] = [
   {
     id: 'docs',
-    link: '/',
+    link: HOME,
   },
   {
     id: 'contact us',
-    link: '/',
+    link: HOME,
   },
   {
     id: 'try it out',
-    link: '/',
+    link: LOGIN,
   },
 ];
 
 const HomeHeader = () => {
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
+  // const [contents, setContents] = useState<TContent[]>([]);
+  // const [openSnackbar, closeSnackbar] = useSnackbar();
 
   const onClickOpenNav = () => {
     setIsOpenNav(prev => !prev);
+  };
+
+  const onOpenSnackBar = (menu: string, e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    // openSnackbar(`${menu}는 준비 중이에요. 조금만 기다려주세요:)`);
+    // const id = Math.max(...contents.map(({ id }) => id), 0) + 1;
+    // setContents(prev => [...prev, { id, content: `${menu}는 준비 중이에요. 조금만 기다려주세요:)` }]);
+  };
+
+  const onCloseSnackBar = () => {
+    // closeSnackbar();
+    // setContents(prev => prev.filter((_, i) => i !== 0));
   };
 
   return (
     <Header>
       <Inner>
         <h1>
-          <LogoLink href="/">
+          <LogoLink href={HOME}>
             <Logo src={homeLogo} alt="doWork" />
           </LogoLink>
         </h1>
@@ -54,13 +71,16 @@ const HomeHeader = () => {
                     Try it out
                   </LinkBtn>
                 ) : (
-                  <NavLink href={link}>{id}</NavLink>
+                  <NavLink href={link} onClick={onOpenSnackBar.bind(null, id)}>
+                    {id}
+                  </NavLink>
                 )}
               </NavItem>
             ))}
           </NavList>
         </Nav>
       </Inner>
+      {/* <SnackBar contents={contents} hideDuration={6000} setContents={onCloseSnackBar} /> */}
     </Header>
   );
 };

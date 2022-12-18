@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from 'redux/store';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from 'styles/theme';
 import GlobalStyles from 'styles/GlobalStyles';
+import { lightTheme, darkTheme } from 'styles/theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true);

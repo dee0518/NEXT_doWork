@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
+import ProcessSection from 'components/Home/ProcessSection';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { blind, flexbox } from 'styles/mixin';
 import shapePurple from 'images/home/visual_shape_purple.svg';
 import shapeYellow from 'images/home/visual_shape_yellow.svg';
-import ProcessSection from './ProcessSection';
+import { LOGIN } from 'constants/navigation';
 
 const HomeMain = () => (
   <Main>
@@ -22,7 +23,7 @@ const HomeMain = () => (
             <Span>doWork</Span>
             <Span>Enojoy working together.</Span>
           </p>
-          <LoginLink href="/login">Go Login</LoginLink>
+          <LoginLink href={LOGIN}>start doWork</LoginLink>
         </MainTextGroup>
       </VisualInner>
     </Visual>

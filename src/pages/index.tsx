@@ -3,7 +3,6 @@ import Head from 'next/head';
 import HomeFooter from 'components/Common/HomeFooter';
 import HomeHeader from 'components/Common/HomeHeader';
 import HomeMain from 'components/Home/HomeMain';
-import SnackBar from 'components/Common/SnackBar';
 
 const Home: NextPage = () => (
   <>
@@ -16,7 +15,6 @@ const Home: NextPage = () => (
     <HomeHeader />
     <HomeMain />
     <HomeFooter />
-    {/* <SnackBar content="준비 중이에요. 조금만 기다려주세요:)" /> */}
   </>
 );
 
