@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import HomeFooter from 'components/Common/HomeFooter';
-import HomeHeader from 'components/Common/HomeHeader';
+import Footer from 'components/Common/Footer';
+import Header from 'components/Common/Header';
 import styled, { keyframes } from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import shape1 from 'images/404/shape_1.svg';
@@ -10,7 +10,7 @@ import bubble from 'images/404/bubble.svg';
 
 const Custom404 = () => (
   <>
-    <HomeHeader />
+    <Header />
     <Section>
       <H2>404</H2>
       <P>페이지를 찾을 수 없어요:(</P>
@@ -23,7 +23,7 @@ const Custom404 = () => (
       <Bubble4 src={bubble} aria-hidden="true" alt="bubble 3" />
       <Bubble5 src={bubble} aria-hidden="true" alt="bubble 3" />
     </Section>
-    <HomeFooter />
+    <Footer />
   </>
 );
 

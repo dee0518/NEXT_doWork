@@ -10,3 +10,8 @@ export type TMenuLinkItem = {
   id: string;
   link: string;
 };
+
+export type TContent = {
+  id: number;
+  content: string;
+};

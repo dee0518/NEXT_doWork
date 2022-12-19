@@ -139,7 +139,7 @@ const ProcessList = styled.ul`
   z-index: 1;
 
   ${mediaQuery1024} {
-    ${flexbox('row', 'nowrap', 'space-between', 'center')}
+    ${flexbox('row', 'nowrap', 'space-between', 'flex-start')}
   }
 `;
 

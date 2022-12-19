@@ -4,7 +4,7 @@ export const flexbox = (direction = 'row', wrap = 'nowrap', justify = 'normal', 
   display: flex;
   flex-flow: ${direction} ${wrap};
   justify-content: ${justify};
-  align-self: ${align};
+  align-items: ${align};
 `;
 
 export const buttonNone = css`

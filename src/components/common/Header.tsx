@@ -7,19 +7,17 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { blind, buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
-import { HOME, LOGIN } from 'constants/navigation';
-import { TContent, TMenuLinkItem } from 'types/home';
-import useSnackbar from 'hooks/useSnackBar';
-import SnackBar from './SnackBar';
+import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
+import { TMenuLinkItem } from 'types/home';
 
 const linkList: TMenuLinkItem[] = [
   {
     id: 'docs',
-    link: HOME,
+    link: DOCS,
   },
   {
     id: 'contact us',
-    link: HOME,
+    link: CONTACT,
   },
   {
     id: 'try it out',
@@ -29,8 +27,6 @@ const linkList: TMenuLinkItem[] = [
 
 const HomeHeader = () => {
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
-  // const [contents, setContents] = useState<TContent[]>([]);
-  // const [openSnackbar, closeSnackbar] = useSnackbar();
 
   const onClickOpenNav = () => {
     setIsOpenNav(prev => !prev);
@@ -38,14 +34,6 @@ const HomeHeader = () => {
 
   const onOpenSnackBar = (menu: string, e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    // openSnackbar(`${menu}는 준비 중이에요. 조금만 기다려주세요:)`);
-    // const id = Math.max(...contents.map(({ id }) => id), 0) + 1;
-    // setContents(prev => [...prev, { id, content: `${menu}는 준비 중이에요. 조금만 기다려주세요:)` }]);
-  };
-
-  const onCloseSnackBar = () => {
-    // closeSnackbar();
-    // setContents(prev => prev.filter((_, i) => i !== 0));
   };
 
   return (
@@ -80,7 +68,6 @@ const HomeHeader = () => {
           </NavList>
         </Nav>
       </Inner>
-      {/* <SnackBar contents={contents} hideDuration={6000} setContents={onCloseSnackBar} /> */}
     </Header>
   );
 };

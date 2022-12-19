@@ -5,8 +5,7 @@ import ProcessSection from 'components/Home/ProcessSection';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { blind, flexbox } from 'styles/mixin';
-import shapePurple from 'images/home/visual_shape_purple.svg';
-import shapeYellow from 'images/home/visual_shape_yellow.svg';
+import visualBg from 'images/home/visual_bg.svg';
 import { LOGIN } from 'constants/navigation';
 
 const HomeMain = () => (
@@ -15,8 +14,7 @@ const HomeMain = () => (
       <BlindH2>Visual</BlindH2>
       <VisualInner>
         <VisualImageGroup>
-          <VisualBgImage src={shapePurple} aria-hidden="true" alt="shape purple" />
-          <VisualBgImage src={shapeYellow} aria-hidden="true" alt="shape purple" />
+          <VisualBgImage src={visualBg} alt="work together" />
         </VisualImageGroup>
         <MainTextGroup>
           <p>
@@ -56,38 +54,22 @@ const VisualInner = styled(ContentInner)`
 `;
 
 const VisualImageGroup = styled.div`
-  position: relative;
-  height: 300px;
+  margin-bottom: 10px;
+  text-align: right;
 
   ${mediaQuery1024} {
     width: 50%;
-    height: 500px;
+    margin-bottom: 0px;
   }
 `;
 
 const VisualBgImage = styled(Image)`
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 65%;
-  max-width: 400px;
+  width: 100%;
+  max-width: 700px;
   height: auto;
-  transform: translate3d(-65%, 0, 0);
-
-  &:last-child {
-    width: 60%;
-    transform: translate3d(-25%, 100px, 0);
-  }
 
   ${mediaQuery1024} {
-    width: 400px;
-    max-width: none;
-    transform: translate3d(-75%, 0, 0);
-
-    &:last-child {
-      width: 300px;
-      transform: translate3d(-15%, 200px, 0);
-    }
+    max-width: 510px;
   }
 `;
 
