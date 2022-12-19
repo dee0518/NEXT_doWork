@@ -1,8 +1,3 @@
-export interface iLoginInfo {
-  email: string;
-  password: string;
-}
-
 export interface iUserInfo {
   email: string;
   displayName: string;
@@ -10,6 +5,19 @@ export interface iUserInfo {
   profile: string;
 }
 
-export interface SignUpInfo extends iUserInfo {
+export interface iSignUpInfo extends iUserInfo {
   password: string;
 }
+
+export type iLoginInfo = Pick<iSignUpInfo, 'email' | 'password'>;
+
+export type iDefaultUserInfo = {
+  id: string;
+  type: string;
+  placeholder: string;
+  value: string;
+  labelClass: string;
+  labelChildren: string;
+};
+
+export type AuthType = iLoginInfo | iSignUpInfo;
