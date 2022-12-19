@@ -11,7 +11,7 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 
 <br>
 
-## Issue & Solve
+## Issue & Solve === 배운점
 
 1. Portal 생성시 `document is not defined`문제
 
@@ -21,3 +21,9 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 - 해결 방법 : DOM mount된 이후에 useEffect로 element 상태를 바꿔 createPortal하도록 함.
 
 🧷 [해당 문제 블로그가기](https://velog.io/@dee0518/Next.js-react-hydration-error)
+
+2. Typescript Generic 적용
+
+- 원인 : 제네릭 extends 하는 타입에 id가 없어 해당 키를 못 찾음 (잘못된 타입을 extends 함)
+- 해결 : 제네릭 extends를 적절하고 명확한 것으로 타입 지정.
+  🧷 [해당 문제 블로그가기](https://velog.io/@dee0518/Typescript-%EA%B8%B0%EC%B4%88-%EB%8B%A4%EC%A7%80%EA%B8%B0-4)
