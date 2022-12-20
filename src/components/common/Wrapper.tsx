@@ -13,4 +13,5 @@ const Div = styled.div`
   border-radius: 15px;
   border: ${({ theme }) => theme.color_gray_70};
   background: ${({ theme }) => theme.white};
+  box-shadow: ${({ theme }) => theme.box_shadow_gray_1};
 `;

@@ -143,10 +143,6 @@ const AuthForm = styled.form`
     margin-bottom: 15px;
   }
 
-  label {
-    display: none;
-  }
-
   input {
     height: 50px;
     padding: 15px;

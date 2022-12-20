@@ -13,6 +13,7 @@ export const buttonNone = css`
 `;
 
 export const blind = css`
+  display: block;
   width: 1px;
   height: 1px;
   overflow: hidden;
