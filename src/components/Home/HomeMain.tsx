@@ -1,17 +1,18 @@
 import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
+import BlindTitle from 'components/Common/BlindTitle';
 import ProcessSection from 'components/Home/ProcessSection';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
-import { blind, flexbox } from 'styles/mixin';
+import { flexbox } from 'styles/mixin';
 import visualBg from 'images/home/visual_bg.svg';
 import { LOGIN } from 'constants/navigation';
 
 const HomeMain = () => (
   <Main>
     <Visual>
-      <BlindH2>Visual</BlindH2>
+      <BlindTitle>Visual</BlindTitle>
       <VisualInner>
         <VisualImageGroup>
           <VisualBgImage src={visualBg} alt="work together" />
@@ -41,10 +42,6 @@ const Visual = styled.section`
   ${mediaQuery1024} {
     padding: 100px 0 130px;
   }
-`;
-
-const BlindH2 = styled.h2`
-  ${blind}
 `;
 
 const VisualInner = styled(ContentInner)`

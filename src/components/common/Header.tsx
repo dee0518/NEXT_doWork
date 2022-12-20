@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { useState, MouseEvent } from 'react';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
+import BlindTitle from 'components/Common/BlindTitle';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
-import { blind, buttonNone, flexbox } from 'styles/mixin';
+import { buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
 import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
 import { TMenuLinkItem } from 'types/home';
@@ -50,7 +51,7 @@ const HomeHeader = () => {
           <HamburgerSpan />
         </HamburgerBtn>
         <Nav className={isOpenNav ? 'on' : ''}>
-          <H2>네비게이션</H2>
+          <BlindTitle>네비게이션</BlindTitle>
           <NavList>
             {linkList.map(({ id, link }) => (
               <NavItem key={id}>
@@ -99,10 +100,6 @@ const LogoLink = styled(Link)`
 const Logo = styled(Image)`
   width: auto;
   height: 100%;
-`;
-
-const H2 = styled.h2`
-  ${blind}
 `;
 
 const HamburgerBtn = styled.button`
