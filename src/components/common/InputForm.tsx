@@ -48,4 +48,8 @@ const Input = styled.input`
   input:-ms-input-placeholder {
     color: ${({ theme }) => theme.color_gray_80};
   }
+
+  &.error {
+    border: 1px solid ${({ theme }) => theme.point_pink};
+  }
 `;

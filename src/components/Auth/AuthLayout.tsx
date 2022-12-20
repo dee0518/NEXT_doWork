@@ -36,7 +36,7 @@ const AuthLayout = <T extends AuthType, M extends iDefaultUserInfo>({
           <Title aria-hidden="true">doWork</Title>
         </LogoLink>
       </H1>
-      <Message>{error || '우리 같이 일해 보아요:)'}</Message>
+      <Message className={error ? 'error' : ''}>{(error && error.message) || '우리 같이 일해 보아요:)'}</Message>
       <Inner>
         <AuthForm onSubmit={onSubmit}>
           {userInfo.map(({ id, type, value, placeholder, labelClass, labelChildren }) => (
@@ -45,6 +45,7 @@ const AuthLayout = <T extends AuthType, M extends iDefaultUserInfo>({
               input={{
                 id,
                 type,
+                className: error && error.id === id ? 'error' : '',
                 name: id,
                 placeholder,
                 value,
@@ -165,6 +166,10 @@ const AuthForm = styled.form`
 
     &:-ms-input-placeholder {
       color: ${({ theme }) => theme.color_purple_30};
+    }
+
+    &.error {
+      border-color: ${({ theme }) => theme.point_orange};
     }
   }
 `;

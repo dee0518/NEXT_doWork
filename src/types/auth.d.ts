@@ -18,6 +18,11 @@ export type iDefaultUserInfo = {
   value: string;
   labelClass: string;
   labelChildren: string;
+  error: string;
 };
 
 export type AuthType = iLoginInfo | iSignUpInfo;
+export type AuthError = {
+  id: string;
+  message: string;
+};
