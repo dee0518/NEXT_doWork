@@ -58,7 +58,7 @@ const Header = styled.header`
   width: 64px;
   height: 100%;
   border-radius: 0 0 40px 0;
-  ${({ theme }) => `background: linear-gradient(to bottom, ${theme.color_purple_60}, ${theme.color_purple_40})`};
+  ${({ theme }) => `background: linear-gradient(to bottom, ${theme.linear_gradient_purple})`};
 `;
 
 const H1 = styled.h1`
