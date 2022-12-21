@@ -1,6 +1,7 @@
 import { ReactNode, MouseEvent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { buttonNone } from 'styles/mixin';
 
 type TProps = {
   type: string;
@@ -41,18 +42,24 @@ const BackDrop = styled.div`
   right: 0;
   bottom: 0;
   top: 0;
+  z-index: 1000;
   background: ${({ theme }) => theme.black_transparent_15};
 `;
 
 const Body = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 500px;
   border-radius: 10px;
   background: ${({ theme }) => theme.white};
-  overflow: hidden;
+  transform: translate3d(-50%, -50%, 0);
 `;
 
 const ModalHeader = styled.div`
   position: relative;
-  padding: 18px 40px 18px 25px;
+  padding: 16px 40px 16px 20px;
+  border-radius: 10px 10px 0 0;
   ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_purple})`};
 
   &.pink {
@@ -79,8 +86,12 @@ const H2 = styled.h2`
 `;
 
 const CloseBtn = styled.button`
-  width: 30px;
-  height: 30px;
+  ${buttonNone};
+  position: absolute;
+  right: 0;
+  top: 1px;
+  width: 50px;
+  height: 50px;
   background: url(/images/common/close_white.svg) no-repeat;
   background-position: center;
 `;

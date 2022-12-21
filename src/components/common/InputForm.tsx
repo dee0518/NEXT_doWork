@@ -22,7 +22,7 @@ type TInputFormProps = {
 const InputForm = ({ label, input }: TInputFormProps) => {
   const { htmlFor, ...labelProps } = label;
   return (
-    <div>
+    <div className="input__form">
       <Label htmlFor={htmlFor} {...labelProps} />
       <Input {...input} />
     </div>
@@ -36,7 +36,7 @@ const Input = styled.input`
   padding: 13px;
   border: 0;
   border-radius: 6px;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   color: ${({ theme }) => theme.color_gray_100};
   background: ${({ theme }) => theme.color_gray_10};
 

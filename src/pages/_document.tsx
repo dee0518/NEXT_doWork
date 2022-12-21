@@ -32,12 +32,13 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Poppins:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
             rel="stylesheet"
           />
         </Head>
         <body>
           <div id="snack__bar" />
+          <div id="modal__root" />
           <Main />
           <NextScript />
         </body>

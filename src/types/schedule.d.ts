@@ -1,3 +1,16 @@
+export interface ScheduleInfo {
+  id: string;
+  user: string;
+  status: string;
+  title: string;
+  fromAt: Date;
+  fromTime: string;
+  toAt: Date;
+  toTime: string;
+  collaborators: string[];
+  content: string;
+}
+
 export type filterItem = {
   id: string;
   name: string;
@@ -11,4 +24,8 @@ export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 export type scheduleType = {
   selectedDate: Date;
   statusFilter: filterItem[];
+  scheduleDetail: ScheduleInfo | null;
+  scheduleList: ScheduleInfo[];
 };
+
+export type statusItem = Omit<filterItem, 'count' | 'color'>;

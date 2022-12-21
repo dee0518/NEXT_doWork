@@ -18,6 +18,10 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     line-height: 1.2;
+
+    &.hide {
+      overflow: hidden;
+    }
   }
 
   a {

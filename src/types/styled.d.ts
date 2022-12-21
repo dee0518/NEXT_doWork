@@ -31,6 +31,7 @@ declare module 'styled-components' {
     point_orange: string;
     point_skyblue: string;
     point_green: string;
+    linear_gradient_purple: string;
     linear_gradient_pink: string;
     linear_gradient_orange: string;
     linear_gradient_skyblue: string;
