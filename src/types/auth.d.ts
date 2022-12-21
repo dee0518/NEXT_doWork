@@ -1,8 +1,10 @@
 export interface iUserInfo {
+  id: string;
   email: string;
   displayName: string;
   career: string;
   profile: string;
+  introduce: string;
 }
 
 export interface iSignUpInfo extends iUserInfo {

@@ -38,7 +38,11 @@ const GlobalNavBar = () => {
         <Ul>
           {menuList.map(({ id, link }) => (
             <Li key={id}>
-              <NavLink href={link} aria-label={id} className={link === router.pathname ? `${id} activated` : id} />
+              <NavLink
+                href={link}
+                aria-label={id}
+                className={router.pathname.includes(link) ? `${id} activated` : id}
+              />
             </Li>
           ))}
         </Ul>
@@ -109,12 +113,12 @@ const NavLink = styled(Link)`
     display: block;
     width: 100%;
     height: 100%;
-    background: url(images/common/menu/schedule_off.svg) no-repeat;
+    background: url(/images/common/menu/schedule_off.svg) no-repeat;
     background-position: center;
   }
 
   &.mypage::before {
-    background-image: url(images/common/menu/mypage_off.svg);
+    background-image: url(/images/common/menu/mypage_off.svg);
   }
 
   &.activated::after {
@@ -125,16 +129,16 @@ const NavLink = styled(Link)`
     display: block;
     width: 95%;
     height: 100px;
-    background: url(images/common/menu/menu_bg.svg) no-repeat;
+    background: url(/images/common/menu/menu_bg.svg) no-repeat;
     background-size: contain;
     background-position: right center;
   }
 
   &.activated::before {
-    background-image: url(images/common/menu/schedule_on.svg);
+    background-image: url(/images/common/menu/schedule_on.svg);
   }
 
   &.mypage.activated::before {
-    background-image: url(images/common/menu/mypage_on.svg);
+    background-image: url(/images/common/menu/mypage_on.svg);
   }
 `;

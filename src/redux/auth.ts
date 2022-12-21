@@ -8,7 +8,14 @@ type authType = {
 
 const initialState: authType = {
   isLoggedIn: false,
-  user: null,
+  user: {
+    id: '',
+    email: 'abc@email.com',
+    displayName: 'jane',
+    career: 'Frontend-Developer',
+    profile: '',
+    introduce: '저는 UI와 데이터를 연결하는 것이 즐겁고 협업을 위해 좀 더 세밀한 부분을 알고 싶습니다.',
+  },
 };
 
 const auth = createSlice({

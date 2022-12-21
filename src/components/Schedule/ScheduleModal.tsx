@@ -1,5 +1,5 @@
-import Modal from 'components/Common/Modal';
 import { useReduxSelector } from 'hooks/useRedux';
+import Modal from 'components/Common/Modal';
 import styled from 'styled-components';
 import { ScheduleInfo } from 'types/schedule';
 import { getYearMonthDate } from 'utils/dateUtils';

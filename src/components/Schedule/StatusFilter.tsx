@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
+import { scheduleAction } from 'redux/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
-import { scheduleAction } from 'redux/schedule';
-import { TFilter } from 'types/schedule';
 import styled from 'styled-components';
+import { TFilter } from 'types/schedule';
 
 const StatusFilter = () => {
   const { statusFilter } = useReduxSelector(state => state.schedule);
@@ -48,29 +48,29 @@ const StatusItem = styled.li`
     font-size: 1.6rem;
     font-weight: 500;
     line-height: 1.5;
-    background: url(images/common/checkbox/empty.svg) no-repeat;
+    background: url(/images/common/checkbox/empty.svg) no-repeat;
     background-position: left center;
     background-size: 18px;
     text-transform: capitalize;
   }
 
   .all.on {
-    background-image: url(images/common/checkbox/all.svg);
+    background-image: url(/images/common/checkbox/all.svg);
   }
 
   .todo.on {
-    background-image: url(images/common/checkbox/todo.svg);
+    background-image: url(/images/common/checkbox/todo.svg);
   }
 
   .private.on {
-    background-image: url(images/common/checkbox/private.svg);
+    background-image: url(/images/common/checkbox/private.svg);
   }
 
   .important.on {
-    background-image: url(images/common/checkbox/important.svg);
+    background-image: url(/images/common/checkbox/important.svg);
   }
 
   .meeting.on {
-    background-image: url(images/common/checkbox/meeting.svg);
+    background-image: url(/images/common/checkbox/meeting.svg);
   }
 `;

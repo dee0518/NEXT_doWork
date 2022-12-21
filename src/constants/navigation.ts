@@ -5,3 +5,5 @@ export const LOGIN = '/login';
 export const SIGNUP = '/signup';
 export const MAIN = '/main';
 export const MYPAGE = '/mypage';
+export const EDITACCOUNT = '/mypage/editAccount';
+export const DELETEACCOUNT = '/mypage/deleteAccount';

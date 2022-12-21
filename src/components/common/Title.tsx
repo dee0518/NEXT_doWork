@@ -1,13 +1,8 @@
 import styled from 'styled-components';
-import { mediaQuery768 } from 'styles/mediaQuery';
 
 const Title = styled.h2`
-  font-size: 2.8rem;
-  font-weight: bold;
-
-  ${mediaQuery768} {
-    font-size: 3.6rem;
-  }
+  margin-bottom: 15px;
+  font-size: 2.4rem;
 `;
 
 export default Title;

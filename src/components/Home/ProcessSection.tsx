@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
-import Title from 'components/Common/Title';
+import HomeTitle from 'components/Common/HomeTitle';
 import styled from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
@@ -55,7 +55,7 @@ const ProcessSection = () => {
   return (
     <Container>
       <ContentInner>
-        <Title>Process</Title>
+        <HomeTitle>Process</HomeTitle>
         <ContentWrap>
           <LineWrap>
             <Line aria-hidden="true" index={4} />

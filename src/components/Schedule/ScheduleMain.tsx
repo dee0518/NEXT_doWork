@@ -2,12 +2,12 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useReduxSelector } from 'hooks/useRedux';
 import useScheduleDate from 'hooks/useScheduleDate';
 import useModal from 'hooks/useModal';
-import Calendar from 'components/Calendar';
 import InputForm from 'components/Common/InputForm';
 import ServiceMain from 'components/Common/ServiceMain';
+import Calendar from 'components/Calendar';
+import ScheduleModal from 'components/Schedule/ScheduleEditModal';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
-import ScheduleModal from './ScheduleEditModal';
 
 const ScheduleMain = () => {
   const { today, selectedDate, onClickDate, onClickHeaderBtn } = useScheduleDate();

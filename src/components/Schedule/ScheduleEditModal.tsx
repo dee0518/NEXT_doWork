@@ -3,10 +3,10 @@ import Modal from 'components/Common/Modal';
 import InputForm from 'components/Common/InputForm';
 import DatePicker from 'components/Common/DatePicker';
 import SelectBox from 'components/Common/SelectBox';
-import { statusList, timeList } from 'constants/schedule';
-import styled from 'styled-components';
 import Button from 'components/Common/Button';
+import styled from 'styled-components';
 import { buttonNone, flexbox } from 'styles/mixin';
+import { statusList, timeList } from 'constants/schedule';
 
 type TProps = {
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
