@@ -1,6 +1,6 @@
 import { MouseEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
-import getYearMonthDate from 'utils/getYearMonthDate';
+import { getYearMonthDate } from 'utils/dateUtils';
 import { TDateClass, TDateObj } from 'constants/calendar';
 
 type TProps = {
@@ -11,7 +11,7 @@ type TProps = {
 };
 
 const CalendarDates = ({ type, dateObj, dates, onClickDate }: TProps) => (
-  <DateList className={type}>
+  <DateList className={`calendar__dates ${type}`}>
     {dates.map((curDate, i) => {
       const delta: number = i < 7 && curDate > 20 ? -1 : i > 24 && curDate < 7 ? 1 : 0;
       const { year: todayYear, month: todayMonth, date: todayDate } = getYearMonthDate(dateObj.today);

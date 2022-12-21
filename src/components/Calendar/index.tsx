@@ -34,7 +34,7 @@ const Calendar = ({ dateObj, type, lang, strLeng, scheduleList, onClickDate, onC
   return (
     <CalendarWrapper className={`calendar ${type}`}>
       <CalendarHeader date={dateObj.selectedDate} type={type} onClickHeaderBtn={onClickHeaderBtn} />
-      <WeekDatesWrapper className={type}>
+      <WeekDatesWrapper className={`calendar__week__dates ${type}`}>
         <CalendarWeek type={type} lang={lang} strLeng={strLeng} />
         <CalendarDates type={type} dateObj={dateObj} dates={dates} onClickDate={onClickDate} />
         {/* {scheduleList && scheduleList.length > 0 && (
