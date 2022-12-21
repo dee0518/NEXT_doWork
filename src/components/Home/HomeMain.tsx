@@ -40,7 +40,7 @@ const Visual = styled.section`
   padding: 50px 0 130px;
 
   ${mediaQuery1024} {
-    padding: 100px 0 130px;
+    padding: 80px 0 130px;
   }
 `;
 
@@ -64,10 +64,6 @@ const VisualBgImage = styled(Image)`
   width: 100%;
   max-width: 700px;
   height: auto;
-
-  ${mediaQuery1024} {
-    max-width: 510px;
-  }
 `;
 
 const MainTextGroup = styled.div`
