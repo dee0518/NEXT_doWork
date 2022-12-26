@@ -22,7 +22,7 @@ export type filterItem = {
 export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 
 export type scheduleType = {
-  selectedDate: Date;
+  selectedDate: string;
   statusFilter: filterItem[];
   scheduleDetail: ScheduleInfo | null;
   scheduleList: ScheduleInfo[];

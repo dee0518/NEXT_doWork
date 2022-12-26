@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ScheduleInfo, TFilter, filterItem, scheduleType } from 'types/schedule';
 
 const initialState: scheduleType = {
-  selectedDate: new Date(),
+  selectedDate: new Date().toString(),
   statusFilter: [
     { id: 'all', name: 'all', count: 0, color: 'purple', checked: true },
     { id: 'todo', name: 'to do', count: 0, color: 'pink', checked: true },
@@ -19,7 +19,7 @@ const schedule = createSlice({
   initialState,
   reducers: {
     setSelectedDate: (state, action: PayloadAction<Date>) => {
-      state.selectedDate = action.payload;
+      state.selectedDate = action.payload.toString();
     },
     setFilter: (state, action: PayloadAction<TFilter>) => {
       const { id, checked } = state.statusFilter.find(status => status.id === action.payload) as filterItem;
@@ -49,5 +49,5 @@ const schedule = createSlice({
   },
 });
 
-export const scheduleAction = schedule.actions;
+export const scheduleActions = schedule.actions;
 export default schedule;

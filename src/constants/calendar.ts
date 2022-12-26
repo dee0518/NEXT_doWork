@@ -1,6 +1,6 @@
 export type TDateObj = {
   today: Date;
-  selectedDate: Date;
+  selectedDate: string;
   fromDate?: Date;
   toDate?: Date;
 };

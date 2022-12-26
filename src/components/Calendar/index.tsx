@@ -16,8 +16,8 @@ interface CalendarProps {
 }
 
 const Calendar = ({ dateObj, type, lang, strLeng, scheduleList, onClickDate, onClickHeaderBtn }: CalendarProps) => {
-  const year: number = dateObj.selectedDate.getFullYear();
-  const month: number = dateObj.selectedDate.getMonth();
+  const year: number = new Date(dateObj.selectedDate).getFullYear();
+  const month: number = new Date(dateObj.selectedDate).getMonth();
 
   const lastDateOnPrevMonth: number = new Date(year, month, 0).getDate();
   const lastDateOnCurMonth: number = new Date(year, month + 1, 0).getDate();

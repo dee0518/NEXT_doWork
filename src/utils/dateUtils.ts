@@ -1,7 +1,8 @@
-const getYearMonthDate = (selectedDate: Date) => {
-  const year = selectedDate.getFullYear();
-  const month = selectedDate.getMonth();
-  const date = selectedDate.getDate();
+const getYearMonthDate = (selectedDate: number) => {
+  const newDate = new Date(selectedDate);
+  const year = newDate.getFullYear();
+  const month = newDate.getMonth();
+  const date = newDate.getDate();
 
   return { year, month, date };
 };
