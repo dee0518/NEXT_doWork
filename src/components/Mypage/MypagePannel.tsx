@@ -1,18 +1,23 @@
-import SubPannel from 'components/Common/SubPannel';
-import { MYPAGE } from 'constants/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import styled from 'styled-components';
-import defaultProfile from 'images/mypage/profile.svg';
-import { buttonNone, flexbox } from 'styles/mixin';
+import { signOut } from 'next-auth/react';
 import { useReduxSelector } from 'hooks/useRedux';
+import SubPannel from 'components/Common/SubPannel';
+import styled from 'styled-components';
+import { buttonNone, flexbox } from 'styles/mixin';
+import defaultProfile from 'images/mypage/profile.svg';
+import { LOGIN, MYPAGE } from 'constants/navigation';
 import { iUserInfo } from 'types/auth';
 
 const MypagePannel = () => {
   const { user } = useReduxSelector(state => state.auth);
-  const { displayName, career, profile } = user as iUserInfo;
+  const { name, career, profile } = user as iUserInfo;
 
-  const onLogout = () => {};
+  const onLogout = () => {
+    signOut({
+      callbackUrl: LOGIN,
+    });
+  };
   const onToggleTheme = () => {};
 
   return (
@@ -20,7 +25,7 @@ const MypagePannel = () => {
       <UserInfoGroup>
         <Profile src={profile || defaultProfile} alt="profile image" />
         <UserInfo>
-          <span>{displayName}</span>
+          <span>{name}</span>
           <span>{career}</span>
         </UserInfo>
       </UserInfoGroup>

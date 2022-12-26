@@ -1,6 +1,7 @@
 import InputForm from 'components/Common/InputForm';
 import Title from 'components/Common/Title';
 import Wrapper from 'components/Common/Wrapper';
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 
@@ -8,9 +9,13 @@ type TProps = {
   title: string;
   subTitle: string;
   guide: string[];
+  error: boolean;
+  pwValue: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  isEdit?: boolean;
 };
 
-const Confirm = ({ title, subTitle, guide }: TProps) => (
+const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: TProps) => (
   <>
     <Title>{title}</Title>
     <AccountWrapper>
@@ -22,14 +27,20 @@ const Confirm = ({ title, subTitle, guide }: TProps) => (
           ))}
         </Guide>
       </div>
-      <InputForm
-        input={{
-          id: 'accountPw',
-          type: 'password',
-          placeholder: '비밀번호를 입력해주세요',
-        }}
-        label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
-      />
+      {!(title === 'Edit Account' && isEdit) && (
+        <InputForm
+          input={{
+            id: 'accountPw',
+            type: 'password',
+            placeholder: '비밀번호를 입력해주세요',
+            value: pwValue,
+            onChange,
+            className: error ? 'error' : '',
+          }}
+          label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
+        />
+      )}
+      {title === 'Edit Account' && isEdit && <Emoji aria-hidden="true">:)</Emoji>}
     </AccountWrapper>
   </>
 );
@@ -38,11 +49,12 @@ export default Confirm;
 
 const AccountWrapper = styled(Wrapper)`
   padding: 30px;
-  margin-bottom: 20px;
   ${flexbox('row', 'nowrap', 'space-between', 'flex-end')}
+  gap: 15px;
 
   input {
-    width: 500px;
+    min-width: 350px;
+    max-width: 500px;
   }
 `;
 
@@ -58,4 +70,9 @@ const Guide = styled.p`
   span {
     display: block;
   }
+`;
+
+const Emoji = styled.span`
+  font-size: 5rem;
+  color: ${({ theme }) => theme.color_gray_20};
 `;

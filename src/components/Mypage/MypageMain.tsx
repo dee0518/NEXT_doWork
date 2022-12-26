@@ -9,18 +9,18 @@ import { iUserInfo } from 'types/auth';
 
 const MypageMain = () => {
   const { user } = useReduxSelector(state => state.auth);
-  const { email, displayName, career, profile, introduce } = user as iUserInfo;
+  const { email, name, career, profile, introduce } = user as iUserInfo;
 
   return (
     <ServiceMain>
       <MembershipCard>
         <TextContents>
           <BoldSpan>
-            안녕하세요 <br /> 저는 {displayName}입니다.
+            안녕하세요 <br /> 저는 {name}입니다.
           </BoldSpan>
           <Introduce>{introduce}</Introduce>
           <Email>{email}</Email>
-          <Career>{career}</Career>
+          <Career>{career || 'doWorker'}</Career>
         </TextContents>
         <ImageContents src={profile || defaultProfile} alt="profile" />
       </MembershipCard>

@@ -1,4 +1,10 @@
+import { NextPage } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
+import { useState, ChangeEvent } from 'react';
+import { useReduxSelector, useReduxDispatch } from 'hooks/useRedux';
 import Button from 'components/Common/Button';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import InputForm from 'components/Common/InputForm';
@@ -9,63 +15,182 @@ import MypagePannel from 'components/Mypage/MypagePannel';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import defaultProfile from 'images/mypage/profile.svg';
+import { MYPAGE } from 'constants/navigation';
+import { iUserInfo } from 'types/auth';
+import { authActions } from 'redux/auth';
 
-const EditAccount = () => (
-  <>
-    <GlobalNavBar />
-    <MypagePannel />
-    <ServiceMain>
-      <Confirm
-        title="Edit Account"
-        subTitle="나는 어떤 사람인가요?"
-        guide={['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.']}
-      />
-      <MembershipCard>
-        <InfoGroup>
-          <Greeting>
-            <span>안녕하세요</span>
-            <span>저는 황도은입니다.</span>
-          </Greeting>
-          <InputForm
-            input={{ id: 'name', type: 'text', placeholder: '이름을 입력해주세요.' }}
-            label={{ htmlFor: 'name', children: 'name' }}
-          />
-          <InputForm
-            input={{ id: 'career', type: 'text', placeholder: '직업을 입력해주세요.' }}
-            label={{ htmlFor: 'career', children: 'career' }}
-          />
-          <div>
-            <label htmlFor="introduce">introduce</label>
-            <textarea id="introduce" placeholder="나를 소개해주세요:)" />
-          </div>
-        </InfoGroup>
-        <FileGroup>
-          <InputForm
-            input={{ id: 'profile', type: 'file' }}
-            label={{ htmlFor: 'profile', labelClass: 'blind', children: 'profile' }}
-          />
-          <Profile src={defaultProfile} alt="profile" />
-          <Email>
-            <span>email</span>
-            <span>adfjkl@dsfjlk.com</span>
-          </Email>
-        </FileGroup>
-      </MembershipCard>
-      <ButtonGroup>
-        <Button type="button" category="cancel">
-          취소
-        </Button>
-        <Button type="button" category="primary">
-          확인
-        </Button>
-      </ButtonGroup>
-    </ServiceMain>
-  </>
-);
+const EditAccount: NextPage = () => {
+  const router = useRouter();
+  const dispatch = useReduxDispatch();
+  const { user } = useReduxSelector(state => state.auth);
+  const { id, email, name, profile, career, introduce } = user as iUserInfo;
+  const [userInfo, setUserInfo] = useState({
+    name,
+    profile,
+    career,
+    introduce,
+  });
+  const [file, setFile] = useState<Blob | null>(null);
+  const [pwError, setPwError] = useState<boolean>(false);
+  const [isShowCard, setIsShowCard] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+
+  const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
+    setPassword(value);
+  };
+
+  const onCancel = () => router.push(MYPAGE);
+
+  const onSubmit = async () => {
+    const { name, career, introduce } = userInfo;
+    // 유효성 검사 추가하기
+    const response = await fetch(`/api/auth/user/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ name, career, introduce }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await response.json();
+
+    if (json && json.result) {
+      dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce }));
+      router.push(MYPAGE);
+    }
+  };
+
+  const onConfirmUser = async () => {
+    if (isShowCard) {
+      onSubmit();
+    } else {
+      const res = await signIn('credentials', { email, password, redirect: false });
+
+      if (res && res.ok) setIsShowCard(true);
+      else setPwError(true);
+    }
+  };
+
+  const encodeFileToBase64 = (fileBlob: Blob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    reader.onload = () => {
+      setUserInfo(prev => ({ ...prev, profile: reader.result as ArrayBuffer }));
+    };
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+    if (name === 'profile') {
+      const files = (e.target as HTMLInputElement).files as FileList;
+      setFile(files[0]);
+      encodeFileToBase64(files[0]);
+      return;
+    }
+    setUserInfo(prev => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <>
+      <Head>
+        <title>마이페이지 - 정보 수정 : doWork</title>
+      </Head>
+      <GlobalNavBar />
+      <MypagePannel />
+      <Wrapper>
+        <Confirm
+          title="Edit Account"
+          subTitle="나는 어떤 사람인가요?"
+          guide={['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.']}
+          error={pwError}
+          pwValue={password}
+          onChange={onChangePw}
+          isEdit={isShowCard}
+        />
+        {isShowCard && (
+          <MembershipCard>
+            <InfoGroup>
+              <Greeting>
+                <span>안녕하세요</span>
+                <span>저는 {name}입니다.</span>
+              </Greeting>
+              <InputForm
+                input={{
+                  id: 'name',
+                  type: 'text',
+                  name: 'name',
+                  value: userInfo.name,
+                  onChange,
+                  placeholder: '이름을 입력해주세요.',
+                }}
+                label={{ htmlFor: 'name', children: 'name' }}
+              />
+              <InputForm
+                input={{
+                  id: 'career',
+                  type: 'text',
+                  name: 'career',
+                  value: userInfo.career,
+                  onChange,
+                  placeholder: '직업을 입력해주세요.',
+                }}
+                label={{ htmlFor: 'career', children: 'career' }}
+              />
+              <div>
+                <label htmlFor="introduce">introduce</label>
+                <textarea
+                  id="introduce"
+                  name="introduce"
+                  placeholder="나를 소개해주세요:)"
+                  value={userInfo.introduce}
+                  onChange={onChange}
+                />
+              </div>
+            </InfoGroup>
+            <FileGroup>
+              <InputForm
+                input={{ id: 'profile', name: 'profile', type: 'file', onChange }}
+                label={{ htmlFor: 'profile', labelClass: 'blind', children: 'profile' }}
+              />
+              <Profile
+                src={userInfo.profile !== '' ? userInfo.profile : defaultProfile}
+                width={250}
+                height={250}
+                alt="profile"
+              />
+              <Email>
+                <span>email</span>
+                <span>{email}</span>
+              </Email>
+            </FileGroup>
+          </MembershipCard>
+        )}
+        <ButtonGroup>
+          <Button type="button" category="cancel" onClick={onCancel}>
+            취소
+          </Button>
+          <Button type="button" category="primary" onClick={onConfirmUser}>
+            확인
+          </Button>
+        </ButtonGroup>
+      </Wrapper>
+    </>
+  );
+};
 
 export default EditAccount;
 
+const Wrapper = styled(ServiceMain)`
+  padding-top: 50px;
+
+  .membership__card {
+    margin-top: 20px;
+  }
+`;
+
 const ButtonGroup = styled.div`
+  margin-top: 20px;
   ${flexbox('row', 'nowrap', 'flex-end', 'center')}
   gap:10px;
 
@@ -141,8 +266,8 @@ const FileGroup = styled.div`
 `;
 
 const Profile = styled(Image)`
-  width: 250px;
-  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Email = styled.p`

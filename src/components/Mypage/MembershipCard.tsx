@@ -8,7 +8,7 @@ type TProps = {
 };
 
 const MembershipCard = ({ children }: TProps) => (
-  <Wrapper>
+  <Wrapper className="membership__card">
     <Section>
       <H2>Member</H2>
       <ContentsGroup>{children}</ContentsGroup>
@@ -33,7 +33,7 @@ const H2 = styled.h2`
 
 const ContentsGroup = styled.div`
   ${flexbox('row', 'nowrap', 'space-between', 'flex-start')}
-  padding: 25px 50px 35px 25px;
+  padding: 25px 25px 35px;
 `;
 
 const Brand = styled.span`

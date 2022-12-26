@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { scheduleAction } from 'redux/schedule';
+import { scheduleActions } from 'redux/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
 import styled from 'styled-components';
@@ -11,7 +11,7 @@ const StatusFilter = () => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id } = e.target;
-    dispatch(scheduleAction.setFilter(id as TFilter));
+    dispatch(scheduleActions.setFilter(id as TFilter));
   };
 
   return (
