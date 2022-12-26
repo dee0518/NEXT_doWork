@@ -18,6 +18,7 @@
       "images/*": ["./public/images/*"],
       "components/*": ["./src/components/*"],
       "constants/*": ["./src/constants/*"],
+      "middlewares/*": ["./src/middlewares/*"],
       "hooks/*": ["./src/hooks/*"],
       "redux/*": ["./src/redux/*"],
       "styles/*": ["./src/styles/*"],
