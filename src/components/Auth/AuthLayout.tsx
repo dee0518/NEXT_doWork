@@ -11,22 +11,16 @@ import logo from 'images/common/logo.svg';
 import { AuthType, iDefaultUserInfo } from 'types/auth';
 import { HOME } from 'constants/navigation';
 
-type TProps<M> = {
-  initialUserInfo: Array<M>;
+type TProps = {
+  initialUserInfo: iDefaultUserInfo[];
   LinkHref: string;
   LinkBtnName: string;
   submitName: string;
   children?: ReactNode;
 };
 
-const AuthLayout = <T extends AuthType, M extends iDefaultUserInfo>({
-  initialUserInfo,
-  submitName,
-  LinkHref,
-  LinkBtnName,
-  children,
-}: TProps<M>) => {
-  const { error, userInfo, onChange, onSubmit } = useAuth<T, M>(initialUserInfo);
+const AuthLayout = <T extends AuthType>({ initialUserInfo, submitName, LinkHref, LinkBtnName, children }: TProps) => {
+  const { error, userInfo, onChange, onSubmit } = useAuth<T>(initialUserInfo);
 
   return (
     <Container>
@@ -69,6 +63,7 @@ const AuthLayout = <T extends AuthType, M extends iDefaultUserInfo>({
 export default AuthLayout;
 
 const Container = styled.div`
+  min-width: 360px;
   width: 100vw;
   height: 100vh;
   ${flexbox('column', 'nowrap', 'center', 'center')}
@@ -94,6 +89,7 @@ const LogoLink = styled(Link)`
 
 const Logo = styled(Image)`
   width: 28px;
+  height: auto;
 
   ${mediaQuery768} {
     width: 32px;
@@ -156,12 +152,11 @@ const AuthForm = styled.form`
       color: ${({ theme }) => theme.color_purple_30};
     }
 
-    &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color_purple_30};
-    }
-
-    &:-ms-input-placeholder {
-      color: ${({ theme }) => theme.color_purple_30};
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-text-fill-color: ${({ theme }) => theme.white};
     }
 
     &.error {

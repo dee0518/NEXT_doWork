@@ -52,4 +52,43 @@ const signUpInfo: iDefaultUserInfo[] = [
   },
 ];
 
-export { loginInfo, signUpInfo };
+const EditUserInfo: iDefaultUserInfo[] = [
+  {
+    id: 'name',
+    type: 'text',
+    placeholder: '이름',
+    value: '',
+    labelClass: '',
+    labelChildren: 'name',
+    error: '이름을 입력해주세요.',
+  },
+  {
+    id: 'career',
+    type: 'text',
+    placeholder: '직업',
+    value: '',
+    labelClass: '',
+    labelChildren: 'career',
+    error: '직업을 입력해주세요.',
+  },
+  {
+    id: 'introduce',
+    type: 'text',
+    placeholder: '나를 소개해봐요:)',
+    value: '',
+    labelClass: '',
+    labelChildren: 'introduce',
+    error: '',
+  },
+  {
+    id: 'profile',
+    type: 'file',
+    placeholder: '',
+    value: '',
+    labelClass: '',
+    labelChildren: 'profile',
+    error: '',
+  },
+];
+
+export { loginInfo, signUpInfo, EditUserInfo };

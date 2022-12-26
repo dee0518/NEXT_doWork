@@ -1,10 +1,11 @@
 export interface iUserInfo {
   id: string;
   email: string;
-  displayName: string;
+  name: string;
   career: string;
-  profile: string;
+  profile: string | ArrayBuffer;
   introduce: string;
+  provider?: string;
 }
 
 export interface iSignUpInfo extends iUserInfo {
@@ -12,6 +13,7 @@ export interface iSignUpInfo extends iUserInfo {
 }
 
 export type iLoginInfo = Pick<iSignUpInfo, 'email' | 'password'>;
+export type iEditUserInfo = Omit<iUserInfo, 'id' | 'email'>;
 
 export type iDefaultUserInfo = {
   id: string;
@@ -23,7 +25,7 @@ export type iDefaultUserInfo = {
   error: string;
 };
 
-export type AuthType = iLoginInfo | iSignUpInfo;
+export type AuthType = iLoginInfo | iSignUpInfo | iEditUserInfo;
 export type AuthError = {
   id: string;
   message: string;

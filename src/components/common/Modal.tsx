@@ -10,17 +10,25 @@ type TProps = {
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
 };
 
-const ModalBody = ({ type, title, children, onClose }: TProps) => (
-  <BackDrop tabIndex={0} onClick={onClose}>
-    <Body>
-      <ModalHeader className={type}>
-        <H2>{title}</H2>
-        <CloseBtn aria-label="close modal" onClick={onClose} />
-      </ModalHeader>
-      {children}
-    </Body>
-  </BackDrop>
-);
+const ModalBody = ({ type, title, children, onClose }: TProps) => {
+  const onClickBackDrop = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target !== e.currentTarget) return;
+
+    onClose(e);
+  };
+
+  return (
+    <BackDrop tabIndex={0} onClick={onClickBackDrop}>
+      <Body>
+        <ModalHeader className={type}>
+          <H2>{title}</H2>
+          <CloseBtn aria-label="close modal" onClick={onClose} />
+        </ModalHeader>
+        <ModalContent>{children}</ModalContent>
+      </Body>
+    </BackDrop>
+  );
+};
 
 const Modal = (props: TProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null);
@@ -94,4 +102,11 @@ const CloseBtn = styled.button`
   height: 50px;
   background: url(/images/common/close_white.svg) no-repeat;
   background-position: center;
+`;
+
+const ModalContent = styled.div`
+  min-height: 150px;
+  padding: 20px;
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.color_gray_100};
 `;
