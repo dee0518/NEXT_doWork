@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Head from 'next/head';
 import Footer from 'components/Common/Footer';
 import Header from 'components/Common/Header';
 import styled, { keyframes } from 'styled-components';
@@ -10,6 +11,9 @@ import bubble from 'images/404/bubble.svg';
 
 const Custom404 = () => (
   <>
+    <Head>
+      <title>페이지를 찾을 수 없어요 : doWork</title>
+    </Head>
     <Header />
     <Section>
       <H2>404</H2>
@@ -112,6 +116,7 @@ const Shape = styled(Image)`
   left: 50%;
   top: 50%;
   width: 60%;
+  height: auto;
   transform: translate3d(-50%, -50%, 0);
   transform-origin: center;
   animation: ${shapeRotate1} 20s ease;
