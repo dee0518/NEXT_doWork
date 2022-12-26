@@ -10,6 +10,8 @@ import { buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
 import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
 import { TMenuLinkItem } from 'types/home';
+import { useSession } from 'next-auth/react';
+import defaultProfile from 'images/mypage/profile.svg';
 
 const linkList: TMenuLinkItem[] = [
   {
@@ -20,13 +22,10 @@ const linkList: TMenuLinkItem[] = [
     id: 'contact us',
     link: CONTACT,
   },
-  {
-    id: 'try it out',
-    link: LOGIN,
-  },
 ];
 
 const HomeHeader = () => {
+  const { data: session } = useSession();
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
 
   const onClickOpenNav = () => {
@@ -55,17 +54,24 @@ const HomeHeader = () => {
           <NavList>
             {linkList.map(({ id, link }) => (
               <NavItem key={id}>
-                {id === 'try it out' ? (
-                  <LinkBtn href={link} type="secondary" fontSize="1.4rem" lineheight="38px">
-                    Try it out
-                  </LinkBtn>
-                ) : (
-                  <NavLink href={link} onClick={onOpenSnackBar.bind(null, id)}>
-                    {id}
-                  </NavLink>
-                )}
+                <NavLink href={link} onClick={onOpenSnackBar.bind(null, id)}>
+                  {id}
+                </NavLink>
               </NavItem>
             ))}
+            {session ? (
+              <NavItem key="profile">
+                <MainBtn type="button" aria-label="메인으로 가기">
+                  <Profile src={defaultProfile} width={30} height={30} alt="profile" />
+                </MainBtn>
+              </NavItem>
+            ) : (
+              <NavItem key="try it out">
+                <LinkBtn href={LOGIN} type="secondary" fontSize="1.4rem" lineheight="38px">
+                  Try it out
+                </LinkBtn>
+              </NavItem>
+            )}
           </NavList>
         </Nav>
       </Inner>
@@ -203,4 +209,15 @@ const NavLink = styled(Link)`
   font-size: 1.6rem;
   line-height: 40px;
   text-transform: capitalize;
+`;
+
+const Profile = styled(Image)`
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const MainBtn = styled.button`
+  height: 40px;
+  ${flexbox('row', 'nowrap', 'center', 'center')}
+  ${buttonNone}
 `;
