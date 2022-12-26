@@ -7,28 +7,33 @@ import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import visualBg from 'images/home/visual_bg.svg';
-import { LOGIN } from 'constants/navigation';
+import { LOGIN, MAIN } from 'constants/navigation';
+import { useSession } from 'next-auth/react';
 
-const HomeMain = () => (
-  <Main>
-    <Visual>
-      <BlindTitle>Visual</BlindTitle>
-      <VisualInner>
-        <VisualImageGroup>
-          <VisualBgImage src={visualBg} alt="work together" />
-        </VisualImageGroup>
-        <MainTextGroup>
-          <p>
-            <Span>doWork</Span>
-            <Span>Enojoy working together.</Span>
-          </p>
-          <LoginLink href={LOGIN}>start doWork</LoginLink>
-        </MainTextGroup>
-      </VisualInner>
-    </Visual>
-    <ProcessSection />
-  </Main>
-);
+const HomeMain = () => {
+  const { data: session } = useSession();
+
+  return (
+    <Main>
+      <Visual>
+        <BlindTitle>Visual</BlindTitle>
+        <VisualInner>
+          <VisualImageGroup>
+            <VisualBgImage src={visualBg} alt="work together" />
+          </VisualImageGroup>
+          <MainTextGroup>
+            <p>
+              <Span>doWork</Span>
+              <Span>Enojoy working together.</Span>
+            </p>
+            <LoginLink href={session ? MAIN : LOGIN}>{session ? 'go main' : 'start doWork'}</LoginLink>
+          </MainTextGroup>
+        </VisualInner>
+      </Visual>
+      <ProcessSection />
+    </Main>
+  );
+};
 
 export default HomeMain;
 
