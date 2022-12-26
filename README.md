@@ -82,3 +82,31 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 - 원인 : 제네릭 extends 하는 타입에 id가 없어 해당 키를 못 찾음 (제약조건을 상속으로 잘못 이해)
 - 해결 : 제네릭 extends를 적절하고 명확한 것으로 타입 지정. <br>
   🧷 [해당 문제 블로그가기](https://velog.io/@dee0518/Typescript-%EA%B8%B0%EC%B4%88-%EB%8B%A4%EC%A7%80%EA%B8%B0-4)
+
+<br>
+
+3. Typescript
+
+```
+A spread argument must either have a tuple type or be passed to a rest parameter.ts(2556)
+// const tuple = userInfo.map(info => ({ [info.id]: info.value }));
+    // const data = Object.assign(...tuple);
+```
+
+<br>
+
+4. Next-auth 및 MongoDB
+
+- Next-auth가 필요한 이유
+- MongDB 연결
+  🧷 [해당 문제 블로그가기] (https://velog.io/@dee0518/Next.js-MongoDB-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+
+<br>
+
+5. 암호화
+
+<br>
+
+## 회고
+
+Next_doWork 회고록 가기
