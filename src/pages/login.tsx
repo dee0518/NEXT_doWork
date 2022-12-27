@@ -1,13 +1,13 @@
 import { NextPage } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useSession, signIn } from 'next-auth/react';
 import Button from 'components/Common/Button';
 import AuthLayout from 'components/Auth/AuthLayout';
 import styled from 'styled-components';
-import { iLoginInfo } from 'types/auth';
 import { SIGNUP } from 'constants/navigation';
 import { loginInfo } from 'constants/auth';
-import Head from 'next/head';
+import { iLoginInfo } from 'types/auth';
 
 const Login: NextPage = () => {
   const { data: session } = useSession();
@@ -22,8 +22,7 @@ const Login: NextPage = () => {
     const result = await signIn('google', {
       redirect: false,
     });
-    console.log(result);
-    console.log(session);
+
     if (result && result.ok) router.push('/main');
   };
 

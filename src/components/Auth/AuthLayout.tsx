@@ -8,8 +8,8 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import logo from 'images/common/logo.svg';
-import { AuthType, iDefaultUserInfo } from 'types/auth';
 import { HOME } from 'constants/navigation';
+import { AuthType, iDefaultUserInfo } from 'types/auth';
 
 type TProps = {
   initialUserInfo: iDefaultUserInfo[];

@@ -1,3 +1,4 @@
+import { useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
 import Title from 'components/Common/Title';
 import Wrapper from 'components/Common/Wrapper';
@@ -15,35 +16,39 @@ type TProps = {
   isEdit?: boolean;
 };
 
-const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: TProps) => (
-  <>
-    <Title>{title}</Title>
-    <AccountWrapper>
-      <div>
-        <H3>{subTitle}</H3>
-        <Guide>
-          {guide.map(text => (
-            <span key={text}>{text}</span>
-          ))}
-        </Guide>
-      </div>
-      {!(title === 'Edit Account' && isEdit) && (
-        <InputForm
-          input={{
-            id: 'accountPw',
-            type: 'password',
-            placeholder: '비밀번호를 입력해주세요',
-            value: pwValue,
-            onChange,
-            className: error ? 'error' : '',
-          }}
-          label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
-        />
-      )}
-      {title === 'Edit Account' && isEdit && <Emoji aria-hidden="true">:)</Emoji>}
-    </AccountWrapper>
-  </>
-);
+const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: TProps) => {
+  const { user } = useReduxSelector(state => state.auth);
+
+  return (
+    <>
+      <Title>{title}</Title>
+      <AccountWrapper>
+        <div>
+          <H3>{subTitle}</H3>
+          <Guide>
+            {guide.map(text => (
+              <span key={text}>{text}</span>
+            ))}
+          </Guide>
+        </div>
+        {!((title === 'Edit Account' && isEdit) || user.provider) && (
+          <InputForm
+            input={{
+              id: 'accountPw',
+              type: 'password',
+              placeholder: '비밀번호를 입력해주세요',
+              value: pwValue,
+              onChange,
+              className: error ? 'error' : '',
+            }}
+            label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
+          />
+        )}
+        {((title === 'Edit Account' && isEdit) || user.provider) && <Emoji aria-hidden="true">:&#41;</Emoji>}
+      </AccountWrapper>
+    </>
+  );
+};
 
 export default Confirm;
 

@@ -12,12 +12,12 @@ import bubble from 'images/404/bubble.svg';
 const Custom404 = () => (
   <>
     <Head>
-      <title>페이지를 찾을 수 없어요 : doWork</title>
+      <title>404 페이지를 찾을 수 없어요 : doWork</title>
     </Head>
     <Header />
     <Section>
       <H2>404</H2>
-      <P>페이지를 찾을 수 없어요:(</P>
+      <P>페이지를 찾을 수 없어요:&#40;</P>
       <Shape src={shape1} aria-hidden="true" alt="shape 1" />
       <Shape2 src={shape2} aria-hidden="true" alt="shape 2" />
       <Shape3 src={shape3} aria-hidden="true" alt="shape 3" />

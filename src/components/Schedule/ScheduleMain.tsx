@@ -8,6 +8,7 @@ import Calendar from 'components/Calendar';
 import ScheduleModal from 'components/Schedule/ScheduleEditModal';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
+import { filterItem } from 'types/schedule';
 
 const ScheduleMain = () => {
   const { today, selectedDate, onClickDate, onClickHeaderBtn } = useScheduleDate();
@@ -44,7 +45,7 @@ const ScheduleMain = () => {
         </SearchForm>
         <ManageGroup>
           <StatusBoard>
-            {statusFilter.map(({ id, count }) => (
+            {(statusFilter as filterItem[]).map(({ id, count }) => (
               <BoardItem key={id}>
                 <Badge className={id}>{id.slice(0, 1)}</Badge>
                 <Count>{count}</Count>

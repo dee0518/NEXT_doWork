@@ -1,45 +1,17 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { authActions } from 'redux/auth';
-import { useReduxDispatch } from 'hooks/useRedux';
+import useCheckSession from 'hooks/useCheckSession';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import SchedulePannel from 'components/Schedule/SchedulePannel';
 import ScheduleMain from 'components/Schedule/ScheduleMain';
-import { LOGIN } from 'constants/navigation';
 
 const Main: NextPage = () => {
-  const { data: session } = useSession();
-  const dispatch = useReduxDispatch();
-  const router = useRouter();
-  const getUser = async (userId: string) => {
-    try {
-      const result = await fetch(`api/auth/user/${userId}`, { method: 'GET' });
-      const response = await result.json();
+  const { session, user } = useCheckSession();
 
-      if (response.result) {
-        dispatch(authActions.setUser(response.data));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    if (session) {
-      const { userId } = session.user;
-      console.log(userId);
-      if (!userId) {
-        router.push(LOGIN);
-        return;
-      }
-      getUser(userId);
-    } else {
-      router.push(LOGIN);
-    }
-  }, []);
+  if (!user && session) return <div>loading...</div>;
+  if (!session) {
+    return null;
+  }
 
   return (
     <>

@@ -1,29 +1,40 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import { useReduxSelector } from 'hooks/useRedux';
 import SubPannel from 'components/Common/SubPannel';
+import Profile from 'components/Common/Profile';
 import styled from 'styled-components';
 import { buttonNone, flexbox } from 'styles/mixin';
-import defaultProfile from 'images/mypage/profile.svg';
 import { LOGIN, MYPAGE } from 'constants/navigation';
 import { iUserInfo } from 'types/auth';
 
 const MypagePannel = () => {
   const { user } = useReduxSelector(state => state.auth);
   const { name, career, profile } = user as iUserInfo;
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isExisting = localStorage.getItem('doWork_theme');
+    const curTheme: boolean = isExisting ? JSON.parse(isExisting) : true;
+    setIsDarkTheme(curTheme);
+  }, []);
 
   const onLogout = () => {
     signOut({
       callbackUrl: LOGIN,
     });
   };
-  const onToggleTheme = () => {};
+
+  const onToggleTheme = () => {
+    localStorage.setItem('doWork_theme', (!isDarkTheme).toString());
+    setIsDarkTheme(prev => !prev);
+  };
 
   return (
     <SubPannel title="My page">
       <UserInfoGroup>
-        <Profile src={profile || defaultProfile} alt="profile image" />
+        <Profile src={profile} width={68} height={68} />
         <UserInfo>
           <span>{name}</span>
           <span>{career}</span>
@@ -39,7 +50,7 @@ const MypagePannel = () => {
           </button>
         </MenuItem>
         <MenuItem>
-          <button type="button" className="" onClick={onToggleTheme}>
+          <button type="button" className={isDarkTheme ? 'on' : ''} onClick={onToggleTheme}>
             darkmode
           </button>
         </MenuItem>
@@ -71,12 +82,6 @@ const UserInfo = styled.p`
   }
 `;
 
-const Profile = styled(Image)`
-  width: 68px;
-  height: 68px;
-  border-radiust: 50%;
-  object-fit: cover;
-`;
 const MenuItem = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.color_gray_10};
 

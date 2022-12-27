@@ -1,10 +1,9 @@
-import Image from 'next/image';
 import { useReduxSelector } from 'hooks/useRedux';
 import ServiceMain from 'components/Common/ServiceMain';
+import Profile from 'components/Common/Profile';
 import MembershipCard from 'components/Mypage/MembershipCard';
 import Settings from 'components/Mypage/Settings';
 import styled from 'styled-components';
-import defaultProfile from 'images/mypage/profile.svg';
 import { iUserInfo } from 'types/auth';
 
 const MypageMain = () => {
@@ -22,7 +21,7 @@ const MypageMain = () => {
           <Email>{email}</Email>
           <Career>{career || 'doWorker'}</Career>
         </TextContents>
-        <ImageContents src={profile || defaultProfile} alt="profile" />
+        <Profile src={profile} width={200} height={200} />
       </MembershipCard>
       <Settings />
     </ServiceMain>
@@ -66,10 +65,4 @@ const Career = styled(BoldSpan)`
   left: 25px;
   bottom: 16px;
   font-size: 2.4rem;
-`;
-
-const ImageContents = styled(Image)`
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
 `;

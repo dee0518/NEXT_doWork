@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import mongoDB from 'middlewares/database';
 import { hash } from 'bcryptjs';
+import mongoDB from 'middlewares/database';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

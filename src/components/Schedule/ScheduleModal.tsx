@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ScheduleInfo } from 'types/schedule';
 import { getYearMonthDate } from 'utils/dateUtils';
 
-const ScheduleModal = ({}) => {
+const ScheduleModal = () => {
   const { scheduleDetail } = useReduxSelector(state => state.schedule);
   const onClose = () => {};
   const { id, user, status, title, content, fromAt, fromTime, toAt, toTime, collaborators } =

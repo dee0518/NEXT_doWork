@@ -1,8 +1,9 @@
+import Link from 'next/link';
 import Title from 'components/Common/Title';
 import Wrapper from 'components/Common/Wrapper';
-import { DELETEACCOUNT, EDITACCOUNT } from 'constants/navigation';
-import Link from 'next/link';
 import styled from 'styled-components';
+import { CHANGEPW, DELETEACCOUNT, EDITACCOUNT } from 'constants/navigation';
+import { useReduxSelector } from 'hooks/useRedux';
 
 const SettingList = [
   {
@@ -12,6 +13,12 @@ const SettingList = [
     content: '나를 소개하는 정보를 수정할 수 있어요',
   },
   {
+    id: 'changePw',
+    title: 'Change Password',
+    link: CHANGEPW,
+    content: '보안을 위해 주기적으로 비밀번호를 변경해주세요',
+  },
+  {
     id: 'delete',
     title: 'Delete Account',
     link: DELETEACCOUNT,
@@ -19,23 +26,29 @@ const SettingList = [
   },
 ];
 
-const Settings = () => (
-  <Section>
-    <Title>Settings</Title>
-    <Wrapper>
-      <ul>
-        {SettingList.map(({ id, title, link, content }) => (
-          <SettingItem key={id}>
-            <Link href={link}>
-              <ItemTitle>{title}</ItemTitle>
-              <ItemContent>{content}</ItemContent>
-            </Link>
-          </SettingItem>
-        ))}
-      </ul>
-    </Wrapper>
-  </Section>
-);
+const Settings = () => {
+  const { user } = useReduxSelector(state => state.auth);
+
+  return (
+    <Section>
+      <Title>Settings</Title>
+      <Wrapper>
+        <ul>
+          {SettingList.map(({ id, title, link, content }) =>
+            user.provider && id === 'changePw' ? null : (
+              <SettingItem key={id}>
+                <Link href={link}>
+                  <ItemTitle>{title}</ItemTitle>
+                  <ItemContent>{content}</ItemContent>
+                </Link>
+              </SettingItem>
+            ),
+          )}
+        </ul>
+      </Wrapper>
+    </Section>
+  );
+};
 
 export default Settings;
 

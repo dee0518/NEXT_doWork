@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
-import { scheduleActions } from 'redux/schedule';
+import { scheduleActions } from 'store/modules/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
 import styled from 'styled-components';
-import { TFilter } from 'types/schedule';
+import { TFilter, filterItem } from 'types/schedule';
 
 const StatusFilter = () => {
   const { statusFilter } = useReduxSelector(state => state.schedule);
@@ -16,7 +16,7 @@ const StatusFilter = () => {
 
   return (
     <StatusList>
-      {statusFilter.map(({ id, name, checked }) => (
+      {(statusFilter as filterItem[]).map(({ id, name, checked }) => (
         <StatusItem key={id}>
           <InputForm
             input={{ id, type: 'checkbox', name: 'status', checked, onChange }}

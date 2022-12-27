@@ -19,7 +19,7 @@ const HomeMain = () => {
         <BlindTitle>Visual</BlindTitle>
         <VisualInner>
           <VisualImageGroup>
-            <VisualBgImage src={visualBg} alt="work together" />
+            <VisualBgImage src={visualBg} alt="work together" priority />
           </VisualImageGroup>
           <MainTextGroup>
             <p>
