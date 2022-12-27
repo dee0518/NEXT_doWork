@@ -24,6 +24,7 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 ![doWorkFlow](https://user-images.githubusercontent.com/92196967/202952939-79eb0769-8bba-4759-9071-19644c2cbf3d.png)
 
 - 디자인 : [doWork Figma](https://www.figma.com/file/sMXTsGVLePYJwoEsA1e26n/doWork?node-id=0%3A1&t=GqktNgDIHzG0dZMa-0)
+- BDD : [doWork BDD 문서](https://docs.google.com/spreadsheets/d/1oldLpVJ2_0xkzbPWXVMnKgdTrgSqNU7gfqFhD9IPoQw/edit#gid=0)
 
 <br>
 
@@ -104,6 +105,39 @@ A spread argument must either have a tuple type or be passed to a rest parameter
 <br>
 
 5. 암호화
+6. Oauth 원리
+7. next.js와 redux의 관계 - next-redux-wrapper가 필요한 이유
+8. 가독성 좋은 코드
+
+```javascript
+  useEffect(() => {
+    let errorMessage = null;
+
+    if (!isSubmit.current && targetRef.current) {
+      const target = userInfo.find(info => info.id === targetRef.current) as iDefaultUserInfo;
+      errorMessage = checkOneValidation(target);
+    } else if (isSubmit.current) {
+      errorMessage = checkAllValidation(userInfo);
+    }
+
+    setError(errorMessage);
+  }, [userInfo]);
+```
+
+```javascript
+  useEffect(() => {
+    let errorMessage = null;
+
+    if (isSubmit.current) {
+      errorMessage = checkAllValidation(userInfo);
+    } else if(targetRef.current){
+      const target = userInfo.find(info => info.id === targetRef.current) as iDefaultUserInfo;
+      errorMessage = checkOneValidation(target);
+    }
+
+    setError(errorMessage);
+  }, [userInfo]);
+```
 
 <br>
 
