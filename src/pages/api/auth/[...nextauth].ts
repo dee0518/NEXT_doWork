@@ -49,8 +49,6 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      let id = '';
-
       if (account?.provider === 'google') {
         const { client, db } = await mongoDB();
 
@@ -70,23 +68,27 @@ export default NextAuth({
             provider: 'GOOGLE',
           });
 
-          const targetUser = await db.collection('users').findOne({
-            email: token.email,
-            provider: 'GOOGLE',
-          });
-
-          id = targetUser._id.toString();
           client.close();
-        } else {
-          id = user._id.toString();
         }
       }
 
-      return { ...token, id };
+      return token;
     },
-    session({ session, token }) {
-      console.log(token);
-      session.user.userId = token.sub;
+    async session({ session, token }) {
+      let userId = token.sub;
+
+      if (token.email) {
+        const { client, db } = await mongoDB();
+        const user = await db.collection('users').findOne({
+          email: token.email,
+          provider: 'GOOGLE',
+        });
+        client.close();
+
+        userId = user._id.toString();
+      }
+
+      session.user.userId = userId;
       return session;
     },
   },

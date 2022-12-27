@@ -1,6 +1,7 @@
-import mongoDB from 'middlewares/database';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
+import { hash } from 'bcryptjs';
+import mongoDB from 'middlewares/database';
 
 export default async function hanlder(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET' && req.method !== 'PATCH' && req.method !== 'DELETE') {
@@ -22,9 +23,19 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
     const { _id, name, email, career, profile, introduce } = response;
     const id = _id.toString();
 
-    res.status(201).json({ result: true, data: { id, name, email, career, profile, introduce } });
+    let data = { id, name, email, career, profile, introduce };
+    if (response.provider) data = { ...data, provider: response.provider };
+
+    res.status(201).json({ result: true, data });
   } else if (req.method === 'PATCH') {
-    const response = await db.collection('users').updateOne({ _id: ObjectId(userId) }, { $set: req.body });
+    let data = req.body;
+
+    if (req.body.password) {
+      const password = await hash(req.body.password, 12);
+      data = { password };
+    }
+
+    const response = await db.collection('users').updateOne({ _id: ObjectId(userId) }, { $set: data });
     client.close();
 
     if (!response) {
