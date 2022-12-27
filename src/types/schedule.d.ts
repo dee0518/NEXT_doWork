@@ -3,9 +3,9 @@ export interface ScheduleInfo {
   user: string;
   status: string;
   title: string;
-  fromAt: Date;
+  fromAt: string;
   fromTime: string;
-  toAt: Date;
+  toAt: string;
   toTime: string;
   collaborators: string[];
   content: string;
