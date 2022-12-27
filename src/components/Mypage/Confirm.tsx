@@ -31,7 +31,7 @@ const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: T
             ))}
           </Guide>
         </div>
-        {!((title === 'Edit Account' && isEdit) || user.provider) && (
+        {!(isEdit || user.provider) && (
           <InputForm
             input={{
               id: 'accountPw',
@@ -44,7 +44,7 @@ const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: T
             label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
           />
         )}
-        {((title === 'Edit Account' && isEdit) || user.provider) && <Emoji aria-hidden="true">:&#41;</Emoji>}
+        {(isEdit || user.provider) && <Emoji aria-hidden="true">:&#41;</Emoji>}
       </AccountWrapper>
     </>
   );
