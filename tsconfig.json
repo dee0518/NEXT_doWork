@@ -20,7 +20,7 @@
       "constants/*": ["./src/constants/*"],
       "middlewares/*": ["./src/middlewares/*"],
       "hooks/*": ["./src/hooks/*"],
-      "redux/*": ["./src/redux/*"],
+      "store/*": ["./src/store/*"],
       "styles/*": ["./src/styles/*"],
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"]
