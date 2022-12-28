@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { iScheduleInfo, TFilter, filterItem, scheduleType } from 'types/schedule';
+import { iScheduleInfo, TFilter, filterItem, scheduleType, TFilterCount } from 'types/schedule';
 
 const initialState: scheduleType = {
   selectedMonthDates: [],
@@ -61,7 +61,7 @@ const scheduleSlice = createSlice({
       state.scheduleDetail = state.scheduleList.find(({ id }) => id === action.payload) as iScheduleInfo;
     },
     setScheduleList: (state, action: PayloadAction<iScheduleInfo[]>) => {
-      let filterCount = { all: 0, todo: 0, private: 0, important: 0, meeting: 0 };
+      let filterCount: TFilterCount = { all: 0, todo: 0, private: 0, important: 0, meeting: 0 };
       action.payload.forEach(({ status }) => {
         filterCount = { ...filterCount, [status]: filterCount[status] + 1 };
       });

@@ -15,6 +15,10 @@ const ScheduleMain = () => {
   const { statusFilter, scheduleList } = useReduxSelector(state => state.schedule);
   const { isShowModal, onToggleModal } = useModal();
   const [searchValue, setSearchValue] = useState<string>('');
+  const checkedFilter = statusFilter.filter(({ checked }) => checked).map(({ id }) => id);
+  const filteredScheduleList = scheduleList.filter(
+    ({ title, status }) => title.includes(searchValue) && checkedFilter.includes(status),
+  );
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,8 +31,6 @@ const ScheduleMain = () => {
   const onClose = () => {
     onToggleModal();
   };
-
-  console.log(scheduleList);
 
   return (
     <>
@@ -64,7 +66,7 @@ const ScheduleMain = () => {
           lang="en"
           dates={dates}
           strLeng={0}
-          scheduleList={scheduleList}
+          scheduleList={filteredScheduleList}
           onClickDate={onClickDate}
           onClickHeaderBtn={onClickHeaderBtn}
         />

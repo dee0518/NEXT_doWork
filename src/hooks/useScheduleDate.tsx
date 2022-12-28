@@ -1,6 +1,7 @@
 import { KeyboardEvent, useEffect, MouseEvent } from 'react';
 import { scheduleActions } from 'store/modules/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
+import getFirstLastDate from 'utils/getFirstLastDate';
 
 const useScheduleDate = (type: string) => {
   const { selectedDate, selectedMonthDates: dates } = useReduxSelector(state => state.schedule);
@@ -16,13 +17,10 @@ const useScheduleDate = (type: string) => {
   }, [selectedDate]);
 
   const getSchedule = async (date: Date, dates: number[]) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+    const { firstDate, lastDate } = getFirstLastDate(date, dates);
 
-    const startMonth = dates[0] === 1 ? month : month - 1;
-    const endMonth = dates[dates.length - 1] < 10 ? month + 1 : month;
-    const startAt = new Date(year, startMonth, dates[0]).getTime();
-    const endAt = new Date(year, endMonth, dates[dates.length - 1]).getTime();
+    const startAt = firstDate.getTime();
+    const endAt = lastDate.getTime();
 
     const response = await fetch(`api/schedule?startAt=${startAt}&endAt=${endAt}`);
     const json = await response.json();

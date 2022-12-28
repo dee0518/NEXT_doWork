@@ -25,6 +25,7 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
     const fromAt = +startAt;
     const toAt = +endAt;
 
+    // user와 collarborator도 확인해야함.
     const response = await scheduleCollection
       .find({
         $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],

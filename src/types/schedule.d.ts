@@ -38,3 +38,21 @@ export type scheduleType = {
 export type statusItem = Omit<filterItem, 'count' | 'color' | 'checked'>;
 
 export type TUserResultError = Pick<iUserInfo, 'id' | 'name' | 'email'>;
+
+export type TFilterCount = {
+  [index: string]: number;
+  all: number;
+  todo: number;
+  private: number;
+  important: number;
+  meeting: number;
+};
+
+export type TTimeLine = {
+  id: string;
+  type: string;
+  title: string;
+  top: number;
+  start: number;
+  end: number;
+};
