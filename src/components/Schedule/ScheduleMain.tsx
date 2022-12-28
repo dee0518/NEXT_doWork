@@ -11,8 +11,8 @@ import { flexbox } from 'styles/mixin';
 import { filterItem } from 'types/schedule';
 
 const ScheduleMain = () => {
-  const { dateObj, onClickDate, onClickHeaderBtn } = useScheduleDate();
-  const { statusFilter } = useReduxSelector(state => state.schedule);
+  const { dateObj, dates, onClickDate, onClickHeaderBtn } = useScheduleDate('timeline');
+  const { statusFilter, scheduleList } = useReduxSelector(state => state.schedule);
   const { isShowModal, onToggleModal } = useModal();
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -28,9 +28,11 @@ const ScheduleMain = () => {
     onToggleModal();
   };
 
+  console.log(scheduleList);
+
   return (
     <>
-      {isShowModal && <EditedScheduleModal type="default" onClose={onClose} />}
+      {isShowModal && <EditedScheduleModal onClose={onClose} />}
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>
           <InputForm
@@ -60,8 +62,9 @@ const ScheduleMain = () => {
           dateObj={dateObj}
           type="large"
           lang="en"
+          dates={dates}
           strLeng={0}
-          scheduleList={[]}
+          scheduleList={scheduleList}
           onClickDate={onClickDate}
           onClickHeaderBtn={onClickHeaderBtn}
         />

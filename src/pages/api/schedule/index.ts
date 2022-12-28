@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import mongoDB from 'middlewares/database';
 
 export default async function hanlder(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'PUT' && req.method !== 'DELETE' && req.method !== 'POST') {
+  if (req.method !== 'PUT' && req.method !== 'GET' && req.method !== 'DELETE' && req.method !== 'POST') {
     res.status(500).json({ result: false, error: 'Route not valid' });
     return;
   }
@@ -16,6 +16,23 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
 
     if (!response) {
       res.status(422).json({ result: false, error: '일정 등록을 실패했어요:(' });
+      return;
+    }
+
+    res.status(200).json({ result: true, data: response });
+  } else if (req.method === 'GET') {
+    const { startAt, endAt } = req.query;
+    const fromAt = +startAt;
+    const toAt = +endAt;
+
+    const response = await scheduleCollection
+      .find({
+        $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],
+      })
+      .toArray();
+    client.close();
+    if (!response) {
+      res.status(422).json({ result: false, error: '일정 조회에 실패했어요:(' });
       return;
     }
 

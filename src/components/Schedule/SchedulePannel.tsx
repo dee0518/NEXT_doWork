@@ -4,7 +4,7 @@ import SubPannel from 'components/Common/SubPannel';
 import StatusFilter from 'components/Schedule/StatusFilter';
 
 const SchedulePannel = () => {
-  const { dateObj, onClickDate, onClickHeaderBtn } = useScheduleDate();
+  const { dateObj, dates, onClickDate, onClickHeaderBtn } = useScheduleDate('schedulePannel');
 
   return (
     <SubPannel title="Schedule">
@@ -12,6 +12,7 @@ const SchedulePannel = () => {
         dateObj={dateObj}
         type="small"
         lang="en"
+        dates={dates}
         strLeng={3}
         scheduleList={[]}
         onClickDate={onClickDate}

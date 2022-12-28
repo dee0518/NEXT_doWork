@@ -28,6 +28,7 @@ export type filterItem = {
 export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 
 export type scheduleType = {
+  selectedMonthDates: number[];
   selectedDate: string;
   statusFilter: filterItem[];
   scheduleDetail: iScheduleInfo | null;
