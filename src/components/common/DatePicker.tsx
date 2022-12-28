@@ -1,41 +1,43 @@
-import { KeyboardEvent, MouseEvent, useState } from 'react';
+import { KeyboardEvent, MouseEvent } from 'react';
 import Calendar from 'components/Calendar';
 import styled from 'styled-components';
 import { changeDate } from 'utils/dateUtils';
-import { TDateObj } from 'constants/calendar';
+import { TDateObj } from 'types/calendar';
 import { buttonNone } from 'styles/mixin';
 
 type TProps = {
+  isShowCalendar: boolean;
+  visibleDate: Date;
   dateObj: TDateObj;
+  onOpenDatePicker: () => void;
   onClickDate: (date: Date, e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>) => void;
   onClickHeaderBtn: (date: Date) => void;
 };
 
-const DatePicker = ({ dateObj, onClickDate, onClickHeaderBtn }: TProps) => {
-  const [isShowCalendar, setIsShowCalendar] = useState<boolean>(false);
-
-  const onOpenDatePicker = () => {
-    setIsShowCalendar(true);
-  };
-
-  return (
-    <DatePickerGroup>
-      <DatePickerBtn className="datepicker__btn" type="button" onClick={onOpenDatePicker}>
-        {changeDate(dateObj.selectedDate)}
-      </DatePickerBtn>
-      {isShowCalendar && (
-        <Calendar
-          dateObj={dateObj}
-          type="small"
-          lang="en"
-          strLeng={3}
-          onClickDate={onClickDate}
-          onClickHeaderBtn={onClickHeaderBtn}
-        />
-      )}
-    </DatePickerGroup>
-  );
-};
+const DatePicker = ({
+  isShowCalendar,
+  visibleDate,
+  dateObj,
+  onOpenDatePicker,
+  onClickDate,
+  onClickHeaderBtn,
+}: TProps) => (
+  <DatePickerGroup className="datepicker">
+    <DatePickerBtn className="datepicker__btn" type="button" onClick={onOpenDatePicker}>
+      {changeDate(visibleDate)}
+    </DatePickerBtn>
+    {isShowCalendar && (
+      <Calendar
+        dateObj={dateObj}
+        type="small"
+        lang="en"
+        strLeng={3}
+        onClickDate={onClickDate}
+        onClickHeaderBtn={onClickHeaderBtn}
+      />
+    )}
+  </DatePickerGroup>
+);
 
 export default DatePicker;
 
@@ -47,7 +49,7 @@ const DatePickerGroup = styled.div`
     left: 0;
     top: 40px;
     z-index: 1;
-    width: 270px;
+    width: 310px;
     padding: 15px;
     border-radius: 6px;
     background: ${({ theme }) => theme.white};
@@ -56,7 +58,7 @@ const DatePickerGroup = styled.div`
     &.small {
       .calendar__header {
         grid-template-columns: 1fr 30px 30px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
 
         span {
           font-size: 1.5rem;

@@ -1,4 +1,6 @@
 import { MouseEvent } from 'react';
+import useEditedScheduleModal from 'hooks/useEditedScheduleModal';
+import useDatepicker from 'hooks/useDatepicker';
 import Modal from 'components/Common/Modal';
 import InputForm from 'components/Common/InputForm';
 import DatePicker from 'components/Common/DatePicker';
@@ -12,36 +14,56 @@ type TProps = {
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
 };
 
-const ScheduleEditModal = ({ onClose }: TProps) => {
-  const title = '';
-  const searchUserKeyword = '';
-  const content = '';
-  const userSearch = null;
-  const collaborators = ['adskjflkjaflsdjl'];
-  const onSubmit = () => {};
-  const onChange = () => {};
-  const onAddCollaborator = () => {};
-  const onDeleteCollaborator = () => {};
-  const onClickDate = () => {};
-  const onClickHeaderBtn = () => {};
+const EditedScheduleModal = ({ onClose }: TProps) => {
+  const {
+    titleError,
+    scheduleDetail,
+    scheduleInfo,
+    searchUser,
+    userResult,
+    dateObj,
+    onSubmit,
+    onChange,
+    onSearchUser,
+    onInitUserResult,
+    onAddCollaborator,
+    onDeleteCollaborator,
+    onSetSelectedDate,
+    onClickDate,
+    onClickHeaderBtn,
+  } = useEditedScheduleModal({ onCloseModal: onClose });
+  const { opendDatepicker, onOpenDatepicker, onCloseDatepicker } = useDatepicker();
+  const { title, status, fromTime, toTime, collaborators, content } = scheduleInfo;
 
-  const dateObj = {
-    today: new Date(),
-    selectedDate: new Date(),
-    fromDate: new Date(),
-    toDate: new Date(),
+  const onClickInputDate = (type: string) => {
+    onSetSelectedDate(type);
+    onOpenDatepicker(type);
+  };
+
+  const onClickDatepickerDate = (type: string, date: Date) => {
+    onClickDate(type, date);
+    onOpenDatepicker('');
+  };
+
+  const onClickBg = (e: MouseEvent<HTMLElement>) => {
+    onCloseDatepicker(e);
+    onInitUserResult(e);
   };
 
   return (
-    <Modal title="New Schedule" type="default" onClose={onClose}>
-      <Form onSubmit={onSubmit}>
-        <StatusGroup className="new__schedule__form">
-          {statusList.map(({ id, name, checked }) => (
-            <StatusItem>
+    <Modal
+      title={scheduleDetail ? 'Edit Schedule' : 'New Schedule'}
+      type={scheduleDetail ? scheduleDetail.status : 'default'}
+      onClose={onClose}
+      onClickBg={onClickBg}
+    >
+      <Div>
+        <StatusGroup>
+          {statusList.map(({ id, name }) => (
+            <StatusItem key={`new${id}`}>
               <InputForm
-                key={`new${id}`}
-                input={{ id: `new${id}`, type: 'radio', name: 'status', onChange }}
-                label={{ htmlFor: `new${id}`, className: `new_${id} ${checked ? 'on' : ''}`, children: name }}
+                input={{ id: `new${id}`, type: 'radio', name: 'status', value: id, onChange }}
+                label={{ htmlFor: `new${id}`, className: `new_${id} ${status === id ? 'on' : ''}`, children: name }}
               />
             </StatusItem>
           ))}
@@ -52,85 +74,94 @@ const ScheduleEditModal = ({ onClose }: TProps) => {
             type: 'text',
             name: 'title',
             value: title,
+            className: titleError ? 'error' : '',
             placeholder: '새로운 일정을 알려주세요.',
             onChange,
             maxLength: '50',
           }}
           label={{ htmlFor: 'title', className: 'blind', children: '제목' }}
         />
-        <TimeGroup className="new__schedule__form">
+        <TimeGroup>
           <TimeTitle>시간</TimeTitle>
-          <FromTime className="from">
+          <FromTime>
             <DatePicker
+              isShowCalendar={opendDatepicker === 'fromDate'}
+              visibleDate={dateObj.fromDate || dateObj.today}
               dateObj={dateObj}
-              onClickDate={onClickDate.bind(null, 'from')}
-              onClickHeaderBtn={onClickHeaderBtn.bind(null, 'from')}
+              onOpenDatePicker={onClickInputDate.bind(null, 'fromDate')}
+              onClickDate={onClickDatepickerDate.bind(null, 'fromDate')}
+              onClickHeaderBtn={onClickHeaderBtn}
             />
-            <SelectBox id="fromTime" name="from" optionList={timeList} onChange={onChange} value="" />
+            <SelectBox id="fromTime" name="fromTime" optionList={timeList} onChange={onChange} value={fromTime} />
           </FromTime>
-          <ToTime className="to">
+          <ToTime>
             <DatePicker
+              isShowCalendar={opendDatepicker === 'toDate'}
+              visibleDate={dateObj.toDate || dateObj.today}
               dateObj={dateObj}
-              onClickDate={onClickDate.bind(null, 'to')}
-              onClickHeaderBtn={onClickHeaderBtn.bind(null, 'to')}
+              onOpenDatePicker={onClickInputDate.bind(null, 'toDate')}
+              onClickDate={onClickDatepickerDate.bind(null, 'toDate')}
+              onClickHeaderBtn={onClickHeaderBtn}
             />
-            <SelectBox id="toTime" name="to" optionList={timeList} onChange={onChange} value="" />
+            <SelectBox id="toTime" name="toTime" optionList={timeList} onChange={onChange} value={toTime} />
           </ToTime>
         </TimeGroup>
-        <InfoGroup className="new__schedule__form">
+        <InfoGroup>
           <InputForm
             input={{
-              id: 'collaborator',
+              id: 'collaborators',
               type: 'text',
-              value: searchUserKeyword,
+              value: searchUser,
               name: 'collaborators',
               placeholder: 'abc@email.com',
               onChange,
+              onKeyUp: onSearchUser,
+              autoComplete: 'off',
             }}
-            label={{ htmlFor: 'collaborator', children: '참석자' }}
+            label={{ htmlFor: 'collaborators', children: '참석자' }}
           />
-          {userSearch !== null && (
+          {userResult && (
             <AddCollaborator
-              className="add__collaborator"
+              className={`${userResult.id === 'error' ? 'error' : ''} add_collaborator`}
               type="button"
-              onClick={onAddCollaborator.bind(null, userSearch.email)}
+              onClick={onAddCollaborator.bind(null, userResult.email)}
             >
-              <span>{userSearch.name}</span>
-              <span>{userSearch.email}</span>
+              <span>{userResult.name}</span>
+              <span>{userResult.email}</span>
             </AddCollaborator>
           )}
           {collaborators.length > 0 && (
             <CollaboratorList>
-              {collaborators.map(email => (
-                <CollaboratorItem key={email}>
+              {collaborators.map(({ id, email }) => (
+                <CollaboratorItem key={id}>
                   <span>{email}</span>
                   <button
                     type="button"
                     aria-label="delete collaborator"
-                    onClick={onDeleteCollaborator.bind(null, email)}
+                    onClick={onDeleteCollaborator.bind(null, id)}
                   />
                 </CollaboratorItem>
               ))}
             </CollaboratorList>
           )}
         </InfoGroup>
-        <InfoGroup className="new__schedule__form">
+        <InfoGroup>
           <label htmlFor="content">내용</label>
           <Content id="content" placeholder="내용을 입력해주세요" name="content" value={content} onChange={onChange} />
         </InfoGroup>
-        <SubmitBtn type="submit" category="primary">
+        <SubmitBtn type="button" category="primary" onClick={onSubmit}>
           저장
         </SubmitBtn>
-      </Form>
+      </Div>
     </Modal>
   );
 };
 
-export default ScheduleEditModal;
+export default EditedScheduleModal;
 
-const Form = styled.form`
+const Div = styled.div`
   position: relative;
-  padding: 20px 20px 65px;
+  padding-bottom: 45px;
 
   .input__form {
     margin-bottom: 15px;
@@ -215,6 +246,10 @@ const ToTime = styled.div`
   background: ${({ theme }) => theme.color_gray_10};
   border-radius: 0 4px 4px 0;
 
+  .datepicker {
+    width: 72px;
+  }
+
   .datepicker__btn,
   select {
     font-size: 1.3rem;
@@ -287,10 +322,27 @@ const AddCollaborator = styled.button`
       color: ${({ theme }) => theme.color_purple_50};
     }
   }
+
+  &.error {
+    cursor: auto;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.white};
+
+      span {
+        color: ${({ theme }) => theme.color_gray_70};
+
+        &:first-child {
+          color: ${({ theme }) => theme.color_gray_80};
+        }
+      }
+    }
+  }
 `;
 
 const CollaboratorList = styled.ul`
   ${flexbox('row', 'wrap', 'normal', 'center')}
+  gap: 10px;
 `;
 
 const CollaboratorItem = styled.li`
@@ -326,8 +378,8 @@ const Content = styled.textarea`
 
 const SubmitBtn = styled(Button)`
   position: absolute;
-  right: 20px;
-  bottom: 20px;
+  right: 0;
+  bottom: 0;
   width: 150px;
   height: 45px;
   line-height: 45px;

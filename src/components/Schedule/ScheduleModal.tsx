@@ -1,17 +1,17 @@
 import { useReduxSelector } from 'hooks/useRedux';
+import { getYearMonthDate } from 'utils/dateUtils';
 import Modal from 'components/Common/Modal';
 import styled from 'styled-components';
-import { ScheduleInfo } from 'types/schedule';
-import { getYearMonthDate } from 'utils/dateUtils';
+import { iScheduleInfo } from 'types/schedule';
 
 const ScheduleModal = () => {
   const { scheduleDetail } = useReduxSelector(state => state.schedule);
   const onClose = () => {};
-  const { id, user, status, title, content, fromAt, fromTime, toAt, toTime, collaborators } =
-    scheduleDetail as ScheduleInfo;
+  const { id, user, status, title, content, fromDate, fromTime, toDate, toTime, collaborators } =
+    scheduleDetail as iScheduleInfo;
 
-  const { year: fromYear, month: fromMonth, date: fromDate } = getYearMonthDate(fromAt);
-  const { year: toYear, month: toMonth, date: toDate } = getYearMonthDate(toAt);
+  const { year: fromYear, month: fromMonth, date: fromDate } = getYearMonthDate(new Date(fromDate));
+  const { year: toYear, month: toMonth, date: toDate } = getYearMonthDate(new Date(toDate));
 
   const onClickEdit = () => {};
   const onClickDelete = () => {};

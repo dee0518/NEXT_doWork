@@ -3,9 +3,12 @@ import { scheduleActions } from 'store/modules/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 
 const useScheduleDate = () => {
-  const today = new Date();
   const { selectedDate } = useReduxSelector(state => state.schedule);
   const dispatch = useReduxDispatch();
+  const dateObj = {
+    today: new Date(),
+    selectedDate: new Date(selectedDate),
+  };
 
   const onClickDate = (date: Date, e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>) => {
     if (e.type === 'keyup' && (e as KeyboardEvent).key !== 'Enter') return;
@@ -17,8 +20,7 @@ const useScheduleDate = () => {
   };
 
   return {
-    today,
-    selectedDate,
+    dateObj,
     onClickDate,
     onClickHeaderBtn,
   };

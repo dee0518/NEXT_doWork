@@ -14,6 +14,7 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     const response = await db.collection('users').findOne({ _id: ObjectId(userId) });
+    client.close();
 
     if (!response) {
       res.status(422).json({ result: false, error: '가입된 계정이 아니에요:(' });

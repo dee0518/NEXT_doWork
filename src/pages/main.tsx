@@ -4,6 +4,8 @@ import useCheckSession from 'hooks/useCheckSession';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import SchedulePannel from 'components/Schedule/SchedulePannel';
 import ScheduleMain from 'components/Schedule/ScheduleMain';
+import { useEffect } from 'react';
+import { useReduxSelector } from 'hooks/useRedux';
 
 const Main: NextPage = () => {
   const { session, user } = useCheckSession();
@@ -12,6 +14,13 @@ const Main: NextPage = () => {
   if (!session) {
     return null;
   }
+
+  const { selectedDate } = useReduxSelector(state => state.schedule);
+  const getSchedule = async () => {
+    const response = await fetch(`api/schedule`);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <>

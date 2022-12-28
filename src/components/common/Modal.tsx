@@ -8,10 +8,12 @@ type TProps = {
   title: string;
   children: ReactNode;
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
+  onClickBg?: (e: MouseEvent<HTMLElement>) => void;
 };
 
-const ModalBody = ({ type, title, children, onClose }: TProps) => {
+const ModalBody = ({ type, title, children, onClose, onClickBg }: TProps) => {
   const onClickBackDrop = (e: MouseEvent<HTMLDivElement>) => {
+    if (onClickBg) onClickBg(e);
     if (e.target !== e.currentTarget) return;
 
     onClose(e);
@@ -70,19 +72,19 @@ const ModalHeader = styled.div`
   border-radius: 10px 10px 0 0;
   ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_purple})`};
 
-  &.pink {
+  &.todo {
     ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_pink})`};
   }
 
-  &.orange {
+  &.private {
     ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_orange})`};
   }
 
-  &.skyblue {
+  &.important {
     ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_skyblue})`};
   }
 
-  &.green {
+  &.meeting {
     ${({ theme }) => `background: linear-gradient(to right, ${theme.linear_gradient_green})`};
   }
 `;

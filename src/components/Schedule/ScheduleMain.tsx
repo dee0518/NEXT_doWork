@@ -5,13 +5,13 @@ import useModal from 'hooks/useModal';
 import InputForm from 'components/Common/InputForm';
 import ServiceMain from 'components/Common/ServiceMain';
 import Calendar from 'components/Calendar';
-import ScheduleModal from 'components/Schedule/ScheduleEditModal';
+import EditedScheduleModal from 'components/Schedule/EditedScheduleModal';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import { filterItem } from 'types/schedule';
 
 const ScheduleMain = () => {
-  const { today, selectedDate, onClickDate, onClickHeaderBtn } = useScheduleDate();
+  const { dateObj, onClickDate, onClickHeaderBtn } = useScheduleDate();
   const { statusFilter } = useReduxSelector(state => state.schedule);
   const { isShowModal, onToggleModal } = useModal();
   const [searchValue, setSearchValue] = useState<string>('');
@@ -24,11 +24,13 @@ const ScheduleMain = () => {
     setSearchValue(e.target.value);
   };
 
-  const onClose = () => {};
+  const onClose = () => {
+    onToggleModal();
+  };
 
   return (
     <>
-      {isShowModal && <ScheduleModal onClose={onClose} />}
+      {isShowModal && <EditedScheduleModal type="default" onClose={onClose} />}
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>
           <InputForm
@@ -55,7 +57,7 @@ const ScheduleMain = () => {
           <AddBtn onClick={onToggleModal}>Add</AddBtn>
         </ManageGroup>
         <Calendar
-          dateObj={{ today, selectedDate }}
+          dateObj={dateObj}
           type="large"
           lang="en"
           strLeng={0}
@@ -71,6 +73,7 @@ const ScheduleMain = () => {
 export default ScheduleMain;
 
 const SearchForm = styled.form`
+  min-width: 600px;
   margin-bottom: 30px;
 
   input {
@@ -81,6 +84,7 @@ const SearchForm = styled.form`
 
 const ManageGroup = styled.div`
   ${flexbox('row', 'nowrap', 'space-between', 'center')}
+  min-width: 600px;
   margin-bottom: 15px;
 `;
 
