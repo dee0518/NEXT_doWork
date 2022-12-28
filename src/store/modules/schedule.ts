@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ScheduleInfo, TFilter, filterItem, scheduleType } from 'types/schedule';
+import { iScheduleInfo, TFilter, filterItem, scheduleType } from 'types/schedule';
 
 const initialState: scheduleType = {
   selectedDate: new Date().toString(),
@@ -41,9 +41,9 @@ const scheduleSlice = createSlice({
       });
     },
     setScheduleDetail: (state, action: PayloadAction<string>) => {
-      state.scheduleDetail = state.scheduleList.find(({ id }) => id === action.payload) as ScheduleInfo;
+      state.scheduleDetail = state.scheduleList.find(({ id }) => id === action.payload) as iScheduleInfo;
     },
-    setScheduleList: (state, action: PayloadAction<ScheduleInfo[]>) => {
+    setScheduleList: (state, action: PayloadAction<iScheduleInfo[]>) => {
       state.scheduleList = action.payload;
     },
   },

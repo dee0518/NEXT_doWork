@@ -1,25 +1,21 @@
-import { statusItem } from 'types/schedule';
+import { TEditedScheduleInfo, statusItem } from 'types/schedule';
 
 export const statusList: statusItem[] = [
   {
     id: 'todo',
     name: 'to do',
-    checked: true,
   },
   {
     id: 'private',
     name: 'private',
-    checked: false,
   },
   {
     id: 'important',
     name: 'important',
-    checked: false,
   },
   {
     id: 'meeting',
     name: 'meeting',
-    checked: false,
   },
 ];
 
@@ -49,3 +45,12 @@ export const timeList: string[] = [
   '22: 00',
   '23: 00',
 ];
+
+export const initialSchedule: TEditedScheduleInfo = {
+  title: '',
+  status: 'todo',
+  fromTime: '00:00',
+  toTime: '00:00',
+  collaborators: [],
+  content: '',
+};

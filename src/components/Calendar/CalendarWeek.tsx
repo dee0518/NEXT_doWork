@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-
-const WEEK_KO: string[] = ['일', '월', '화', '수', '목', '금', '토'];
-const WEEK_EN: string[] = ['sunday', 'monday', 'Tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+import { WEEK_EN, WEEK_KO } from 'constants/calendar';
 
 type TProps = {
   type: string;

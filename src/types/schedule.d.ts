@@ -1,15 +1,21 @@
-export interface ScheduleInfo {
+import { iUserInfo } from 'types/auth';
+
+export interface iScheduleInfo {
   id: string;
-  user: string;
+  user: iUserInfo;
   status: string;
   title: string;
-  fromAt: string;
+  fromDate: number;
   fromTime: string;
-  toAt: string;
+  toDate: number;
   toTime: string;
-  collaborators: string[];
+  collaborators: iUserInfo[];
   content: string;
 }
+
+export type TCreatedScheduleInfo = Omit<iScheduleInfo, 'id'>;
+
+export type TEditedScheduleInfo = Omit<iScheduleInfo, 'id' | 'user' | 'fromDate' | 'toDate'>;
 
 export type filterItem = {
   id: string;
@@ -24,8 +30,10 @@ export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 export type scheduleType = {
   selectedDate: string;
   statusFilter: filterItem[];
-  scheduleDetail: ScheduleInfo | null;
-  scheduleList: ScheduleInfo[];
+  scheduleDetail: iScheduleInfo | null;
+  scheduleList: iScheduleInfo[];
 };
 
-export type statusItem = Omit<filterItem, 'count' | 'color'>;
+export type statusItem = Omit<filterItem, 'count' | 'color' | 'checked'>;
+
+export type TUserResultError = Pick<iUserInfo, 'id' | 'name' | 'email'>;

@@ -1,5 +1,7 @@
-const getYearMonthDate = (selectedDate: string) => {
-  const newDate = new Date(selectedDate);
+import { TYearMonthDate } from 'types/calendar';
+
+const getYearMonthDate = (selectedDate: Date): TYearMonthDate => {
+  const newDate = selectedDate;
   const year = newDate.getFullYear();
   const month = newDate.getMonth();
   const date = newDate.getDate();

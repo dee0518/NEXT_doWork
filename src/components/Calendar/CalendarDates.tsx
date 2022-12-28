@@ -1,7 +1,7 @@
 import { MouseEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import { getYearMonthDate } from 'utils/dateUtils';
-import { TDateClass, TDateObj } from 'constants/calendar';
+import { TDateClass, TDateObj } from 'types/calendar';
 
 type TProps = {
   type: string;
@@ -23,14 +23,35 @@ const CalendarDates = ({ type, dateObj, dates, onClickDate }: TProps) => (
 
       if (delta === -1 || delta === 1) dateClass = 'other';
       else if (selectedYear === todayYear && month === todayMonth && curDate === todayDate) dateClass = 'today';
-      else if (dateObj.fromDate && dateObj.toDate) {
-        const { year: fromYear, month: fromMonth, date: fromDate } = getYearMonthDate(dateObj.fromDate);
-        const { year: toYear, month: toMonth, date: toDate } = getYearMonthDate(dateObj.toDate);
+      if (dateObj.fromDate || dateObj.toDate) {
+        let from = null;
+        let to = null;
 
-        if (selectedYear === fromYear && selectedMonth === fromMonth && curDate === fromDate) dateClass = 'from';
-        else if (selectedYear === toYear && selectedMonth === toMonth && curDate === toDate) dateClass = 'to';
-        else if (selectedYear === toYear && selectedMonth === toMonth && curDate > fromDate && curDate < toDate)
-          dateClass = 'term';
+        if (dateObj.fromDate) from = getYearMonthDate(dateObj.fromDate);
+        if (dateObj.toDate) to = getYearMonthDate(dateObj.toDate);
+
+        if (from && selectedYear === from.year && month === from.month && curDate === from.date) dateClass = 'from';
+        if (to && selectedYear === to.year && month === to.month && curDate === to.date) dateClass = 'to';
+        if (
+          from &&
+          to &&
+          (selectedYear > from.year ||
+            (selectedYear === from.year && (month > from.month || (month === from.month && curDate >= from.date)))) &&
+          (selectedYear < to.year ||
+            (selectedYear === to.year && (month < to.month || (month === to.month && curDate <= to.date))))
+        )
+          dateClass += ' term';
+        if (
+          from &&
+          selectedYear === from.year &&
+          month === from.month &&
+          curDate === from.date &&
+          to &&
+          selectedYear === to.year &&
+          month === to.month &&
+          curDate === to.date
+        )
+          dateClass = 'from';
       }
 
       return (
@@ -75,18 +96,61 @@ const DateList = styled.ul`
       &.today {
         color: ${({ theme }) => theme.point_orange};
         font-weight: bold;
+
+        &.term {
+          color: ${({ theme }) => theme.point_orange};
+          background: ${({ theme }) => theme.color_purple_10};
+        }
       }
 
       &.from,
       &.to {
-        border-radius: 50%;
-        background: ${({ theme }) => theme.color_purple_50};
-        color: ${({ theme }) => theme.white};
+        div {
+          position: relative;
+          z-index: 1;
+          border-radius: 50%;
+          background: ${({ theme }) => theme.color_purple_50};
+          color: ${({ theme }) => theme.white};
+        }
+
+        &.term {
+          position: relative;
+          border-radius: 50%;
+          background: ${({ theme }) => theme.color_purple_50};
+          color: ${({ theme }) => theme.white};
+
+          &::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: ${({ theme }) => theme.color_purple_10};
+          }
+        }
+      }
+
+      &.to.term {
+        &::before {
+          right: auto;
+          left: 0;
+        }
       }
 
       &.term {
-        background: ${({ theme }) => theme.color_purple_10};
         color: ${({ theme }) => theme.color_gray_100};
+        background: ${({ theme }) => theme.color_purple_10};
+
+        &:hover {
+          border-radius: 0;
+          background: ${({ theme }) => theme.color_purple_10};
+
+          div {
+            border-radius: 50%;
+            background: ${({ theme }) => theme.color_purple_70};
+          }
+        }
       }
 
       &:hover {

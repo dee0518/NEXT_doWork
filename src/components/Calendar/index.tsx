@@ -3,9 +3,9 @@ import CalendarHeader from 'components/Calendar/CalendarHeader';
 import CalendarWeek from 'components/Calendar/CalendarWeek';
 import CalendarDates from 'components/Calendar/CalendarDates';
 import styled from 'styled-components';
-import { TDateObj } from 'constants/calendar';
+import { TDateObj } from 'types/calendar';
 
-interface CalendarProps {
+type TProps = {
   type: string;
   lang: string;
   dateObj: TDateObj;
@@ -13,9 +13,9 @@ interface CalendarProps {
   onClickDate: (date: Date, e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>) => void;
   onClickHeaderBtn: (date: Date) => void;
   scheduleList?: string[];
-}
+};
 
-const Calendar = ({ dateObj, type, lang, strLeng, scheduleList, onClickDate, onClickHeaderBtn }: CalendarProps) => {
+const Calendar = ({ dateObj, type, lang, strLeng, scheduleList, onClickDate, onClickHeaderBtn }: TProps) => {
   const year: number = new Date(dateObj.selectedDate).getFullYear();
   const month: number = new Date(dateObj.selectedDate).getMonth();
 

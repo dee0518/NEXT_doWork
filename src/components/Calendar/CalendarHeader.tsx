@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { buttonNone, flexbox } from 'styles/mixin';
 
 type TProps = {
-  date: string;
+  date: Date;
   type: string;
   onClickHeaderBtn: (date: Date) => void;
 };
@@ -11,9 +11,9 @@ type TProps = {
 const CalendarHeader = ({ date, type, onClickHeaderBtn }: TProps) => {
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     const isPrevBtn = (e.target as HTMLButtonElement).classList.contains('month__prev-btn');
-    const year = new Date(date).getFullYear();
-    const month = new Date(date).getMonth() + (isPrevBtn ? -1 : 1);
-    const curDate = new Date(date).getDate();
+    const year = date.getFullYear();
+    const month = date.getMonth() + (isPrevBtn ? -1 : 1);
+    const curDate = date.getDate();
 
     onClickHeaderBtn(new Date(year, month, curDate));
   };
@@ -22,8 +22,8 @@ const CalendarHeader = ({ date, type, onClickHeaderBtn }: TProps) => {
     <CalendarHeaderWrapper className={`calendar__header ${type}`}>
       <MonthBtn className={`month__prev-btn ${type}`} aria-label="prev month" type="button" onClick={onClick} />
       <Span className={type}>
-        {new Date(date).toLocaleString('en-US', { month: 'long' })}
-        {` ${new Date(date).getDate()}, ${new Date(date).getFullYear()}`}
+        {date.toLocaleString('en-US', { month: 'long' })}
+        {` ${date.getDate()}, ${date.getFullYear()}`}
       </Span>
       <MonthBtn className={`month__next-btn ${type}`} aria-label="next month" type="button" onClick={onClick} />
     </CalendarHeaderWrapper>

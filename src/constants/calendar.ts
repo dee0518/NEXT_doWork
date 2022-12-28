@@ -1,8 +1,2 @@
-export type TDateObj = {
-  today: Date;
-  selectedDate: Date;
-  fromDate?: Date;
-  toDate?: Date;
-};
-
-export type TDateClass = 'other' | 'today' | 'from' | 'to' | 'term' | '';
+export const WEEK_KO: string[] = ['일', '월', '화', '수', '목', '금', '토'];
+export const WEEK_EN: string[] = ['sunday', 'monday', 'Tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
