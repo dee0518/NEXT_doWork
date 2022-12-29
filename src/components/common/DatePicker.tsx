@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { changeDate } from 'utils/dateUtils';
 import { TDateObj } from 'types/calendar';
 import { buttonNone } from 'styles/mixin';
+import getDates from 'utils/getDates';
 
 type TProps = {
   isShowCalendar: boolean;
@@ -21,23 +22,28 @@ const DatePicker = ({
   onOpenDatePicker,
   onClickDate,
   onClickHeaderBtn,
-}: TProps) => (
-  <DatePickerGroup className="datepicker">
-    <DatePickerBtn className="datepicker__btn" type="button" onClick={onOpenDatePicker}>
-      {changeDate(visibleDate)}
-    </DatePickerBtn>
-    {isShowCalendar && (
-      <Calendar
-        dateObj={dateObj}
-        type="small"
-        lang="en"
-        strLeng={3}
-        onClickDate={onClickDate}
-        onClickHeaderBtn={onClickHeaderBtn}
-      />
-    )}
-  </DatePickerGroup>
-);
+}: TProps) => {
+  const dates = getDates(dateObj.selectedDate);
+  return (
+    <DatePickerGroup className="datepicker">
+      <DatePickerBtn className="datepicker__btn" type="button" onClick={onOpenDatePicker}>
+        {changeDate(visibleDate)}
+      </DatePickerBtn>
+      {isShowCalendar && (
+        <Calendar
+          dateObj={dateObj}
+          type="small"
+          lang="en"
+          strLeng={3}
+          dates={dates}
+          scheduleList={[]}
+          onClickDate={onClickDate}
+          onClickHeaderBtn={onClickHeaderBtn}
+        />
+      )}
+    </DatePickerGroup>
+  );
+};
 
 export default DatePicker;
 

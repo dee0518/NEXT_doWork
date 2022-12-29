@@ -2,8 +2,10 @@ import { MouseEvent, KeyboardEvent } from 'react';
 import CalendarHeader from 'components/Calendar/CalendarHeader';
 import CalendarWeek from 'components/Calendar/CalendarWeek';
 import CalendarDates from 'components/Calendar/CalendarDates';
+import TimeLine from 'components/Calendar/TimeLine';
 import styled from 'styled-components';
 import { TDateObj } from 'types/calendar';
+import { iScheduleInfo } from 'types/schedule';
 
 type TProps = {
   type: string;
@@ -13,7 +15,7 @@ type TProps = {
   strLeng: number;
   onClickDate: (date: Date, e: MouseEvent<HTMLDivElement> | KeyboardEvent<HTMLDivElement>) => void;
   onClickHeaderBtn: (date: Date) => void;
-  scheduleList?: string[];
+  scheduleList: iScheduleInfo[];
 };
 
 const Calendar = ({ dateObj, dates, type, lang, strLeng, scheduleList, onClickDate, onClickHeaderBtn }: TProps) => (
@@ -22,9 +24,9 @@ const Calendar = ({ dateObj, dates, type, lang, strLeng, scheduleList, onClickDa
     <WeekDatesWrapper className={`calendar__week__dates ${type}`}>
       <CalendarWeek type={type} lang={lang} strLeng={strLeng} />
       <CalendarDates type={type} dateObj={dateObj} dates={dates} onClickDate={onClickDate} />
-      {/* {scheduleList && scheduleList.length > 0 && (
-          <TimeTable month={month} dates={dates} scheduleList={scheduleList} />
-        )} */}
+      {scheduleList.length > 0 && (
+        <TimeLine selectedDate={dateObj.selectedDate} dates={dates} scheduleList={scheduleList} />
+      )}
     </WeekDatesWrapper>
   </CalendarWrapper>
 );

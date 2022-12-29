@@ -23,7 +23,7 @@ const CalendarHeader = ({ date, type, onClickHeaderBtn }: TProps) => {
       <MonthBtn className={`month__prev-btn ${type}`} aria-label="prev month" type="button" onClick={onClick} />
       <Span className={type}>
         {date.toLocaleString('en-US', { month: 'long' })}
-        {` ${date.getDate()}, ${date.getFullYear()}`}
+        {`, ${date.getFullYear()}`}
       </Span>
       <MonthBtn className={`month__next-btn ${type}`} aria-label="next month" type="button" onClick={onClick} />
     </CalendarHeaderWrapper>

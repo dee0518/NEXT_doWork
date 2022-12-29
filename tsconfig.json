@@ -21,6 +21,7 @@
       "middlewares/*": ["./src/middlewares/*"],
       "hooks/*": ["./src/hooks/*"],
       "store/*": ["./src/store/*"],
+      "lib/*": ["./src/lib/*"],
       "styles/*": ["./src/styles/*"],
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"]
