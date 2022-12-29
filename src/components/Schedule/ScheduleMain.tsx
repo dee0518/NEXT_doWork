@@ -1,23 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useReduxSelector } from 'hooks/useRedux';
+import { scheduleActions } from 'store/modules/schedule';
+import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import useScheduleDate from 'hooks/useScheduleDate';
-import useModal from 'hooks/useModal';
 import InputForm from 'components/Common/InputForm';
 import ServiceMain from 'components/Common/ServiceMain';
 import Calendar from 'components/Calendar';
 import EditedScheduleModal from 'components/Schedule/EditedScheduleModal';
+import ScheduleDetailModal from 'components/Schedule//ScheduleDetailModal';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
-import { filterItem } from 'types/schedule';
+import { filterItem, iScheduleInfo } from 'types/schedule';
 
 const ScheduleMain = () => {
+  const dispatch = useReduxDispatch();
   const { dateObj, dates, onClickDate, onClickHeaderBtn } = useScheduleDate('timeline');
-  const { statusFilter, scheduleList } = useReduxSelector(state => state.schedule);
-  const { isShowModal, onToggleModal } = useModal();
+  const { statusFilter, scheduleList, scheduleDetail, isShowEditedModal } = useReduxSelector(state => state.schedule);
   const [searchValue, setSearchValue] = useState<string>('');
-  const checkedFilter = statusFilter.filter(({ checked }) => checked).map(({ id }) => id);
+  const checkedFilter = statusFilter.filter(({ checked }: filterItem) => checked).map(({ id }: filterItem) => id);
   const filteredScheduleList = scheduleList.filter(
-    ({ title, status }) => title.includes(searchValue) && checkedFilter.includes(status),
+    ({ title, status }: iScheduleInfo) => title.includes(searchValue) && checkedFilter.includes(status),
   );
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -28,13 +29,23 @@ const ScheduleMain = () => {
     setSearchValue(e.target.value);
   };
 
+  const onToggleModal = () => {
+    dispatch(scheduleActions.setIsShowEditedModal(!isShowEditedModal));
+  };
+
   const onClose = () => {
+    onToggleModal();
+  };
+
+  const onClickAddBtn = () => {
+    dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
     onToggleModal();
   };
 
   return (
     <>
-      {isShowModal && <EditedScheduleModal onClose={onClose} />}
+      {isShowEditedModal && <EditedScheduleModal onClose={onClose} />}
+      {!isShowEditedModal && scheduleDetail && <ScheduleDetailModal />}
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>
           <InputForm
@@ -58,7 +69,7 @@ const ScheduleMain = () => {
               </BoardItem>
             ))}
           </StatusBoard>
-          <AddBtn onClick={onToggleModal}>Add</AddBtn>
+          <AddBtn onClick={onClickAddBtn}>Add</AddBtn>
         </ManageGroup>
         <Calendar
           dateObj={dateObj}
