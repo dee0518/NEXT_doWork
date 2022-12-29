@@ -13,7 +13,7 @@ const Main: NextPage = () => {
   const dispatch = useReduxDispatch();
 
   useEffect(() => {
-    dispatch(scheduleActions.setSelectedDate(new Date().toString()));
+    dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
   }, []);
 
   if (!user && session) return <div>loading...</div>;

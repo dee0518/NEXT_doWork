@@ -1,7 +1,7 @@
 import { iUserInfo } from 'types/auth';
 
 export interface iScheduleInfo {
-  id: string;
+  _id: string;
   user: iUserInfo;
   status: string;
   title: string;
@@ -29,10 +29,11 @@ export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 
 export type scheduleType = {
   selectedMonthDates: number[];
-  selectedDate: string;
+  stringSelectedDate: string;
   statusFilter: filterItem[];
   scheduleDetail: iScheduleInfo | null;
   scheduleList: iScheduleInfo[];
+  isShowEditedModal: boolean;
 };
 
 export type statusItem = Omit<filterItem, 'count' | 'color' | 'checked'>;
@@ -49,7 +50,7 @@ export type TFilterCount = {
 };
 
 export type TTimeLine = {
-  id: string;
+  _id: string;
   type: string;
   title: string;
   top: number;

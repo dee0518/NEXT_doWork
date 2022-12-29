@@ -1,17 +1,30 @@
 import { useState, ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
-import { useReduxSelector } from 'hooks/useRedux';
+import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import { initialSchedule } from 'constants/schedule';
 import { iScheduleInfo, TCreatedScheduleInfo, TEditedScheduleInfo, TUserResultError } from 'types/schedule';
 import { TDateObj } from 'types/calendar';
 import { iUserInfo } from 'types/auth';
+import { getScheduleByStartEnd, postSchedule } from 'lib/schedule';
+import getFirstLastDate from 'utils/getFirstLastDate';
+import { scheduleActions } from 'store/modules/schedule';
+import { getYearMonthDate } from 'utils/dateUtils';
 
 type TProps = {
   onCloseModal: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
 };
 
 const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
-  const { scheduleDetail } = useReduxSelector(state => state.schedule);
+  const dispatch = useReduxDispatch();
+  const { scheduleDetail, stringSelectedDate, selectedMonthDates } = useReduxSelector(state => state.schedule);
   const { user } = useReduxSelector(state => state.auth);
+
+  const today = new Date();
+  const selectedDateInStore = new Date(stringSelectedDate);
+  const { year: tYear, month: tMonth, date: tDate } = getYearMonthDate(today);
+  const { year, month, date } = getYearMonthDate(selectedDateInStore);
+
+  const isSameDate = tYear === year && tMonth === month && tDate === date;
+  const initialDate = isSameDate ? null : selectedDateInStore;
 
   const initialScheduleInfo = scheduleDetail || initialSchedule;
   const [scheduleInfo, setScheduleInfo] = useState<TEditedScheduleInfo | iScheduleInfo>(initialScheduleInfo);
@@ -19,10 +32,10 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
   const [searchUser, setSearchUser] = useState<string>('');
   const [userResult, setUserResult] = useState<iUserInfo | TUserResultError | null>(null);
   const [dateObj, setDateObj] = useState<TDateObj>({
-    today: new Date(),
+    today,
     selectedDate: new Date(),
-    fromDate: scheduleDetail ? new Date(scheduleDetail.fromDate) : null,
-    toDate: scheduleDetail ? new Date(scheduleDetail.toDate) : null,
+    fromDate: scheduleDetail ? new Date(scheduleDetail.fromDate) : initialDate,
+    toDate: scheduleDetail ? new Date(scheduleDetail.toDate) : initialDate,
   });
 
   const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -32,20 +45,25 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
     }
 
     const { selectedDate, fromDate: from, toDate: to } = dateObj;
-    const fromDate = from ? from.getTime() : selectedDate.getTime();
-    const toDate = to ? to.getTime() : selectedDate.getTime();
+    const onlyDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+    const fromDate = from ? from.getTime() : onlyDate.getTime();
+    const toDate = to ? to.getTime() : onlyDate.getTime();
     const data: TCreatedScheduleInfo | iScheduleInfo = { ...scheduleInfo, fromDate, toDate, user };
-    const response = await fetch(`/api/schedule`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const json = await response.json();
 
-    if (json && json.result) {
-      onCloseModal(e);
+    try {
+      const postResponse = await postSchedule(data);
+
+      const { firstDate, lastDate } = getFirstLastDate(new Date(selectedDate), selectedMonthDates);
+      const startAt = firstDate.getTime();
+      const endAt = lastDate.getTime();
+      const getResponse = await getScheduleByStartEnd({ startAt, endAt });
+
+      if (postResponse && getResponse && postResponse.result && getResponse.result) {
+        dispatch(scheduleActions.setScheduleList(getResponse.data));
+        onCloseModal(e);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 

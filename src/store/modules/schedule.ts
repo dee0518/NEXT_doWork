@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { iScheduleInfo, TFilter, filterItem, scheduleType, TFilterCount } from 'types/schedule';
+import getDates from 'utils/getDates';
 
 const initialState: scheduleType = {
   selectedMonthDates: [],
-  selectedDate: '',
+  stringSelectedDate: '',
   statusFilter: [
     { id: 'all', name: 'all', count: 0, color: 'purple', checked: true },
     { id: 'todo', name: 'to do', count: 0, color: 'pink', checked: true },
@@ -13,30 +14,18 @@ const initialState: scheduleType = {
   ],
   scheduleDetail: null,
   scheduleList: [],
+  isShowEditedModal: false,
 };
 
 const scheduleSlice = createSlice({
   name: 'schedule',
   initialState,
   reducers: {
-    setSelectedDate: (state, action: PayloadAction<string>) => {
-      const year: number = new Date(action.payload).getFullYear();
-      const month: number = new Date(action.payload).getMonth();
-
-      const lastDateOnPrevMonth: number = new Date(year, month, 0).getDate();
-      const lastDateOnCurMonth: number = new Date(year, month + 1, 0).getDate();
-      const theDayOfTheWeekOn1st: number = new Date(year, month, 1).getDay();
-      const theDayOfTheWeekOnLast: number = new Date(year, month, lastDateOnCurMonth).getDay();
-
-      const theRestOfDatesOnPrevMonth: number[] = new Array(theDayOfTheWeekOn1st)
-        .fill(1)
-        .map((_, i, self) => lastDateOnPrevMonth - self.length + i + 1);
-      const theDatesOnCurMonth: number[] = new Array(lastDateOnCurMonth).fill(1).map((_, i) => i + 1);
-      const theRestOfDatesOnNextMonth: number[] = new Array(6 - theDayOfTheWeekOnLast).fill(1).map((_, i) => i + 1);
-      const dates: number[] = [...theRestOfDatesOnPrevMonth, ...theDatesOnCurMonth, ...theRestOfDatesOnNextMonth];
+    setStringSelectedDate: (state, action: PayloadAction<string>) => {
+      const dates = getDates(new Date(action.payload));
 
       state.selectedMonthDates = dates;
-      state.selectedDate = action.payload;
+      state.stringSelectedDate = action.payload;
     },
     setFilter: (state, action: PayloadAction<TFilter>) => {
       const { id, checked } = state.statusFilter.find(status => status.id === action.payload) as filterItem;
@@ -57,8 +46,10 @@ const scheduleSlice = createSlice({
         return status.id === id ? { ...status, checked: true } : status;
       });
     },
-    setScheduleDetail: (state, action: PayloadAction<string>) => {
-      state.scheduleDetail = state.scheduleList.find(({ id }) => id === action.payload) as iScheduleInfo;
+    setScheduleDetail: (state, action: PayloadAction<string | null>) => {
+      state.scheduleDetail = action.payload
+        ? (state.scheduleList.find(({ _id }: iScheduleInfo) => _id === action.payload) as iScheduleInfo)
+        : null;
     },
     setScheduleList: (state, action: PayloadAction<iScheduleInfo[]>) => {
       let filterCount: TFilterCount = { all: 0, todo: 0, private: 0, important: 0, meeting: 0 };
@@ -72,6 +63,9 @@ const scheduleSlice = createSlice({
       }));
 
       state.scheduleList = action.payload;
+    },
+    setIsShowEditedModal: (state, action: PayloadAction<boolean>) => {
+      state.isShowEditedModal = action.payload;
     },
   },
 });

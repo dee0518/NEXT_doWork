@@ -32,6 +32,7 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
       })
       .toArray();
     client.close();
+
     if (!response) {
       res.status(422).json({ result: false, error: '일정 조회에 실패했어요:(' });
       return;
@@ -45,17 +46,6 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
 
     if (!response) {
       res.status(422).json({ result: false, error: '일정 수정에 실패했어요:(' });
-      return;
-    }
-
-    res.status(200).json({ result: true, data: response });
-  } else if (req.method === 'DELETE') {
-    const { id } = req.body;
-    const response = await scheduleCollection.deleteOne({ _id: id });
-    client.close();
-
-    if (!response) {
-      res.status(422).json({ result: false, error: '일정 삭제에 실패했어요:(' });
       return;
     }
 
