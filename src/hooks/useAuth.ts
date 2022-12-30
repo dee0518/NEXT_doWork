@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { ChangeEvent, FormEvent, useEffect, useState, useRef } from 'react';
+import { postUser } from 'lib/user';
 import { checkOneValidation, checkAllValidation } from 'utils/checkValidation';
-import { iDefaultUserInfo, iUserInfo, iLoginInfo, AuthType, AuthError } from 'types/auth';
 import { LOGIN } from 'constants/navigation';
+import { iDefaultUserInfo, iUserInfo, iLoginInfo, AuthType, AuthError } from 'types/auth';
 
 const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
   const isSubmit = useRef<boolean>(false);
@@ -20,17 +21,10 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
 
   const onCreateUser = async (data: iUserInfo): Promise<any> => {
     try {
-      const response = await fetch(`api/auth/signup`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const json = await response.json();
+      const response = await postUser(data);
 
-      if (json.result) router.push(LOGIN);
-      else setError({ id: 'all', message: json.error });
+      if (response.result) router.push(LOGIN);
+      else setError({ id: 'all', message: response.error });
     } catch (e) {
       setError({ id: 'all', message: 'error' });
     }

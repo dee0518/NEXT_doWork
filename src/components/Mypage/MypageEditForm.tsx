@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useState, ChangeEvent, useEffect, useRef } from 'react';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import storage from 'middlewares/storage';
+import { patchUser } from 'lib/user';
 import { authActions } from 'store/modules/auth';
 import { useReduxSelector, useReduxDispatch } from 'hooks/useRedux';
 import Profile from 'components/Common/Profile';
@@ -39,8 +42,43 @@ const MypageEditForm = () => {
 
   const onCancel = () => router.push(MYPAGE);
 
-  const onSubmit = async () => {
-    const { name, career, introduce } = userInfo;
+  const uploadProfile = () => {
+    const storageRef = ref(storage, `images/profile/${email}profile`); // 어떤 폴더 아래에 넣을지 설정
+    const upLoadTask = uploadBytesResumable(storageRef, file as Blob);
+
+    upLoadTask.on(
+      'state_changed',
+      snapshot => {
+        // const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      },
+      error => {
+        setError('파일 업로드에 실패했습니다.' + error);
+      },
+      () => {
+        getDownloadURL(upLoadTask.snapshot.ref).then(url => {
+          modifyUser(url);
+        });
+      },
+    );
+  };
+
+  const modifyUser = async (profile: string) => {
+    try {
+      const { name, career, introduce } = userInfo;
+      const data = { name, career, introduce, profile };
+      const response = await patchUser(id, data);
+
+      if (response && response.result) {
+        dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce, profile }));
+        router.push(MYPAGE);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onSubmit = () => {
+    const { name, career } = userInfo;
 
     if (name === '' && career === '') {
       setError(name === '' ? 'name' : 'career');
@@ -49,19 +87,7 @@ const MypageEditForm = () => {
 
     setError('');
 
-    const response = await fetch(`/api/auth/user/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ name, career, introduce }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const json = await response.json();
-
-    if (json && json.result) {
-      dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce }));
-      router.push(MYPAGE);
-    }
+    file ? uploadProfile() : modifyUser('');
   };
 
   const onConfirmUser = async () => {
