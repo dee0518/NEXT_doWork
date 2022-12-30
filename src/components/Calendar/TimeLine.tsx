@@ -33,7 +33,11 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
     const fDay = from.getDay();
 
     let startWeekIdx =
-      fMonth < month ? 0 : fMonth > month ? timeTable.length - 1 : Math.floor(dates.indexOf(fDate) / 7);
+      fMonth < month
+        ? 0
+        : fMonth > month
+        ? timeTable.length - 1
+        : Math.floor(dates.indexOf(fDate, fDate > 10 ? 6 : 0) / 7);
     let isStarted = true;
     let moreTop = false;
 
