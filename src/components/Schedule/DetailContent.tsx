@@ -4,12 +4,13 @@ import { buttonNone, flexbox } from 'styles/mixin';
 import { iScheduleInfo } from 'types/schedule';
 
 type TProps = {
+  type?: string;
   schedule: iScheduleInfo;
   onClickEdit: () => void;
   onClickDelete: (_id: string) => void;
 };
 
-const DetailContent = ({ schedule, onClickEdit, onClickDelete }: TProps) => {
+const DetailContent = ({ type, schedule, onClickEdit, onClickDelete }: TProps) => {
   const { _id, user, content, fromDate, fromTime, toDate, toTime, collaborators } = schedule;
   const { year: fYear, month: fMonth, date: fDate } = getYearMonthDate(new Date(fromDate));
   const { year: tYear, month: tMonth, date: tDate } = getYearMonthDate(new Date(toDate));
@@ -27,8 +28,8 @@ const DetailContent = ({ schedule, onClickEdit, onClickDelete }: TProps) => {
       </InfoGroup>
       <EditGroup>
         <Creator>@{user.name}</Creator>
-        <EditBtn type="button" aria-label="일정 편집하기" onClick={onClickEdit} />
-        <DeleteBtn type="button" aria-label="일정 삭제하기" onClick={onClickDelete.bind(null, _id)} />
+        <EditBtn type="button" className={type} aria-label="일정 편집하기" onClick={onClickEdit} />
+        <DeleteBtn type="button" className={type} aria-label="일정 삭제하기" onClick={onClickDelete.bind(null, _id)} />
       </EditGroup>
     </>
   );
@@ -45,6 +46,7 @@ const Content = styled.textarea`
   font-size: 1.5rem;
   line-height: 1.3;
   color: ${({ theme }) => theme.color_gray_100};
+  background: transparent;
 
   &.empty {
     color: ${({ theme }) => theme.color_gray_60};
@@ -92,10 +94,16 @@ const EditBtn = styled.button`
   width: 30px;
   height: 30px;
   margin-left: 8px;
-  background: url(images/schedule/edit.svg) no-repeat;
+  ${({ className }) =>
+    className === 'more'
+      ? `background: url(images/schedule/edit_white.svg) no-repeat`
+      : `background: url(images/schedule/edit.svg) no-repeat`};
   background-position: center;
 `;
 
 const DeleteBtn = styled(EditBtn)`
-  background-image: url(images/schedule/delete.svg);
+  ${({ className }) =>
+    className === 'more'
+      ? `background-image: url(images/schedule/delete_white.svg)`
+      : `background-image: url(images/schedule/delete.svg)`};
 `;

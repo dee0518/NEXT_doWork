@@ -30,6 +30,7 @@ export type TFilter = 'all' | 'todo' | 'private' | 'important' | 'meeting';
 export type scheduleType = {
   selectedMonthDates: number[];
   stringSelectedDate: string;
+  searchKeyword: string;
   statusFilter: filterItem[];
   scheduleDetail: iScheduleInfo | null;
   scheduleList: iScheduleInfo[];
@@ -58,4 +59,9 @@ export type TTimeLine = {
   top: number;
   start: number;
   end: number;
+};
+
+export type DatePosition = {
+  x: number;
+  y: number;
 };

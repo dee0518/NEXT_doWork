@@ -60,8 +60,9 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
     dispatch(scheduleActions.setScheduleDetail(_id));
   };
 
-  const onClickMore = () => {
+  const onClickMore = (x: number, y: number) => {
     dispatch(scheduleActions.setIsShowMoreSchedule(true));
+    dispatch(scheduleActions.setStringDateByPosition({ x, y }));
   };
 
   return (
@@ -75,7 +76,7 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
                   key={_id}
                   type="button"
                   className="more"
-                  onClick={onClickMore}
+                  onClick={onClickMore.bind(null, start, i)}
                   style={{
                     left: `${(100 / 7) * start}%`,
                     top: `${top * 28 + 40}px`,

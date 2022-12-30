@@ -9,9 +9,10 @@ type TProps = {
   children: ReactNode;
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
   onClickBg?: (e: MouseEvent<HTMLElement>) => void;
+  contentGroupClass?: string;
 };
 
-const ModalBody = ({ type, title, children, onClose, onClickBg }: TProps) => {
+const ModalBody = ({ type, title, children, onClose, onClickBg, contentGroupClass }: TProps) => {
   const onClickBackDrop = (e: MouseEvent<HTMLDivElement>) => {
     if (onClickBg) onClickBg(e);
     if (e.target !== e.currentTarget) return;
@@ -26,7 +27,7 @@ const ModalBody = ({ type, title, children, onClose, onClickBg }: TProps) => {
           <H2>{title}</H2>
           <CloseBtn aria-label="close modal" onClick={onClose} />
         </ModalHeader>
-        <ModalContent>{children}</ModalContent>
+        <ModalContent className={contentGroupClass}>{children}</ModalContent>
       </Body>
     </BackDrop>
   );
@@ -108,7 +109,12 @@ const CloseBtn = styled.button`
 
 const ModalContent = styled.div`
   min-height: 150px;
+  max-height: calc(100vh - 150px);
   padding: 20px;
   font-size: 1.5rem;
   color: ${({ theme }) => theme.color_gray_100};
+
+  &.overflow {
+    overflow-y: auto;
+  }
 `;

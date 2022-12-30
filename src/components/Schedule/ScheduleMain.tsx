@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { scheduleActions } from 'store/modules/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import useScheduleDate from 'hooks/useScheduleDate';
@@ -10,17 +10,23 @@ import ScheduleDetailModal from 'components/Schedule//ScheduleDetailModal';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import { filterItem, iScheduleInfo } from 'types/schedule';
+import MoreScheduleModal from './MoreScheduleModal';
 
 const ScheduleMain = () => {
   const dispatch = useReduxDispatch();
   const { dateObj, dates, onClickDate, onClickHeaderBtn } = useScheduleDate('timeline');
-  const { statusFilter, scheduleList, scheduleDetail, isShowEditedModal, isPressAddBtn } = useReduxSelector(
-    state => state.schedule,
-  );
-  const [searchValue, setSearchValue] = useState<string>('');
+  const {
+    searchKeyword,
+    statusFilter,
+    scheduleList,
+    scheduleDetail,
+    isShowEditedModal,
+    isPressAddBtn,
+    isShowMoreSchedule,
+  } = useReduxSelector(state => state.schedule);
   const checkedFilter = statusFilter.filter(({ checked }: filterItem) => checked).map(({ id }: filterItem) => id);
   const filteredScheduleList = scheduleList.filter(
-    ({ title, status }: iScheduleInfo) => title.includes(searchValue) && checkedFilter.includes(status),
+    ({ title, status }: iScheduleInfo) => title.includes(searchKeyword) && checkedFilter.includes(status),
   );
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -28,7 +34,7 @@ const ScheduleMain = () => {
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    dispatch(scheduleActions.setSearchKeyword(e.target.value));
   };
 
   const onToggleModal = () => {
@@ -50,6 +56,7 @@ const ScheduleMain = () => {
     <>
       {isShowEditedModal && <EditedScheduleModal onClose={onCloseEditModal} />}
       {!isShowEditedModal && scheduleDetail && <ScheduleDetailModal />}
+      {isShowMoreSchedule && <MoreScheduleModal />}
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>
           <InputForm
@@ -58,7 +65,7 @@ const ScheduleMain = () => {
               type: 'text',
               name: 'search',
               placeholder: '일정을 검색해보세요.',
-              value: searchValue,
+              value: searchKeyword,
               onChange,
             }}
             label={{ htmlFor: 'search', className: 'blind', children: '일정 검색' }}

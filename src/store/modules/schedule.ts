@@ -1,10 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { iScheduleInfo, TFilter, filterItem, scheduleType, TFilterCount } from 'types/schedule';
+import { iScheduleInfo, TFilter, filterItem, scheduleType, TFilterCount, DatePosition } from 'types/schedule';
+import { getYearMonthDate } from 'utils/dateUtils';
 import getDates from 'utils/getDates';
 
 const initialState: scheduleType = {
   selectedMonthDates: [],
   stringSelectedDate: '',
+  searchKeyword: '',
   statusFilter: [
     { id: 'all', name: 'all', count: 0, color: 'purple', checked: true },
     { id: 'todo', name: 'to do', count: 0, color: 'pink', checked: true },
@@ -24,10 +26,20 @@ const scheduleSlice = createSlice({
   initialState,
   reducers: {
     setStringSelectedDate: (state, action: PayloadAction<string>) => {
-      const dates = getDates(new Date(action.payload));
-
-      state.selectedMonthDates = dates;
+      state.selectedMonthDates = getDates(new Date(action.payload));
       state.stringSelectedDate = action.payload;
+    },
+    setStringDateByPosition: (state, action: PayloadAction<DatePosition>) => {
+      const { x, y } = action.payload;
+      const idx = y * 7 + x;
+      const date = state.selectedMonthDates[idx];
+      const { year, month } = getYearMonthDate(new Date(state.stringSelectedDate));
+      const settingMonth = idx < 7 && date > 20 ? month - 1 : idx > 20 && date < 7 ? month + 1 : month;
+      const stringDate = new Date(year, settingMonth, date).toString();
+      state.stringSelectedDate = stringDate;
+    },
+    setSearchKeyword: (state, action: PayloadAction<string>) => {
+      state.searchKeyword = action.payload;
     },
     setFilter: (state, action: PayloadAction<TFilter>) => {
       const { id, checked } = state.statusFilter.find(status => status.id === action.payload) as filterItem;
