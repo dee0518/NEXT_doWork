@@ -26,14 +26,11 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
     const fromAt = +startAt;
     const toAt = +endAt;
 
-    // user와 collarborator도 확인해야함.
     const response = await scheduleCollection
-      .find(
-        {
-          $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],
-        },
-        { $or: [{ email }, { collaborators: { $elemMatch: { email } } }] },
-      )
+      .find({
+        $or: [{ 'user.email': email }, { collaborators: { $elemMatch: { email } } }],
+        $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],
+      })
       .sort({ fromDate: 1 })
       .toArray();
     client.close();

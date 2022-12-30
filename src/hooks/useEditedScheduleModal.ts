@@ -21,8 +21,9 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
   const { user } = useReduxSelector(state => state.auth);
 
   const today = new Date();
+  const { year: tYear, month: tMonth, date: tDate } = getYearMonthDate(today);
   const { year, month, date } = getYearMonthDate(new Date(stringSelectedDate));
-  const initialDate = isPressAddBtn ? today : new Date(year, month, date);
+  const initialDate = isPressAddBtn ? new Date(tYear, tMonth, tDate) : new Date(year, month, date);
 
   const initialScheduleInfo = scheduleDetail || initialSchedule;
   const [scheduleInfo, setScheduleInfo] = useState<TEditedScheduleInfo | iScheduleInfo>(initialScheduleInfo);

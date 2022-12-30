@@ -25,7 +25,7 @@ export const putUser = async (data: iUserInfo) => {
   return json;
 };
 
-export const patchUser = async (id: string, data) => {
+export const patchUser = async (id: string, data: any) => {
   const json = await fetchData(`/api/auth/user/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(data),
