@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { ObjectId } from 'mongodb';
 import mongoDB from 'middlewares/database';
 
 export default async function hanlder(req: NextApiRequest, res: NextApiResponse) {
@@ -21,15 +22,19 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ result: true, data: response });
   } else if (req.method === 'GET') {
-    const { startAt, endAt } = req.query;
+    const { startAt, endAt, email } = req.query;
     const fromAt = +startAt;
     const toAt = +endAt;
 
     // user와 collarborator도 확인해야함.
     const response = await scheduleCollection
-      .find({
-        $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],
-      })
+      .find(
+        {
+          $nor: [{ fromDate: { $gt: toAt } }, { toDate: { $lt: fromAt } }],
+        },
+        { $or: [{ email }, { collaborators: { $elemMatch: { email } } }] },
+      )
+      .sort({ fromDate: 1 })
       .toArray();
     client.close();
 
@@ -40,8 +45,8 @@ export default async function hanlder(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ result: true, data: response });
   } else if (req.method === 'PUT') {
-    const { id } = req.body;
-    const response = await scheduleCollection.updateOne({ _id: id }, { $set: req.body });
+    const { _id, ...restInfo } = req.body;
+    const response = await scheduleCollection.updateOne({ _id: ObjectId(_id) }, { $set: restInfo });
     client.close();
 
     if (!response) {

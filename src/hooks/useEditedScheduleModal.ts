@@ -4,7 +4,7 @@ import { initialSchedule } from 'constants/schedule';
 import { iScheduleInfo, TCreatedScheduleInfo, TEditedScheduleInfo, TUserResultError } from 'types/schedule';
 import { TDateObj } from 'types/calendar';
 import { iUserInfo } from 'types/auth';
-import { getScheduleByStartEnd, postSchedule } from 'lib/schedule';
+import { getScheduleByStartEnd, postSchedule, putSchedule } from 'lib/schedule';
 import getFirstLastDate from 'utils/getFirstLastDate';
 import { scheduleActions } from 'store/modules/schedule';
 import { getYearMonthDate } from 'utils/dateUtils';
@@ -15,16 +15,14 @@ type TProps = {
 
 const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
   const dispatch = useReduxDispatch();
-  const { scheduleDetail, stringSelectedDate, selectedMonthDates } = useReduxSelector(state => state.schedule);
+  const { scheduleDetail, stringSelectedDate, selectedMonthDates, isPressAddBtn } = useReduxSelector(
+    state => state.schedule,
+  );
   const { user } = useReduxSelector(state => state.auth);
 
   const today = new Date();
-  const selectedDateInStore = new Date(stringSelectedDate);
-  const { year: tYear, month: tMonth, date: tDate } = getYearMonthDate(today);
-  const { year, month, date } = getYearMonthDate(selectedDateInStore);
-
-  const isSameDate = tYear === year && tMonth === month && tDate === date;
-  const initialDate = isSameDate ? null : selectedDateInStore;
+  const { year, month, date } = getYearMonthDate(new Date(stringSelectedDate));
+  const initialDate = isPressAddBtn ? today : new Date(year, month, date);
 
   const initialScheduleInfo = scheduleDetail || initialSchedule;
   const [scheduleInfo, setScheduleInfo] = useState<TEditedScheduleInfo | iScheduleInfo>(initialScheduleInfo);
@@ -48,17 +46,20 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
     const onlyDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
     const fromDate = from ? from.getTime() : onlyDate.getTime();
     const toDate = to ? to.getTime() : onlyDate.getTime();
-    const data: TCreatedScheduleInfo | iScheduleInfo = { ...scheduleInfo, fromDate, toDate, user };
+    const data = { ...scheduleInfo, fromDate, toDate, user };
 
     try {
-      const postResponse = await postSchedule(data);
+      const editedResponse = scheduleDetail
+        ? await putSchedule(data as iScheduleInfo)
+        : await postSchedule(data as TCreatedScheduleInfo);
 
-      const { firstDate, lastDate } = getFirstLastDate(new Date(selectedDate), selectedMonthDates);
+      const { firstDate, lastDate } = getFirstLastDate(new Date(stringSelectedDate), selectedMonthDates);
       const startAt = firstDate.getTime();
       const endAt = lastDate.getTime();
-      const getResponse = await getScheduleByStartEnd({ startAt, endAt });
+      const { email } = user;
+      const getResponse = await getScheduleByStartEnd({ email, startAt, endAt });
 
-      if (postResponse && getResponse && postResponse.result && getResponse.result) {
+      if (editedResponse && getResponse && editedResponse.result && getResponse.result) {
         dispatch(scheduleActions.setScheduleList(getResponse.data));
         onCloseModal(e);
       }

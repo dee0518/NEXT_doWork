@@ -14,7 +14,9 @@ import { filterItem, iScheduleInfo } from 'types/schedule';
 const ScheduleMain = () => {
   const dispatch = useReduxDispatch();
   const { dateObj, dates, onClickDate, onClickHeaderBtn } = useScheduleDate('timeline');
-  const { statusFilter, scheduleList, scheduleDetail, isShowEditedModal } = useReduxSelector(state => state.schedule);
+  const { statusFilter, scheduleList, scheduleDetail, isShowEditedModal, isPressAddBtn } = useReduxSelector(
+    state => state.schedule,
+  );
   const [searchValue, setSearchValue] = useState<string>('');
   const checkedFilter = statusFilter.filter(({ checked }: filterItem) => checked).map(({ id }: filterItem) => id);
   const filteredScheduleList = scheduleList.filter(
@@ -33,18 +35,20 @@ const ScheduleMain = () => {
     dispatch(scheduleActions.setIsShowEditedModal(!isShowEditedModal));
   };
 
-  const onClose = () => {
+  const onCloseEditModal = () => {
     onToggleModal();
+    if (scheduleDetail) dispatch(scheduleActions.setScheduleDetail(null));
+    if (isPressAddBtn) dispatch(scheduleActions.setIsPressAddBtn(false));
   };
 
   const onClickAddBtn = () => {
-    dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
     onToggleModal();
+    dispatch(scheduleActions.setIsPressAddBtn(true));
   };
 
   return (
     <>
-      {isShowEditedModal && <EditedScheduleModal onClose={onClose} />}
+      {isShowEditedModal && <EditedScheduleModal onClose={onCloseEditModal} />}
       {!isShowEditedModal && scheduleDetail && <ScheduleDetailModal />}
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>

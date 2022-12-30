@@ -35,6 +35,7 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
     let startWeekIdx =
       fMonth < month ? 0 : fMonth > month ? timeTable.length - 1 : Math.floor(dates.indexOf(fDate) / 7);
     let isStarted = true;
+    let moreTop = false;
 
     while (gapDay >= 0 && startWeekIdx < timeTable.length) {
       const start = isStarted ? fDay : 0;
@@ -44,12 +45,14 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
       timeTable[startWeekIdx].forEach(t => {
         if (!(t.start > end || t.end < start)) standard.splice(standard.indexOf(t.top), 1);
       });
-      const top = standard[0];
+      const top = standard[0] === undefined ? 5 : standard[0];
+      if (top === 5) moreTop = true;
 
       timeTable[startWeekIdx] = [...timeTable[startWeekIdx], { _id, type: status, top, start, end, title }];
       startWeekIdx += 1;
       gapDay -= isStarted ? 7 - fDay : 7;
       if (isStarted) isStarted = false;
+      if (moreTop) break;
     }
   });
 
@@ -57,26 +60,46 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
     dispatch(scheduleActions.setScheduleDetail(_id));
   };
 
+  const onClickMore = () => {
+    dispatch(scheduleActions.setIsShowMoreSchedule(true));
+  };
+
   return (
     <TimeLineTable>
       {timeTable.length > 0 &&
         timeTable.map((times, i) => (
           <TimeLineRow key={timeTableId[i]}>
-            {times.map(({ _id, type, top, start, end, title }: TTimeLine) => (
-              <TimeLineBtn
-                key={_id}
-                type="button"
-                className={`time__table__schedule  ${type}`}
-                onClick={onClick.bind(null, _id)}
-                style={{
-                  left: `${(100 / 7) * start}%`,
-                  top: `${top * 28 + 40}px`,
-                  width: `${((end - start + 1) * 100) / 7}%`,
-                }}
-              >
-                {title}
-              </TimeLineBtn>
-            ))}
+            {times.map(({ _id, type, top, start, end, title }: TTimeLine, _, self) =>
+              top === 5 ? null : self.length > 5 && top === 4 ? (
+                <TimeLineBtn
+                  key={_id}
+                  type="button"
+                  className="more"
+                  onClick={onClickMore}
+                  style={{
+                    left: `${(100 / 7) * start}%`,
+                    top: `${top * 28 + 40}px`,
+                    width: `${100 / 7}%`,
+                  }}
+                >
+                  더보기
+                </TimeLineBtn>
+              ) : (
+                <TimeLineBtn
+                  key={_id}
+                  type="button"
+                  className={type}
+                  onClick={onClick.bind(null, _id)}
+                  style={{
+                    left: `${(100 / 7) * start}%`,
+                    top: `${top * 28 + 40}px`,
+                    width: `${((end - start + 1) * 100) / 7}%`,
+                  }}
+                >
+                  {title}
+                </TimeLineBtn>
+              ),
+            )}
           </TimeLineRow>
         ))}
     </TimeLineTable>
@@ -107,8 +130,13 @@ const TimeLineBtn = styled.button`
   border-radius: 4px;
   color: ${({ theme }) => theme.white};
   font-size: 1.3rem;
-  background: ${({ theme }) => theme.point_pink};
+  background: ${({ theme }) => theme.color_purple_60};
   text-align: left;
+  cursor: pointer;
+
+  &.todo {
+    background: ${({ theme }) => theme.point_pink};
+  }
 
   &.private {
     background: ${({ theme }) => theme.point_orange};

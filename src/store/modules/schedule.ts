@@ -15,6 +15,8 @@ const initialState: scheduleType = {
   scheduleDetail: null,
   scheduleList: [],
   isShowEditedModal: false,
+  isPressAddBtn: false,
+  isShowMoreSchedule: false,
 };
 
 const scheduleSlice = createSlice({
@@ -64,8 +66,17 @@ const scheduleSlice = createSlice({
 
       state.scheduleList = action.payload;
     },
+    setFilterScheduleList: (state, action: PayloadAction<string>) => {
+      state.scheduleList = state.scheduleList.filter(({ _id }: iScheduleInfo) => _id !== action.payload);
+    },
     setIsShowEditedModal: (state, action: PayloadAction<boolean>) => {
       state.isShowEditedModal = action.payload;
+    },
+    setIsPressAddBtn: (state, action: PayloadAction<boolean>) => {
+      state.isPressAddBtn = action.payload;
+    },
+    setIsShowMoreSchedule: (state, action: PayloadAction<boolean>) => {
+      state.isShowMoreSchedule = action.payload;
     },
   },
 });

@@ -13,9 +13,9 @@ export interface iScheduleInfo {
   content: string;
 }
 
-export type TCreatedScheduleInfo = Omit<iScheduleInfo, 'id'>;
+export type TCreatedScheduleInfo = Omit<iScheduleInfo, '_id'>;
 
-export type TEditedScheduleInfo = Omit<iScheduleInfo, 'id' | 'user' | 'fromDate' | 'toDate'>;
+export type TEditedScheduleInfo = Omit<iScheduleInfo, '_id' | 'user' | 'fromDate' | 'toDate'>;
 
 export type filterItem = {
   id: string;
@@ -34,6 +34,8 @@ export type scheduleType = {
   scheduleDetail: iScheduleInfo | null;
   scheduleList: iScheduleInfo[];
   isShowEditedModal: boolean;
+  isPressAddBtn: boolean;
+  isShowMoreSchedule: boolean;
 };
 
 export type statusItem = Omit<filterItem, 'count' | 'color' | 'checked'>;

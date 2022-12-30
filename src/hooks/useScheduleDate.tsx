@@ -6,6 +6,7 @@ import { getScheduleByStartEnd } from 'lib/schedule';
 
 const useScheduleDate = (type: string) => {
   const { stringSelectedDate, selectedMonthDates: dates } = useReduxSelector(state => state.schedule);
+  const { user } = useReduxSelector(state => state.auth);
   const dispatch = useReduxDispatch();
   const dateObj = {
     today: new Date(),
@@ -22,9 +23,10 @@ const useScheduleDate = (type: string) => {
 
     const startAt = firstDate.getTime();
     const endAt = lastDate.getTime();
+    const { email } = user;
 
     try {
-      const response = await getScheduleByStartEnd({ startAt, endAt });
+      const response = await getScheduleByStartEnd({ email, startAt, endAt });
       if (response && response.result) dispatch(scheduleActions.setScheduleList(response.data));
     } catch (e) {
       console.log(e);
