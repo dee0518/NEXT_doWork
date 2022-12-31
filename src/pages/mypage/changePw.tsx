@@ -4,12 +4,12 @@ import useCheckSession from 'hooks/useCheckSession';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import MypagePannel from 'components/Mypage/MypagePannel';
 import MypageChangePw from 'components/Mypage/MypageChangePw';
+import SkeletonMypageEdit from 'components/Skeleton/Mypage/SkeletonMypageEdit';
 
 const ChangePw: NextPage = () => {
-  const { session, user } = useCheckSession();
+  const { user } = useCheckSession();
 
-  if (!user && session) return <div>loading...</div>;
-  if (!session) return null;
+  if (!user) return <SkeletonMypageEdit />;
 
   return (
     <>

@@ -4,12 +4,12 @@ import useCheckSession from 'hooks/useCheckSession';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import MypageMain from 'components/Mypage/MypageMain';
 import MypagePannel from 'components/Mypage/MypagePannel';
+import SkeletonMypage from 'components/Skeleton/Mypage/SkeletonMypage';
 
 const Mypage: NextPage = () => {
-  const { session, user } = useCheckSession();
+  const { user } = useCheckSession();
 
-  if (!user && session) return <div>loading...</div>;
-  if (!session) return null;
+  if (!user) return <SkeletonMypage />;
 
   return (
     <>

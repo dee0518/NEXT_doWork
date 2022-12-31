@@ -31,7 +31,7 @@ const AuthLayout = <T extends AuthType>({ initialUserInfo, submitName, LinkHref,
         </LogoLink>
       </H1>
       <Message className={error ? 'error' : ''}>{(error && error.message) || '우리 같이 일해 보아요:)'}</Message>
-      <Inner>
+      <Inner className="auth__inner">
         <AuthForm onSubmit={onSubmit}>
           {userInfo.map(({ id, type, value, placeholder, labelClass, labelChildren }) => (
             <InputForm

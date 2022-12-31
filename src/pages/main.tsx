@@ -7,19 +7,17 @@ import { useReduxDispatch } from 'hooks/useRedux';
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import SchedulePannel from 'components/Schedule/SchedulePannel';
 import ScheduleMain from 'components/Schedule/ScheduleMain';
+import SkeletonSchedule from 'components/Skeleton/Schedule/SkeletonSchedule';
 
 const Main: NextPage = () => {
-  const { session, user } = useCheckSession();
+  const { user } = useCheckSession();
   const dispatch = useReduxDispatch();
 
   useEffect(() => {
     dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
   }, []);
 
-  if (!user && session) return <div>loading...</div>;
-  if (!session) {
-    return null;
-  }
+  if (!user) return <SkeletonSchedule />;
 
   return (
     <>

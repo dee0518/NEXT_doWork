@@ -12,6 +12,7 @@ import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
 import { TMenuLinkItem } from 'types/home';
 import { useSession } from 'next-auth/react';
 import defaultProfile from 'images/mypage/profile.svg';
+import { useReduxSelector } from 'hooks/useRedux';
 
 const linkList: TMenuLinkItem[] = [
   {
@@ -27,6 +28,7 @@ const linkList: TMenuLinkItem[] = [
 const HomeHeader = () => {
   const { data: session } = useSession();
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
+  const { user } = useReduxSelector(state => state.auth);
 
   const onClickOpenNav = () => {
     setIsOpenNav(prev => !prev);
