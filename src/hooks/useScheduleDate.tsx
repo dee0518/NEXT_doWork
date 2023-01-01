@@ -29,7 +29,7 @@ const useScheduleDate = (type: string) => {
       const response = await getScheduleByStartEnd({ email, startAt, endAt });
       if (response && response.result) dispatch(scheduleActions.setScheduleList(response.data));
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 
