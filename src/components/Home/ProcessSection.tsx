@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import tada from 'images/home/process_tada.svg';
-import userSchedule from 'images/home/process_user_and_schedule_off.svg';
 import userScheduleOn from 'images/home/process_user_and_schedule_on.svg';
 import trello from 'images/home/process_trello_off.svg';
 import designTool from 'images/home/process_design_tool_off.svg';
