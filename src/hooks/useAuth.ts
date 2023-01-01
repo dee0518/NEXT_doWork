@@ -53,7 +53,7 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
     if (error === errorMessage || (error && errorMessage && error.id === errorMessage.id)) return;
 
     setError(errorMessage);
-  }, [userInfo]);
+  }, [userInfo, error]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

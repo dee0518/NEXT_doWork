@@ -15,7 +15,7 @@ const Main: NextPage = () => {
 
   useEffect(() => {
     dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
