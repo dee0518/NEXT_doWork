@@ -73,7 +73,7 @@ const MypageEditForm = () => {
         router.push(MYPAGE);
       }
     } catch (e) {
-      console.log(e);
+      setError(e);
     }
   };
 

@@ -27,7 +27,7 @@ const ScheduleDetailModal = () => {
         dispatch(scheduleActions.setFilterScheduleList(_id));
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 

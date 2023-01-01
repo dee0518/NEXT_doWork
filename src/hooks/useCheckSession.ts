@@ -17,7 +17,7 @@ const useCheckSession = () => {
         dispatch(authActions.setUser(response.data));
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   };
 
