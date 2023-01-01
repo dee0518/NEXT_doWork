@@ -9,16 +9,20 @@ import SkeletonMypage from 'components/Skeleton/Mypage/SkeletonMypage';
 const Mypage: NextPage = () => {
   const { user } = useCheckSession();
 
-  if (!user) return <SkeletonMypage />;
-
   return (
     <>
       <Head>
         <title>마이페이지 : doWork</title>
       </Head>
-      <GlobalNavBar />
-      <MypagePannel />
-      <MypageMain />
+      {user ? (
+        <>
+          <GlobalNavBar />
+          <MypagePannel />
+          <MypageMain />
+        </>
+      ) : (
+        <SkeletonMypage />
+      )}
     </>
   );
 };

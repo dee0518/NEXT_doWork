@@ -17,16 +17,20 @@ const Main: NextPage = () => {
     dispatch(scheduleActions.setStringSelectedDate(new Date().toString()));
   }, []);
 
-  if (!user) return <SkeletonSchedule />;
-
   return (
     <>
       <Head>
         <title>일정을 관리해 보아요: doWork</title>
       </Head>
-      <GlobalNavBar />
-      <SchedulePannel />
-      <ScheduleMain />
+      {user ? (
+        <>
+          <GlobalNavBar />
+          <SchedulePannel />
+          <ScheduleMain />
+        </>
+      ) : (
+        <SkeletonSchedule />
+      )}
     </>
   );
 };

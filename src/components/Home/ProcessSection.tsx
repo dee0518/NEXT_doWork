@@ -6,6 +6,7 @@ import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import tada from 'images/home/process_tada.svg';
 import userSchedule from 'images/home/process_user_and_schedule_off.svg';
+import userScheduleOn from 'images/home/process_user_and_schedule_on.svg';
 import trello from 'images/home/process_trello_off.svg';
 import designTool from 'images/home/process_design_tool_off.svg';
 import final from 'images/home/process_final_off.svg';
@@ -21,10 +22,10 @@ const processList: TProcessItem[] = [
   },
   {
     id: 'step1',
-    imgUrl: userSchedule,
+    imgUrl: userScheduleOn,
     imgAlt: 'user and schedule',
     content: '회원가입과 로그인이 가능하고 일정을 관리할 수 있어요',
-    complete: false,
+    complete: true,
   },
   {
     id: 'step2',

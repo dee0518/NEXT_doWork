@@ -9,16 +9,20 @@ import SkeletonMypageEdit from 'components/Skeleton/Mypage/SkeletonMypageEdit';
 const DeleteAccount: NextPage = () => {
   const { user } = useCheckSession();
 
-  if (!user) return <SkeletonMypageEdit />;
-
   return (
     <>
       <Head>
         <title>마이페이지 - 계정 삭제 : doWork</title>
       </Head>
-      <GlobalNavBar />
-      <MypagePannel />
-      <MypageDeleteForm />
+      {user ? (
+        <>
+          <GlobalNavBar />
+          <MypagePannel />
+          <MypageDeleteForm />
+        </>
+      ) : (
+        <SkeletonMypageEdit />
+      )}
     </>
   );
 };

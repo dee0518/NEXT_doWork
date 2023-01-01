@@ -1,6 +1,6 @@
 import GlobalNavBar from 'components/Common/GlobalNavBar';
 import SkeletonSchedulePannel from 'components/Skeleton/Schedule/SkeletonSchedulePannel';
-import SkeletonScheduleMain from './SkeletonSheduleMain';
+import SkeletonScheduleMain from 'components/Skeleton/Schedule/SkeletonSheduleMain';
 
 const SkeletonSchedule = () => (
   <>

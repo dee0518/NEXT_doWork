@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
 import BlindTitle from 'components/Common/BlindTitle';
@@ -6,9 +5,9 @@ import ProcessSection from 'components/Home/ProcessSection';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
-import visualBg from 'images/home/visual_bg.svg';
 import { LOGIN, MAIN } from 'constants/navigation';
 import { useSession } from 'next-auth/react';
+import VisualSvg from './VisualSvg';
 
 const HomeMain = () => {
   const { data: session } = useSession();
@@ -19,7 +18,7 @@ const HomeMain = () => {
         <BlindTitle>Visual</BlindTitle>
         <VisualInner>
           <VisualImageGroup>
-            <VisualBgImage src={visualBg} alt="work together" priority />
+            <VisualSvg />
           </VisualImageGroup>
           <MainTextGroup>
             <p>
@@ -63,12 +62,6 @@ const VisualImageGroup = styled.div`
     width: 50%;
     margin-bottom: 0px;
   }
-`;
-
-const VisualBgImage = styled(Image)`
-  width: 100%;
-  max-width: 700px;
-  height: auto;
 `;
 
 const MainTextGroup = styled.div`
