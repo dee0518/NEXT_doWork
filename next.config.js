@@ -27,6 +27,7 @@ const nextConfig = {
     APP_ID: process.env.APP_ID,
     MEASUREMENT_ID: process.env.MEASUREMENT_ID,
   },
+  extends: ['eslint:recommended', 'next'],
 };
 
 module.exports = nextConfig;
