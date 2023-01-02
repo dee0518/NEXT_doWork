@@ -5,7 +5,6 @@ import BlindTitle from 'components/Common/BlindTitle';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import logo from 'images/common/logo.svg';
-import { MAIN, MYPAGE } from 'constants/navigation';
 
 type menuItem = {
   id: string;
@@ -15,11 +14,11 @@ type menuItem = {
 const menuList: menuItem[] = [
   {
     id: 'schedule',
-    link: MAIN,
+    link: '/',
   },
   {
     id: 'mypage',
-    link: MYPAGE,
+    link: '/',
   },
 ];
 
@@ -29,7 +28,7 @@ const GlobalNavBar = () => {
   return (
     <Header>
       <H1 className="logo">
-        <LogoLink href={MAIN}>
+        <LogoLink href={'/'}>
           <Image src={logo} alt="do work" />
         </LogoLink>
       </H1>
