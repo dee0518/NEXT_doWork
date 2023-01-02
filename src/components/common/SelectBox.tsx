@@ -1,12 +1,12 @@
 type TProps = {
   id: string;
   optionList: string[];
-  [key: string]: any;
+  [key: string]: string | string[];
 };
 
 const SelectBox = ({ optionList, ...selectProps }: TProps) => (
   <select className="select__box" {...selectProps}>
-    {optionList.map((item, i) => (
+    {optionList.map(item => (
       <option key={item} value={item.toLowerCase()}>
         {item}
       </option>

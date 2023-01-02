@@ -26,8 +26,10 @@ export default NextAuth({
       async authorize(credentials) {
         const { client, db } = await mongoDB();
 
+        if (!credentials) throw new Error('정보가 없어 인증할 수가 없어요:(');
+
         const user = await db.collection('users').findOne({
-          email: credentials!.email,
+          email: credentials.email,
         });
 
         if (!user) {
@@ -35,7 +37,7 @@ export default NextAuth({
           throw new Error('함께하고 있는 계정이 아니에요:(');
         }
 
-        const isValid = await compare(credentials!.password, user.password);
+        const isValid = await compare(credentials.password, user.password);
 
         if (!isValid) {
           client.close();
@@ -48,7 +50,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, account }) {
       if (account?.provider === 'google') {
         const { client, db } = await mongoDB();
 
