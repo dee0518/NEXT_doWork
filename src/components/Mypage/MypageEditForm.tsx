@@ -48,9 +48,6 @@ const MypageEditForm = () => {
 
     upLoadTask.on(
       'state_changed',
-      snapshot => {
-        // const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      },
       error => {
         setError('파일 업로드에 실패했습니다.' + error);
       },
@@ -72,8 +69,8 @@ const MypageEditForm = () => {
         dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce, profile }));
         router.push(MYPAGE);
       }
-    } catch (e) {
-      setError(e);
+    } catch (error) {
+      setError('사용자 정보 수정을 실패했어요');
     }
   };
 
