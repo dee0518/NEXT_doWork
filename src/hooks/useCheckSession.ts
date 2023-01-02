@@ -20,9 +20,16 @@ const useCheckSession = () => {
       } catch (e) {
         alert(e);
       }
+<<<<<<< HEAD
     },
     [dispatch],
   );
+=======
+    } catch (e) {
+      console.log(e);
+    }
+  };
+>>>>>>> parent of 7fd3d6b (:art: 배포 위해 console 대신 alert으로 대체)
 
   useEffect(() => {
     if (session) {

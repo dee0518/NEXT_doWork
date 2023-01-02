@@ -65,7 +65,7 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
         onCloseModal(e);
       }
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
   };
 

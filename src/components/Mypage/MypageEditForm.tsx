@@ -69,8 +69,13 @@ const MypageEditForm = () => {
         dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce, profile }));
         router.push(MYPAGE);
       }
+<<<<<<< HEAD
     } catch (error) {
       setError('사용자 정보 수정을 실패했어요');
+=======
+    } catch (e) {
+      console.log(e);
+>>>>>>> parent of 7fd3d6b (:art: 배포 위해 console 대신 alert으로 대체)
     }
   };
 
