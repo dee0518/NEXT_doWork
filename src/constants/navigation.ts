@@ -1,0 +1,10 @@
+export const HOME = '/';
+export const DOCS = '/docs';
+export const CONTACT = '/contact';
+export const LOGIN = '/login';
+export const SIGNUP = '/signup';
+export const MAIN = '/main';
+export const MYPAGE = '/mypage';
+export const EDITACCOUNT = '/mypage/editAccount';
+export const DELETEACCOUNT = '/mypage/deleteAccount';
+export const CHANGEPW = '/mypage/changePw';
