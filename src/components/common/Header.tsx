@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
-import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
 import { TMenuLinkItem } from 'types/home';
 import { useSession } from 'next-auth/react';
 import defaultProfile from 'images/mypage/profile.svg';
@@ -16,15 +15,15 @@ import defaultProfile from 'images/mypage/profile.svg';
 const linkList: TMenuLinkItem[] = [
   {
     id: 'docs',
-    link: DOCS,
+    link: '/',
   },
   {
     id: 'contact us',
-    link: CONTACT,
+    link: '/',
   },
 ];
 
-const HomeHeader = () => {
+const Header = () => {
   const { data: session } = useSession();
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
 
@@ -37,10 +36,10 @@ const HomeHeader = () => {
   };
 
   return (
-    <Header>
+    <HomeHeader>
       <Inner>
         <h1>
-          <LogoLink href={HOME}>
+          <LogoLink href={'/'}>
             <Logo src={homeLogo} alt="doWork" />
           </LogoLink>
         </h1>
@@ -67,7 +66,7 @@ const HomeHeader = () => {
               </NavItem>
             ) : (
               <NavItem key="try it out">
-                <LinkBtn href={LOGIN} type="secondary" fontSize="1.4rem" lineheight="38px">
+                <LinkBtn href={'/'} type="secondary" fontSize="1.4rem" lineheight="38px">
                   Try it out
                 </LinkBtn>
               </NavItem>
@@ -75,13 +74,13 @@ const HomeHeader = () => {
           </NavList>
         </Nav>
       </Inner>
-    </Header>
+    </HomeHeader>
   );
 };
 
-export default HomeHeader;
+export default Header;
 
-const Header = styled.header`
+const HomeHeader = styled.header`
   position: fixed;
   left: 0;
   top: 0;
