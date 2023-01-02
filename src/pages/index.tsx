@@ -1,5 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Footer from 'components/Common/Footer';
+import Header from 'components/Common/Header';
+import HomeMain from 'components/Home/HomeMain';
 
 const Home: NextPage = () => (
   <>
@@ -9,7 +12,9 @@ const Home: NextPage = () => (
       <meta name="description" content="일정 관리를 하면서 같이 일해보아요. 함께 즐거움을 쌓아 나가요." />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <div>성공</div>
+    <Header />
+    <HomeMain />
+    <Footer />
   </>
 );
 
