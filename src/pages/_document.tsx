@@ -35,7 +35,10 @@ export default class MyDocument extends Document {
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://next-do-work.vercel.app" />
           <meta property="og:title" content="doWork" />
-          <meta property="og:image" content="gs://dowork-bd9d9.appspot.com/images/siteInfo/og_doWork.png" />
+          <meta
+            property="og:image"
+            content="https://firebasestorage.googleapis.com/v0/b/dowork-bd9d9.appspot.com/o/images%2FsiteInfo%2Fog_doWork.png?alt=media&token=465375b0-749a-4f71-9204-f0f7cb398e89"
+          />
           <meta property="og:description" content="함께 일해보아요:)" />
           <meta property="og:site_name" content="doWork" />
           <meta property="og:locale" content="en_US" />
