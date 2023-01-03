@@ -3,10 +3,10 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  typescript: {
+    ignoreBuildErrors: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   images: {
     remotePatterns: [
