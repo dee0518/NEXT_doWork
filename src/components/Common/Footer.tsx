@@ -18,7 +18,7 @@ const HomeFooter = () => {
               passHref
               target="_blank"
               rel="noreferrer"
-              aira-label="velog 회고록"
+              aria-label="velog 회고록"
             />
           </li>
           <li>
@@ -27,7 +27,7 @@ const HomeFooter = () => {
               passHref
               target="_blank"
               rel="noreferrer"
-              aira-label="github NEXT_doWork repository"
+              aria-label="github NEXT_doWork repository"
             />
           </li>
         </SnsList>
