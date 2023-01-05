@@ -74,37 +74,28 @@ const TimeLine = ({ selectedDate, dates, scheduleList }: TProps) => {
       {timeTable.length > 0 &&
         timeTable.map((times, i) => (
           <TimeLineRow key={timeTableId[i]}>
-            {times.map(({ _id, type, top, start, end, title }: TTimeLine, _, self) =>
-              top === 5 ? null : self.length > 5 && top === 4 ? (
+            {times.map(({ _id, type, top, start, end, title }: TTimeLine, _, self) => {
+              if (top === 5) return null;
+
+              const isOverFivelength = self.length > 5 && top === 4;
+              const width = isOverFivelength ? `${100 / 7}%` : `${((end - start + 1) * 100) / 7}%`;
+
+              return (
                 <TimeLineBtn
                   key={_id}
                   type="button"
-                  className="more"
-                  onClick={onClickMore.bind(null, start, i)}
+                  className={isOverFivelength ? 'more' : type}
+                  onClick={isOverFivelength ? onClickMore.bind(null, start, i) : onClick.bind(null, _id)}
                   style={{
                     left: `${(100 / 7) * start}%`,
                     top: `${top * 28 + 40}px`,
-                    width: `${100 / 7}%`,
+                    width,
                   }}
                 >
-                  더보기
+                  {isOverFivelength ? '더보기' : title}
                 </TimeLineBtn>
-              ) : (
-                <TimeLineBtn
-                  key={_id}
-                  type="button"
-                  className={type}
-                  onClick={onClick.bind(null, _id)}
-                  style={{
-                    left: `${(100 / 7) * start}%`,
-                    top: `${top * 28 + 40}px`,
-                    width: `${((end - start + 1) * 100) / 7}%`,
-                  }}
-                >
-                  {title}
-                </TimeLineBtn>
-              ),
-            )}
+              );
+            })}
           </TimeLineRow>
         ))}
     </TimeLineTable>
