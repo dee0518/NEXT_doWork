@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useState, useRef, useEffect, ChangeEvent } from 'react';
+import { patchUser } from 'lib/user';
 import { useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
 import ServiceMain from 'components/Common/ServiceMain';
 import ButtonGroup from 'components/Mypage/ButtonGroup';
 import Wrapper from 'components/Common/Wrapper';
+import Loading from 'components/Common/Loading';
 import Confirm from 'components/Mypage/Confirm';
 import styled from 'styled-components';
 import { MYPAGE } from 'constants/navigation';
-import Loading from 'components/Common/Loading';
-import { patchUser } from 'lib/user';
 
 const MypageChangePw = () => {
   const targetRef = useRef<string>('');

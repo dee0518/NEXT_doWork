@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useReduxSelector } from 'hooks/useRedux';
 import SubPannel from 'components/Common/SubPannel';
 import Profile from 'components/Common/Profile';
+import Loading from 'components/Common/Loading';
 import styled from 'styled-components';
 import { buttonNone, flexbox } from 'styles/mixin';
 import { LOGIN, MYPAGE } from 'constants/navigation';
@@ -13,6 +14,7 @@ const MypagePannel = () => {
   const { user } = useReduxSelector(state => state.auth);
   const { name, career, profile } = user as iUserInfo;
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const isExisting = localStorage.getItem('doWork_theme');
@@ -21,6 +23,7 @@ const MypagePannel = () => {
   }, []);
 
   const onLogout = () => {
+    setIsLoading(true);
     signOut({
       callbackUrl: LOGIN,
     });
@@ -32,30 +35,33 @@ const MypagePannel = () => {
   };
 
   return (
-    <SubPannel title="My page">
-      <UserInfoGroup>
-        <Profile src={profile} width={68} height={68} />
-        <UserInfo>
-          <span>{name}</span>
-          <span>{career}</span>
-        </UserInfo>
-      </UserInfoGroup>
-      <ul>
-        <MenuItem>
-          <Link href={MYPAGE}>setting</Link>
-        </MenuItem>
-        <MenuItem>
-          <button type="button" onClick={onLogout}>
-            logout
-          </button>
-        </MenuItem>
-        <MenuItem>
-          <button type="button" className={isDarkTheme ? 'on' : ''} onClick={onToggleTheme}>
-            darkmode
-          </button>
-        </MenuItem>
-      </ul>
-    </SubPannel>
+    <>
+      {isLoading && <Loading />}
+      <SubPannel title="My page">
+        <UserInfoGroup>
+          <Profile src={profile} width={68} height={68} />
+          <UserInfo>
+            <span>{name}</span>
+            <span>{career}</span>
+          </UserInfo>
+        </UserInfoGroup>
+        <ul>
+          <MenuItem>
+            <Link href={MYPAGE}>setting</Link>
+          </MenuItem>
+          <MenuItem>
+            <button type="button" onClick={onLogout}>
+              logout
+            </button>
+          </MenuItem>
+          <MenuItem>
+            <button type="button" className={isDarkTheme ? 'on' : ''} onClick={onToggleTheme}>
+              darkmode
+            </button>
+          </MenuItem>
+        </ul>
+      </SubPannel>
+    </>
   );
 };
 

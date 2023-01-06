@@ -68,7 +68,6 @@ const MypageEditForm = () => {
   };
 
   const modifyUser = async (profile: string) => {
-    console.log('modifyUser');
     try {
       const { name, career, introduce } = userInfo;
       const data = { name, career, introduce, profile };
@@ -95,7 +94,7 @@ const MypageEditForm = () => {
 
     setError('');
     setIsLoading(true);
-    console.log(file);
+
     file ? uploadProfile(file) : modifyUser(profile as string);
   };
 

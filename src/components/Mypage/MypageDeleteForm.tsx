@@ -2,16 +2,16 @@ import { useRouter } from 'next/router';
 import { signIn, signOut } from 'next-auth/react';
 import { useState, ChangeEvent } from 'react';
 import useModal from 'hooks/useModal';
+import { deleteUser } from 'lib/user';
 import { useReduxSelector } from 'hooks/useRedux';
 import Button from 'components/Common/Button';
 import Modal from 'components/Common/Modal';
 import ServiceMain from 'components/Common/ServiceMain';
 import ButtonGroup from 'components/Mypage/ButtonGroup';
 import Confirm from 'components/Mypage/Confirm';
+import Loading from 'components/Common/Loading';
 import styled from 'styled-components';
 import { LOGIN, MYPAGE } from 'constants/navigation';
-import Loading from 'components/Common/Loading';
-import { deleteUser } from 'lib/user';
 
 const MypageDeleteForm = () => {
   const router = useRouter();
