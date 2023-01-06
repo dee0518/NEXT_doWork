@@ -28,6 +28,7 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
   const initialScheduleInfo = scheduleDetail || initialSchedule;
   const [scheduleInfo, setScheduleInfo] = useState<TEditedScheduleInfo | iScheduleInfo>(initialScheduleInfo);
   const [titleError, setTitleError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchUser, setSearchUser] = useState<string>('');
   const [userResult, setUserResult] = useState<iUserInfo | TUserResultError | null>(null);
   const [dateObj, setDateObj] = useState<TDateObj>({
@@ -50,6 +51,8 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
     const data = { ...scheduleInfo, fromDate, toDate, user };
 
     try {
+      setIsLoading(true);
+
       const editedResponse = scheduleDetail
         ? await putSchedule(data as iScheduleInfo)
         : await postSchedule(data as TCreatedScheduleInfo);
@@ -66,6 +69,8 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
       }
     } catch (e) {
       alert(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -165,6 +170,7 @@ const useEditedScheduleModal = ({ onCloseModal }: TProps) => {
     scheduleInfo,
     titleError,
     dateObj,
+    isLoading,
     searchUser,
     userResult,
     onSubmit,

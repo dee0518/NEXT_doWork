@@ -9,6 +9,8 @@ import Wrapper from 'components/Common/Wrapper';
 import Confirm from 'components/Mypage/Confirm';
 import styled from 'styled-components';
 import { MYPAGE } from 'constants/navigation';
+import Loading from 'components/Common/Loading';
+import { patchUser } from 'lib/user';
 
 const MypageChangePw = () => {
   const targetRef = useRef<string>('');
@@ -16,6 +18,7 @@ const MypageChangePw = () => {
   const { user } = useReduxSelector(state => state.auth);
   const [error, setError] = useState<boolean>(false);
   const [isShowCard, setIsShowCard] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [newPwError, setNewPwError] = useState<string>('');
   const [newPw, setNewPw] = useState({
@@ -30,17 +33,17 @@ const MypageChangePw = () => {
 
     if (!isPass || newPw.newPw !== newPw.newPwCheck) return;
 
-    const response = await fetch(`/api/auth/user/${user.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ password: newPw.newPw }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const json = await response.json();
+    try {
+      setIsLoading(true);
+      const response = await patchUser(user.id, { password: newPw.newPw });
 
-    if (json && json.result) {
-      router.push(MYPAGE);
+      if (response && response.result) {
+        router.push(MYPAGE);
+      }
+    } catch (e) {
+      alert(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,12 +53,19 @@ const MypageChangePw = () => {
       return;
     }
 
-    const res = await signIn('credentials', { email: user.email, password, redirect: false });
+    try {
+      setIsLoading(true);
+      const res = await signIn('credentials', { email: user.email, password, redirect: false });
 
-    if (res && res.ok) {
-      setIsShowCard(true);
-      setError(false);
-    } else setError(true);
+      if (res && res.ok) {
+        setIsShowCard(true);
+        setError(false);
+      } else setError(true);
+    } catch (e) {
+      alert(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -81,48 +91,52 @@ const MypageChangePw = () => {
   }, [newPw]);
 
   return (
-    <PwWrapper>
-      <Confirm
-        title="Change Password"
-        subTitle="내 정보를 안전하게 지켜요"
-        guide={['우리 모두 안전하게 서비스를 이용해보아요', '주기적으로 비밀번호를 변경해주세요']}
-        error={error}
-        pwValue={password}
-        onChange={onChange}
-        isEdit={isShowCard}
-      />
-      {isShowCard && (
-        <NewPasswordWrapper>
-          <H3>비밀번호를 변경할까요?</H3>
-          <Guide className={newPwError ? 'error' : ''}>{newPwError || '새로운 비밀번호를 입력해주세요.'}</Guide>
-          <InputForm
-            input={{
-              id: 'newPw',
-              type: 'password',
-              name: 'newPw',
-              placeholder: '새로운 비밀번호를 입력해주세요',
-              value: newPw.newPw,
-              onChange: onChangePw,
-              className: targetRef.current === 'newPw' ? 'error' : '',
-            }}
-            label={{ htmlFor: 'newPw', className: 'blind', children: '새로운 비밀번호' }}
-          />
-          <InputForm
-            input={{
-              id: 'newPwCheck',
-              type: 'password',
-              name: 'newPwCheck',
-              placeholder: '다시 한 번 비밀번호를 입력해주세요',
-              value: newPw.newPwCheck,
-              onChange: onChangePw,
-              className: targetRef.current === 'newPwCheck' ? 'error' : '',
-            }}
-            label={{ htmlFor: 'newPwCheck', className: 'blind', children: '비밀번호 확인' }}
-          />
-        </NewPasswordWrapper>
-      )}
-      <ButtonGroup onCancel={onCancel} onConfirm={onConfirmUser} />
-    </PwWrapper>
+    <>
+      {isLoading && <Loading />}
+
+      <PwWrapper>
+        <Confirm
+          title="Change Password"
+          subTitle="내 정보를 안전하게 지켜요"
+          guide={['우리 모두 안전하게 서비스를 이용해보아요', '주기적으로 비밀번호를 변경해주세요']}
+          error={error}
+          pwValue={password}
+          onChange={onChange}
+          isEdit={isShowCard}
+        />
+        {isShowCard && (
+          <NewPasswordWrapper>
+            <H3>비밀번호를 변경할까요?</H3>
+            <Guide className={newPwError ? 'error' : ''}>{newPwError || '새로운 비밀번호를 입력해주세요.'}</Guide>
+            <InputForm
+              input={{
+                id: 'newPw',
+                type: 'password',
+                name: 'newPw',
+                placeholder: '새로운 비밀번호를 입력해주세요',
+                value: newPw.newPw,
+                onChange: onChangePw,
+                className: targetRef.current === 'newPw' ? 'error' : '',
+              }}
+              label={{ htmlFor: 'newPw', className: 'blind', children: '새로운 비밀번호' }}
+            />
+            <InputForm
+              input={{
+                id: 'newPwCheck',
+                type: 'password',
+                name: 'newPwCheck',
+                placeholder: '다시 한 번 비밀번호를 입력해주세요',
+                value: newPw.newPwCheck,
+                onChange: onChangePw,
+                className: targetRef.current === 'newPwCheck' ? 'error' : '',
+              }}
+              label={{ htmlFor: 'newPwCheck', className: 'blind', children: '비밀번호 확인' }}
+            />
+          </NewPasswordWrapper>
+        )}
+        <ButtonGroup onCancel={onCancel} onConfirm={onConfirmUser} />
+      </PwWrapper>
+    </>
   );
 };
 

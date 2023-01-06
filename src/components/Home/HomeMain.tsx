@@ -2,12 +2,12 @@ import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
 import BlindTitle from 'components/Common/BlindTitle';
 import ProcessSection from 'components/Home/ProcessSection';
+import VisualSvg from 'components/Home/VisualSvg';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import { LOGIN, MAIN } from 'constants/navigation';
 import { useSession } from 'next-auth/react';
-import VisualSvg from './VisualSvg';
 
 const HomeMain = () => {
   const { data: session } = useSession();

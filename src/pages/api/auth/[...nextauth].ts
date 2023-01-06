@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import googleProvider from 'next-auth/providers/google';
-import mongoDB from 'middlewares/database';
+import mongoDB from 'database/mongoDB';
 import { compare } from 'bcryptjs';
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) throw new Error('env error');

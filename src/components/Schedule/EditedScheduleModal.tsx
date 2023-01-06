@@ -9,6 +9,7 @@ import Button from 'components/Common/Button';
 import styled from 'styled-components';
 import { buttonNone, flexbox } from 'styles/mixin';
 import { statusList, timeList } from 'constants/schedule';
+import Loading from 'components/Common/Loading';
 
 type TProps = {
   onClose: (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => void;
@@ -16,6 +17,7 @@ type TProps = {
 
 const EditedScheduleModal = ({ onClose }: TProps) => {
   const {
+    isLoading,
     titleError,
     scheduleDetail,
     scheduleInfo,
@@ -51,109 +53,118 @@ const EditedScheduleModal = ({ onClose }: TProps) => {
   };
 
   return (
-    <Modal
-      title={scheduleDetail ? 'Edit Schedule' : 'New Schedule'}
-      type={scheduleDetail ? scheduleDetail.status : 'default'}
-      onClose={onClose}
-      onClickBg={onClickBg}
-    >
-      <Div>
-        <StatusGroup>
-          {statusList.map(({ id, name }) => (
-            <StatusItem key={`new${id}`}>
-              <InputForm
-                input={{ id: `new${id}`, type: 'radio', name: 'status', value: id, onChange }}
-                label={{ htmlFor: `new${id}`, className: `new_${id} ${status === id ? 'on' : ''}`, children: name }}
-              />
-            </StatusItem>
-          ))}
-        </StatusGroup>
-        <InputForm
-          input={{
-            id: 'title',
-            type: 'text',
-            name: 'title',
-            value: title,
-            className: titleError ? 'error' : '',
-            placeholder: '새로운 일정을 알려주세요.',
-            onChange,
-            maxLength: '50',
-          }}
-          label={{ htmlFor: 'title', className: 'blind', children: '제목' }}
-        />
-        <TimeGroup>
-          <TimeTitle>시간</TimeTitle>
-          <FromTime>
-            <DatePicker
-              isShowCalendar={opendDatepicker === 'fromDate'}
-              visibleDate={dateObj.fromDate || dateObj.today}
-              dateObj={dateObj}
-              onOpenDatePicker={onClickInputDate.bind(null, 'fromDate')}
-              onClickDate={onClickDatepickerDate.bind(null, 'fromDate')}
-              onClickHeaderBtn={onClickHeaderBtn}
-            />
-            <SelectBox id="fromTime" name="fromTime" optionList={timeList} onChange={onChange} value={fromTime} />
-          </FromTime>
-          <ToTime>
-            <DatePicker
-              isShowCalendar={opendDatepicker === 'toDate'}
-              visibleDate={dateObj.toDate || dateObj.today}
-              dateObj={dateObj}
-              onOpenDatePicker={onClickInputDate.bind(null, 'toDate')}
-              onClickDate={onClickDatepickerDate.bind(null, 'toDate')}
-              onClickHeaderBtn={onClickHeaderBtn}
-            />
-            <SelectBox id="toTime" name="toTime" optionList={timeList} onChange={onChange} value={toTime} />
-          </ToTime>
-        </TimeGroup>
-        <InfoGroup>
+    <>
+      {isLoading && <Loading />}
+      <Modal
+        title={scheduleDetail ? 'Edit Schedule' : 'New Schedule'}
+        type={scheduleDetail ? scheduleDetail.status : 'default'}
+        onClose={onClose}
+        onClickBg={onClickBg}
+      >
+        <Div>
+          <StatusGroup>
+            {statusList.map(({ id, name }) => (
+              <StatusItem key={`new${id}`}>
+                <InputForm
+                  input={{ id: `new${id}`, type: 'radio', name: 'status', value: id, onChange }}
+                  label={{ htmlFor: `new${id}`, className: `new_${id} ${status === id ? 'on' : ''}`, children: name }}
+                />
+              </StatusItem>
+            ))}
+          </StatusGroup>
           <InputForm
             input={{
-              id: 'collaborators',
+              id: 'title',
               type: 'text',
-              value: searchUser,
-              name: 'collaborators',
-              placeholder: 'abc@email.com',
+              name: 'title',
+              value: title,
+              className: titleError ? 'error' : '',
+              placeholder: '새로운 일정을 알려주세요.',
               onChange,
-              onKeyUp: onSearchUser,
-              autoComplete: 'off',
+              maxLength: '50',
             }}
-            label={{ htmlFor: 'collaborators', children: '참석자' }}
+            label={{ htmlFor: 'title', className: 'blind', children: '제목' }}
           />
-          {userResult && (
-            <AddCollaborator
-              className={`${userResult.id === 'error' ? 'error' : ''} add_collaborator`}
-              type="button"
-              onClick={onAddCollaborator.bind(null, userResult.email)}
-            >
-              <span>{userResult.name}</span>
-              <span>{userResult.email}</span>
-            </AddCollaborator>
-          )}
-          {collaborators.length > 0 && (
-            <CollaboratorList>
-              {collaborators.map(({ id, email }) => (
-                <CollaboratorItem key={id}>
-                  <span>{email}</span>
-                  <button
-                    type="button"
-                    aria-label="delete collaborator"
-                    onClick={onDeleteCollaborator.bind(null, id)}
-                  />
-                </CollaboratorItem>
-              ))}
-            </CollaboratorList>
-          )}
-        </InfoGroup>
-        <InfoGroup>
-          <label htmlFor="content">내용</label>
-          <Content id="content" placeholder="내용을 입력해주세요" name="content" value={content} onChange={onChange} />
-        </InfoGroup>
-        <SubmitBtn type="button" category="primary" onClick={onSubmit}>
-          저장
-        </SubmitBtn>
-      </Div>
-    </Modal>
+          <TimeGroup>
+            <TimeTitle>시간</TimeTitle>
+            <FromTime>
+              <DatePicker
+                isShowCalendar={opendDatepicker === 'fromDate'}
+                visibleDate={dateObj.fromDate || dateObj.today}
+                dateObj={dateObj}
+                onOpenDatePicker={onClickInputDate.bind(null, 'fromDate')}
+                onClickDate={onClickDatepickerDate.bind(null, 'fromDate')}
+                onClickHeaderBtn={onClickHeaderBtn}
+              />
+              <SelectBox id="fromTime" name="fromTime" optionList={timeList} onChange={onChange} value={fromTime} />
+            </FromTime>
+            <ToTime>
+              <DatePicker
+                isShowCalendar={opendDatepicker === 'toDate'}
+                visibleDate={dateObj.toDate || dateObj.today}
+                dateObj={dateObj}
+                onOpenDatePicker={onClickInputDate.bind(null, 'toDate')}
+                onClickDate={onClickDatepickerDate.bind(null, 'toDate')}
+                onClickHeaderBtn={onClickHeaderBtn}
+              />
+              <SelectBox id="toTime" name="toTime" optionList={timeList} onChange={onChange} value={toTime} />
+            </ToTime>
+          </TimeGroup>
+          <InfoGroup>
+            <InputForm
+              input={{
+                id: 'collaborators',
+                type: 'text',
+                value: searchUser,
+                name: 'collaborators',
+                placeholder: 'abc@email.com',
+                onChange,
+                onKeyUp: onSearchUser,
+                autoComplete: 'off',
+              }}
+              label={{ htmlFor: 'collaborators', children: '참석자' }}
+            />
+            {userResult && (
+              <AddCollaborator
+                className={`${userResult.id === 'error' ? 'error' : ''} add_collaborator`}
+                type="button"
+                onClick={onAddCollaborator.bind(null, userResult.email)}
+              >
+                <span>{userResult.name}</span>
+                <span>{userResult.email}</span>
+              </AddCollaborator>
+            )}
+            {collaborators.length > 0 && (
+              <CollaboratorList>
+                {collaborators.map(({ id, email }) => (
+                  <CollaboratorItem key={id}>
+                    <span>{email}</span>
+                    <button
+                      type="button"
+                      aria-label="delete collaborator"
+                      onClick={onDeleteCollaborator.bind(null, id)}
+                    />
+                  </CollaboratorItem>
+                ))}
+              </CollaboratorList>
+            )}
+          </InfoGroup>
+          <InfoGroup>
+            <label htmlFor="content">내용</label>
+            <Content
+              id="content"
+              placeholder="내용을 입력해주세요"
+              name="content"
+              value={content}
+              onChange={onChange}
+            />
+          </InfoGroup>
+          <SubmitBtn type="button" category="primary" onClick={onSubmit}>
+            저장
+          </SubmitBtn>
+        </Div>
+      </Modal>
+    </>
   );
 };
 

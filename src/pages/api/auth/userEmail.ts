@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import mongoDB from 'middlewares/database';
+import mongoDB from 'database/mongoDB';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

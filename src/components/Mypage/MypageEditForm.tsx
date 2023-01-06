@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import storage from 'middlewares/storage';
+import storage from 'database/storage';
 import { patchUser } from 'lib/user';
 import { authActions } from 'store/modules/auth';
 import { useReduxSelector, useReduxDispatch } from 'hooks/useRedux';
@@ -12,6 +12,7 @@ import ServiceMain from 'components/Common/ServiceMain';
 import Confirm from 'components/Mypage/Confirm';
 import MembershipCard from 'components/Mypage/MembershipCard';
 import ButtonGroup from 'components/Mypage/ButtonGroup';
+import Loading from 'components/Common/Loading';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import { MYPAGE } from 'constants/navigation';
@@ -23,6 +24,7 @@ const MypageEditForm = () => {
   const dispatch = useReduxDispatch();
   const { user } = useReduxSelector(state => state.auth);
   const { id, email, name, profile, career, introduce } = user as iUserInfo;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState({
     name,
     profile,
@@ -42,17 +44,23 @@ const MypageEditForm = () => {
 
   const onCancel = () => router.push(MYPAGE);
 
-  const uploadProfile = () => {
-    const storageRef = ref(storage, `images/profile/${email}profile`); // 어떤 폴더 아래에 넣을지 설정
-    const upLoadTask = uploadBytesResumable(storageRef, file as Blob);
-
+  const uploadProfile = (file: Blob) => {
+    const storageRef = ref(storage, `images/profile/${file.name}`);
+    const upLoadTask = uploadBytesResumable(storageRef, file);
+    console.log(storageRef);
     upLoadTask.on(
       'state_changed',
+      snapshot => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      },
       error => {
-        setError('파일 업로드에 실패했습니다.' + error);
+        alert('파일 업로드에 실패했습니다.' + error);
+        setIsLoading(false);
       },
       () => {
         getDownloadURL(upLoadTask.snapshot.ref).then(url => {
+          console.log('getDownloadURL');
           modifyUser(url);
         });
       },
@@ -60,6 +68,7 @@ const MypageEditForm = () => {
   };
 
   const modifyUser = async (profile: string) => {
+    console.log('modifyUser');
     try {
       const { name, career, introduce } = userInfo;
       const data = { name, career, introduce, profile };
@@ -71,6 +80,8 @@ const MypageEditForm = () => {
       }
     } catch (error) {
       setError('사용자 정보 수정을 실패했어요');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,8 +94,9 @@ const MypageEditForm = () => {
     }
 
     setError('');
-
-    file ? uploadProfile() : modifyUser('');
+    setIsLoading(true);
+    console.log(file);
+    file ? uploadProfile(file) : modifyUser(profile as string);
   };
 
   const onConfirmUser = async () => {
@@ -98,10 +110,18 @@ const MypageEditForm = () => {
       return;
     }
 
-    const res = await signIn('credentials', { email, password, redirect: false });
+    try {
+      setIsLoading(true);
 
-    if (res && res.ok) setIsShowCard(true);
-    else setPwError(true);
+      const res = await signIn('credentials', { email, password, redirect: false });
+
+      if (res && res.ok) setIsShowCard(true);
+      else setPwError(true);
+    } catch (e) {
+      alert(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const encodeFileToBase64 = (fileBlob: Blob) => {
@@ -136,73 +156,77 @@ const MypageEditForm = () => {
   }, [userInfo]);
 
   return (
-    <Wrapper>
-      <Confirm
-        title="Edit Account"
-        subTitle="나는 어떤 사람인가요?"
-        guide={['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.']}
-        error={pwError}
-        pwValue={password}
-        onChange={onChangePw}
-        isEdit={isShowCard}
-      />
-      {isShowCard && (
-        <MembershipCard>
-          <InfoGroup>
-            <Greeting>
-              <span>안녕하세요</span>
-              <span>저는 {name}입니다.</span>
-            </Greeting>
-            <InputForm
-              input={{
-                id: 'name',
-                type: 'text',
-                name: 'name',
-                className: error === 'name' ? 'error' : '',
-                value: userInfo.name,
-                onChange,
-                placeholder: '이름을 입력해주세요.',
-              }}
-              label={{ htmlFor: 'name', children: 'name' }}
-            />
-            <InputForm
-              input={{
-                id: 'career',
-                type: 'text',
-                name: 'career',
-                className: error === 'career' ? 'error' : '',
-                value: userInfo.career,
-                onChange,
-                placeholder: '직업을 입력해주세요.',
-              }}
-              label={{ htmlFor: 'career', children: 'career' }}
-            />
-            <div>
-              <label htmlFor="introduce">introduce</label>
-              <textarea
-                id="introduce"
-                name="introduce"
-                placeholder="나를 소개해주세요:&#41;"
-                value={userInfo.introduce}
-                onChange={onChange}
+    <>
+      {isLoading && <Loading />}
+
+      <Wrapper>
+        <Confirm
+          title="Edit Account"
+          subTitle="나는 어떤 사람인가요?"
+          guide={['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.']}
+          error={pwError}
+          pwValue={password}
+          onChange={onChangePw}
+          isEdit={isShowCard}
+        />
+        {isShowCard && (
+          <MembershipCard>
+            <InfoGroup>
+              <Greeting>
+                <span>안녕하세요</span>
+                <span>저는 {name}입니다.</span>
+              </Greeting>
+              <InputForm
+                input={{
+                  id: 'name',
+                  type: 'text',
+                  name: 'name',
+                  className: error === 'name' ? 'error' : '',
+                  value: userInfo.name,
+                  onChange,
+                  placeholder: '이름을 입력해주세요.',
+                }}
+                label={{ htmlFor: 'name', children: 'name' }}
               />
-            </div>
-          </InfoGroup>
-          <FileGroup>
-            <InputForm
-              input={{ id: 'profile', name: 'profile', type: 'file', onChange }}
-              label={{ htmlFor: 'profile', labelClass: 'blind', children: 'profile' }}
-            />
-            <Profile src={userInfo.profile} width={250} height={250} />
-            <Email>
-              <span>email</span>
-              <span>{email}</span>
-            </Email>
-          </FileGroup>
-        </MembershipCard>
-      )}
-      <ButtonGroup onCancel={onCancel} onConfirm={onConfirmUser} />
-    </Wrapper>
+              <InputForm
+                input={{
+                  id: 'career',
+                  type: 'text',
+                  name: 'career',
+                  className: error === 'career' ? 'error' : '',
+                  value: userInfo.career,
+                  onChange,
+                  placeholder: '직업을 입력해주세요.',
+                }}
+                label={{ htmlFor: 'career', children: 'career' }}
+              />
+              <div>
+                <label htmlFor="introduce">introduce</label>
+                <textarea
+                  id="introduce"
+                  name="introduce"
+                  placeholder="나를 소개해주세요:&#41;"
+                  value={userInfo.introduce}
+                  onChange={onChange}
+                />
+              </div>
+            </InfoGroup>
+            <FileGroup>
+              <InputForm
+                input={{ id: 'profile', name: 'profile', type: 'file', onChange }}
+                label={{ htmlFor: 'profile', labelClass: 'blind', children: 'profile' }}
+              />
+              <Profile src={userInfo.profile} width={250} height={250} />
+              <Email>
+                <span>email</span>
+                <span>{email}</span>
+              </Email>
+            </FileGroup>
+          </MembershipCard>
+        )}
+        <ButtonGroup onCancel={onCancel} onConfirm={onConfirmUser} />
+      </Wrapper>
+    </>
   );
 };
 

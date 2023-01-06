@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
 import { hash } from 'bcryptjs';
-import mongoDB from 'middlewares/database';
+import mongoDB from 'database/mongoDB';
 
 export default async function hanlder(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET' && req.method !== 'PATCH' && req.method !== 'DELETE') {

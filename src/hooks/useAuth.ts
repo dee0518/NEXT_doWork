@@ -11,6 +11,7 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
   const targetRef = useRef<string>('');
   const router = useRouter();
   const [error, setError] = useState<AuthError | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<iDefaultUserInfo[]>(defaultUserInfo);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +28,8 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
       else setError({ id: 'all', message: response.error });
     } catch (e) {
       setError({ id: 'all', message: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +43,8 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
       if (response && !response.ok) setError({ id: 'all', message: response.error as string });
     } catch (e) {
       setError({ id: 'all', message: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,6 +71,8 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
       return;
     }
 
+    setIsLoading(true);
+
     const isSignUp = userInfo.find(info => info.id === 'passwordCheck');
     const data: T = userInfo.reduce((acc, cur) => {
       if (cur.id === 'passwordCheck') return acc;
@@ -79,6 +86,7 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
   return {
     error,
     userInfo,
+    isLoading,
     onChange,
     onSubmit,
   };

@@ -41,3 +41,8 @@ export const getUser = async (id: string) => {
   const json = await fetchData(`/api/auth/user/${id}`);
   return json;
 };
+
+export const deleteUser = async (id: string) => {
+  const json = await fetchData(`/api/auth/user//${id}`, { method: 'DELETE' });
+  return json;
+};

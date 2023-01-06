@@ -64,7 +64,7 @@ const HomeHeader = () => {
             {session ? (
               <NavItem key="profile">
                 <MainBtn type="button" aria-label="메인으로 가기">
-                  <Profile src={user?.profile && defaultProfile} width={30} height={30} alt="profile" />
+                  <Profile src={user?.profile || defaultProfile} width={30} height={30} alt="profile" />
                 </MainBtn>
               </NavItem>
             ) : (

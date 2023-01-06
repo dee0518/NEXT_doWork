@@ -10,12 +10,15 @@ import ButtonGroup from 'components/Mypage/ButtonGroup';
 import Confirm from 'components/Mypage/Confirm';
 import styled from 'styled-components';
 import { LOGIN, MYPAGE } from 'constants/navigation';
+import Loading from 'components/Common/Loading';
+import { deleteUser } from 'lib/user';
 
 const MypageDeleteForm = () => {
   const router = useRouter();
   const { user } = useReduxSelector(state => state.auth);
   const { isShowModal, onToggleModal } = useModal();
   const [error, setError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
 
   const onCancel = () => router.push(MYPAGE);
@@ -26,22 +29,37 @@ const MypageDeleteForm = () => {
       return;
     }
 
-    const res = await signIn('credentials', { email: user.email, password, redirect: false });
+    try {
+      setIsLoading(true);
 
-    if (res && res.ok) {
-      onToggleModal();
-      setError(false);
-    } else setError(true);
+      const res = await signIn('credentials', { email: user.email, password, redirect: false });
+
+      if (res && res.ok) {
+        onToggleModal();
+        setError(false);
+      } else setError(true);
+    } catch (e) {
+      alert(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onDeleteAccount = async () => {
-    const response = await fetch(`/api/auth/user/${user.id}`, { method: 'DELETE' });
-    const json = await response.json();
+    try {
+      setIsLoading(true);
 
-    if (json && json.result) {
-      signOut({
-        callbackUrl: LOGIN,
-      });
+      const response = await deleteUser(user.id);
+
+      if (response && response.result) {
+        signOut({
+          callbackUrl: LOGIN,
+        });
+      }
+    } catch (e) {
+      alert(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +70,7 @@ const MypageDeleteForm = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
       {isShowModal && (
         <Modal type="purple" title="Delete Account" onClose={onToggleModal}>
           <p>확인 버튼을 누르면 계정이 사라져요. 정말 삭제하시겠어요?ㅠ.ㅠ</p>

@@ -10,6 +10,7 @@ import { flexbox } from 'styles/mixin';
 import logo from 'images/common/logo.svg';
 import { HOME } from 'constants/navigation';
 import { AuthType, iDefaultUserInfo } from 'types/auth';
+import Loading from 'components/Common/Loading';
 
 type TProps = {
   initialUserInfo: iDefaultUserInfo[];
@@ -20,43 +21,46 @@ type TProps = {
 };
 
 const AuthLayout = <T extends AuthType>({ initialUserInfo, submitName, LinkHref, LinkBtnName, children }: TProps) => {
-  const { error, userInfo, onChange, onSubmit } = useAuth<T>(initialUserInfo);
+  const { error, userInfo, isLoading, onChange, onSubmit } = useAuth<T>(initialUserInfo);
 
   return (
-    <Container>
-      <H1>
-        <LogoLink href={HOME}>
-          <Logo src={logo} alt="do work" />
-          <Title aria-hidden="true">doWork</Title>
-        </LogoLink>
-      </H1>
-      <Message className={error ? 'error' : ''}>{(error && error.message) || '우리 같이 일해 보아요:)'}</Message>
-      <Inner className="auth__inner">
-        <AuthForm onSubmit={onSubmit}>
-          {userInfo.map(({ id, type, value, placeholder, labelClass, labelChildren }) => (
-            <InputForm
-              key={id}
-              input={{
-                id,
-                type,
-                className: error && error.id === id ? 'error' : '',
-                name: id,
-                placeholder,
-                value,
-                onChange,
-              }}
-              label={{ htmlFor: id, className: labelClass, children: labelChildren }}
-            />
-          ))}
-          <LinkBtn href={LinkHref}>{LinkBtnName}</LinkBtn>
-          <Button type="submit" category="primary">
-            {submitName}
-          </Button>
-          {children}
-        </AuthForm>
-      </Inner>
-      <Copyright>&copy; deeWork {new Date().getFullYear()}</Copyright>
-    </Container>
+    <>
+      {isLoading && <Loading />}
+      <Container>
+        <H1>
+          <LogoLink href={HOME}>
+            <Logo src={logo} alt="do work" />
+            <Title aria-hidden="true">doWork</Title>
+          </LogoLink>
+        </H1>
+        <Message className={error ? 'error' : ''}>{(error && error.message) || '우리 같이 일해 보아요:)'}</Message>
+        <Inner className="auth__inner">
+          <AuthForm onSubmit={onSubmit}>
+            {userInfo.map(({ id, type, value, placeholder, labelClass, labelChildren }) => (
+              <InputForm
+                key={id}
+                input={{
+                  id,
+                  type,
+                  className: error && error.id === id ? 'error' : '',
+                  name: id,
+                  placeholder,
+                  value,
+                  onChange,
+                }}
+                label={{ htmlFor: id, className: labelClass, children: labelChildren }}
+              />
+            ))}
+            <LinkBtn href={LinkHref}>{LinkBtnName}</LinkBtn>
+            <Button type="submit" category="primary">
+              {submitName}
+            </Button>
+            {children}
+          </AuthForm>
+        </Inner>
+        <Copyright>&copy; deeWork {new Date().getFullYear()}</Copyright>
+      </Container>
+    </>
   );
 };
 

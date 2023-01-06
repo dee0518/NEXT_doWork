@@ -3,9 +3,9 @@ import ServiceMain from 'components/Common/ServiceMain';
 import Wrapper from 'components/Common/Wrapper';
 import SkeletonElement from 'components/Skeleton/SkeletonElement';
 import Shimmer from 'components/Skeleton/Shimmer';
+import SkeletonMypagePannel from 'components/Skeleton/Mypage/SkeletonMypagePannel';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
-import SkeletonMypagePannel from './SkeletonMypagePannel';
 
 const SkeletonMypageEdit = () => (
   <>

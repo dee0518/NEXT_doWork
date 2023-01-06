@@ -18,7 +18,7 @@
       "images/*": ["./public/images/*"],
       "components/*": ["./src/components/*"],
       "constants/*": ["./src/constants/*"],
-      "middlewares/*": ["./src/middlewares/*"],
+      "database/*": ["./src/database/*"],
       "hooks/*": ["./src/hooks/*"],
       "store/*": ["./src/store/*"],
       "lib/*": ["./src/lib/*"],
