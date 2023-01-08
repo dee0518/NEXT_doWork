@@ -28,17 +28,21 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 
 ### 주요 기능
 
-- 홈
-- 로그인 / 회원가입
-- 메인
-  - 일정 검색
-  - 타임라인
-  - status 필터
-  - 캘린더
-  - 일정 CRUD
-- 마이페이지
-  - 사용자 CRUD
-- 404
+- [홈](./src/pages/index.tsx)
+- [로그인 & 회원가입 hooks](./src/hooks/useAuth.ts)
+- [Next-auth 코드](./src/pages/api/auth/[...nextauth].ts)
+- [메인](./src/pages/main.tsx)
+  - [일정 검색](./src/components/Scheudle/ScheduleMain.tsx)
+  - [status 필터](./src/components/Scheudle/StatusFilter.tsx)
+  - [캘린더](./src/components/Calendar)
+  - [타임라인](./src/components/Calendar/TimeLine.tsx)
+  - [일정 추가, 수정 hooks](./src/hooks/useEditedScheduleModal.ts)
+  - [일정 조회, 삭제](./src/components/Scheudle/ScheduleDetailModal.tsx)
+- [마이페이지](./src/pages/mypage/index.tsx)
+  - [사용자 정보 수정](./src/components/mypage/MypageEditForm.tsx)
+  - [사용자 비밀번호 수정](./src/components/mypage/MypageChangePw.tsx)
+  - [사용자 탈퇴](./src/components/mypage/MypageDeleteForm.tsx)
+- [404](./src/pages/404.tsx)
 
 <br>
 
@@ -88,20 +92,50 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 
 3. Next-auth 및 MongoDB
 
-- Next-auth가 필요한 이유
+- Next-auth를 쓴 이유
+  Next.js에서 소셜 로그인 기능을 쉽게 연결할 수 있게 해준다. 또한 JWT를 사용하여 로그인을 하여 세션 체크하기가 간편하여 사용하게 되었다.
 - Next-auth & MongDB 연결 <br>
-  🧷 [해당 문제 블로그가기] (https://velog.io/@dee0518/Next.js-MongoDB-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
-
+  🧷 [해당 문제 블로그가기](https://velog.io/@dee0518/Next.js-MongoDB-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
 
 <br>
 
-4. JWT와 Oauth 원리
+4. 타임라인 기능 구현
+- 고민 : view를 그리기 위해 어떻게 데이터를 가공할 것인가.
+- 방안 : 하루씩 데이터 구성 vs 주마다 데이터 구성 
+    1. 1 번째 방안의 경우 일자마다 배열을 생성하다 보니 2 번째 주마다 배열을 생성하는 것보다 많은 배열로 데이터를 들고 있어야 한다.
+    2. top 위치를 조정하기 위해 현재 같은 top값을 가진 일정이 있는지 확인을 해야한다. 이 때 2번째 방안은 해당 주의 배열만 체크를 하면 되지만 1번째 방안은 모든 일짜를 체크해야되는 경우가 생긴다.
+    
+    ![생각 다이어그램](https://user-images.githubusercontent.com/92196967/211206259-4049fc69-2114-44a3-86df-f4507d2ff1ec.png)
+- 채택 : 적은 배열을 체크하여 복잡도가 줄 것이라 예상되는 2번째 방안을 선택.
+- 구현
+  - view를 그리기 위해 left, top, width값의 데이터가 필요.
+  - 이에 각 일정이 주마다 시작하는 start와 끝나는 end를 구하여 저장. => left는 start가 되고 width는 end - start로 구할 수 있음.
+  - top은 한 날짜에 총 5개의 일정을 보여줄 수 있으므로 해당 주의 top이 겹치는 부분이 있는지 확인하여 standard 배열에서 제거. 그 후 가장 첫번째 요소가 해당 일정의 top의 위치가 됨.
+```javascript 
+while (gapDay >= 0 && startWeekIdx < timeTable.length) {
+      const start = isStarted ? fDay : 0;
+      const end = isStarted ? (fDay + gapDay > 6 ? 6 : fDay + gapDay) : gapDay < 7 ? gapDay : 6;
+      const standard = [0, 1, 2, 3, 4];
 
-<!-- 5. 암호화
+      timeTable[startWeekIdx].forEach(t => {
+        if (!(t.start > end || t.end < start)) standard.splice(standard.indexOf(t.top), 1);
+      });
+
+      const top = standard[0] === undefined ? 5 : standard[0];
+      if (top === 5) moreTop = true;
+
+      timeTable[startWeekIdx] = [...timeTable[startWeekIdx], { _id, type: status, top, start, end, title }];
+      startWeekIdx += 1;
+      gapDay -= isStarted ? 7 - fDay : 7;
+ }
+```
+
+
+<!-- 4. JWT와 Oauth 원리 5. 암호화
 7. next.js와 redux의 관계 - next-redux-wrapper가 필요한 이유 -->
 
 <br>
 
 ## 회고
 
-[doWork 회고록 보러가기](https://velog.io/@dee0518/Memoir-%ED%95%A8%EA%BB%98-%EC%9D%BC%ED%95%B4%EC%9A%94-doWork-t8otrvg1)
+자세한 내용은 회고록에서 👉[여기](https://velog.io/@dee0518/Memoir-%ED%95%A8%EA%BB%98-%EC%9D%BC%ED%95%B4%EC%9A%94-doWork-t8otrvg1)
