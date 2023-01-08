@@ -17,8 +17,6 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 
 ![doWorkBrain](https://user-images.githubusercontent.com/92196967/202966960-321eff7a-012d-443c-9e1a-e53c7881b850.png)
 
-- navigation
-
 - Process Flow
 
 ![doWorkFlow](https://user-images.githubusercontent.com/92196967/202952939-79eb0769-8bba-4759-9071-19644c2cbf3d.png)
@@ -53,6 +51,8 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 ├── 📁 src/
 |    ├── 📁 components/
 |    ├── 📁 constants/
+|    ├── 📁 lib/
+|    ├── 📁 database/
 |    ├── 📁 hooks/
 |    ├── 📁 pages/
 |    ├── 📁 redux/
@@ -86,61 +86,22 @@ doWork는 협업을 위해 스케쥴을 관리할 수 있는 서비스로 맨 �
 
 <br>
 
-3. Typescript
-
-```
-A spread argument must either have a tuple type or be passed to a rest parameter.ts(2556)
-// const tuple = userInfo.map(info => ({ [info.id]: info.value }));
-    // const data = Object.assign(...tuple);
-```
-
-<br>
-
-4. Next-auth 및 MongoDB
+3. Next-auth 및 MongoDB
 
 - Next-auth가 필요한 이유
-- MongDB 연결
+- Next-auth & MongDB 연결 <br>
   🧷 [해당 문제 블로그가기] (https://velog.io/@dee0518/Next.js-MongoDB-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+
 
 <br>
 
-5. 암호화
-6. Oauth 원리
-7. next.js와 redux의 관계 - next-redux-wrapper가 필요한 이유
-8. 가독성 좋은 코드
+4. JWT와 Oauth 원리
 
-```javascript
-  useEffect(() => {
-    let errorMessage = null;
-
-    if (!isSubmit.current && targetRef.current) {
-      const target = userInfo.find(info => info.id === targetRef.current) as iDefaultUserInfo;
-      errorMessage = checkOneValidation(target);
-    } else if (isSubmit.current) {
-      errorMessage = checkAllValidation(userInfo);
-    }
-
-    setError(errorMessage);
-  }, [userInfo]);
-```
-
-```javascript
-  useEffect(() => {
-    let errorMessage = null;
-
-    if (isSubmit.current) {
-      errorMessage = checkAllValidation(userInfo);
-    } else if(targetRef.current){
-      const target = userInfo.find(info => info.id === targetRef.current) as iDefaultUserInfo;
-      errorMessage = checkOneValidation(target);
-    }
-
-    setError(errorMessage);
-  }, [userInfo]);
-```
+<!-- 5. 암호화
+7. next.js와 redux의 관계 - next-redux-wrapper가 필요한 이유 -->
 
 <br>
 
 ## 회고
 
-Next_doWork 회고록 가기
+[doWork 회고록 보러가기](https://velog.io/@dee0518/Memoir-%ED%95%A8%EA%BB%98-%EC%9D%BC%ED%95%B4%EC%9A%94-doWork-t8otrvg1)
