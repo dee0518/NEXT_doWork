@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
-import { useState, useRef, useEffect, ChangeEvent } from 'react';
+import { useMemo, useState, useRef, useEffect, ChangeEvent, useCallback } from 'react';
 import { patchUser } from 'lib/user';
 import { useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
@@ -14,6 +14,7 @@ import { MYPAGE } from 'constants/navigation';
 
 const MypageChangePw = () => {
   const targetRef = useRef<string>('');
+  const guide = useMemo(() => ['우리 모두 안전하게 서비스를 이용해보아요', '주기적으로 비밀번호를 변경해주세요'], []);
   const router = useRouter();
   const { user } = useReduxSelector(state => state.auth);
   const [error, setError] = useState<boolean>(false);
@@ -26,7 +27,9 @@ const MypageChangePw = () => {
     newPwCheck: '',
   });
 
-  const onCancel = () => router.push(MYPAGE);
+  const onCancel = useCallback(() => {
+    router.push(MYPAGE);
+  }, []);
 
   const onSubmit = async () => {
     const isPass = /^[A-Za-z0-9]{6,12}$/.test(newPw.newPw);
@@ -68,16 +71,16 @@ const MypageChangePw = () => {
     }
   };
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
     setPassword(value);
-  };
+  }, []);
 
-  const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangePw = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     targetRef.current = name;
     setNewPw(prev => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
   useEffect(() => {
     if (targetRef.current === 'newPw' && !/^[A-Za-z0-9]{6,12}$/.test(newPw.newPw))
@@ -98,7 +101,7 @@ const MypageChangePw = () => {
         <Confirm
           title="Change Password"
           subTitle="내 정보를 안전하게 지켜요"
-          guide={['우리 모두 안전하게 서비스를 이용해보아요', '주기적으로 비밀번호를 변경해주세요']}
+          guide={guide}
           error={error}
           pwValue={password}
           onChange={onChange}
@@ -109,28 +112,26 @@ const MypageChangePw = () => {
             <H3>비밀번호를 변경할까요?</H3>
             <Guide className={newPwError ? 'error' : ''}>{newPwError || '새로운 비밀번호를 입력해주세요.'}</Guide>
             <InputForm
-              input={{
-                id: 'newPw',
-                type: 'password',
-                name: 'newPw',
-                placeholder: '새로운 비밀번호를 입력해주세요',
-                value: newPw.newPw,
-                onChange: onChangePw,
-                className: targetRef.current === 'newPw' ? 'error' : '',
-              }}
-              label={{ htmlFor: 'newPw', className: 'blind', children: '새로운 비밀번호' }}
+              id="newPw"
+              type="password"
+              name="newPw"
+              title="new Password"
+              value={newPw.newPw}
+              className={targetRef.current === 'newPw' ? 'error' : ''}
+              placeholder="새로운 비밀번호를 입력해주세요."
+              onChange={onChangePw}
+              isBlindLabel={true}
             />
             <InputForm
-              input={{
-                id: 'newPwCheck',
-                type: 'password',
-                name: 'newPwCheck',
-                placeholder: '다시 한 번 비밀번호를 입력해주세요',
-                value: newPw.newPwCheck,
-                onChange: onChangePw,
-                className: targetRef.current === 'newPwCheck' ? 'error' : '',
-              }}
-              label={{ htmlFor: 'newPwCheck', className: 'blind', children: '비밀번호 확인' }}
+              id="newPwCheck"
+              type="password"
+              name="newPwCheck"
+              title="new Password Check"
+              value={newPw.newPwCheck}
+              className={targetRef.current === 'newPwCheck' ? 'error' : ''}
+              placeholder="비밀번호를 다시 한 번 입력해주세요."
+              onChange={onChangePw}
+              isBlindLabel={true}
             />
           </NewPasswordWrapper>
         )}

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
-import { useState, ChangeEvent, useEffect, useRef } from 'react';
+import { useState, ChangeEvent, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import storage from 'database/storage';
 import { patchUser } from 'lib/user';
@@ -20,6 +20,7 @@ import { iUserInfo } from 'types/auth';
 
 const MypageEditForm = () => {
   const targetRef = useRef<string>('');
+  const guide = useMemo(() => ['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.'], []);
   const router = useRouter();
   const dispatch = useReduxDispatch();
   const { user } = useReduxSelector(state => state.auth);
@@ -37,54 +38,61 @@ const MypageEditForm = () => {
   const [isShowCard, setIsShowCard] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
 
-  const onChangePw = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangePw = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
     setPassword(value);
-  };
+  }, []);
 
-  const onCancel = () => router.push(MYPAGE);
+  const onCancel = useCallback(() => {
+    router.push(MYPAGE);
+  }, [router]);
 
-  const uploadProfile = (file: Blob) => {
-    const storageRef = ref(storage, `images/profile/${file.name}`);
-    const upLoadTask = uploadBytesResumable(storageRef, file);
-    console.log(storageRef);
-    upLoadTask.on(
-      'state_changed',
-      snapshot => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-      },
-      error => {
-        alert('파일 업로드에 실패했습니다.' + error);
+  const modifyUser = useCallback(
+    async (profile: string) => {
+      try {
+        const { name, career, introduce } = userInfo;
+        const data = { name, career, introduce, profile };
+        const response = await patchUser(id, data);
+
+        if (response && response.result) {
+          dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce, profile }));
+          router.push(MYPAGE);
+        }
+      } catch (error) {
+        setError('사용자 정보 수정을 실패했어요');
+      } finally {
         setIsLoading(false);
-      },
-      () => {
-        getDownloadURL(upLoadTask.snapshot.ref).then(url => {
-          console.log('getDownloadURL');
-          modifyUser(url);
-        });
-      },
-    );
-  };
-
-  const modifyUser = async (profile: string) => {
-    try {
-      const { name, career, introduce } = userInfo;
-      const data = { name, career, introduce, profile };
-      const response = await patchUser(id, data);
-
-      if (response && response.result) {
-        dispatch(authActions.setUser({ ...(user as iUserInfo), name, career, introduce, profile }));
-        router.push(MYPAGE);
       }
-    } catch (error) {
-      setError('사용자 정보 수정을 실패했어요');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [userInfo, dispatch, router, id, user],
+  );
 
-  const onSubmit = () => {
+  const uploadProfile = useCallback(
+    (file: Blob) => {
+      const storageRef = ref(storage, `images/profile/${file.name}`);
+      const upLoadTask = uploadBytesResumable(storageRef, file);
+
+      upLoadTask.on(
+        'state_changed',
+        snapshot => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        error => {
+          alert('파일 업로드에 실패했습니다.' + error);
+          setIsLoading(false);
+        },
+        () => {
+          getDownloadURL(upLoadTask.snapshot.ref).then(url => {
+            modifyUser(url);
+          });
+        },
+      );
+    },
+    [modifyUser],
+  );
+
+  const onSubmit = useCallback(() => {
     const { name, career } = userInfo;
 
     if (name === '' && career === '') {
@@ -96,9 +104,9 @@ const MypageEditForm = () => {
     setIsLoading(true);
 
     file ? uploadProfile(file) : modifyUser(profile as string);
-  };
+  }, [userInfo, file, profile, uploadProfile, modifyUser]);
 
-  const onConfirmUser = async () => {
+  const onConfirm = useCallback(async () => {
     if (isShowCard) {
       onSubmit();
       return;
@@ -121,29 +129,32 @@ const MypageEditForm = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [email, password, isShowCard, user, onSubmit]);
 
-  const encodeFileToBase64 = (fileBlob: Blob) => {
+  const encodeFileToBase64 = useCallback((fileBlob: Blob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
     reader.onload = () => {
       setFile(fileBlob);
       setUserInfo(prev => ({ ...prev, profile: reader.result as ArrayBuffer }));
     };
-  };
+  }, []);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
-    targetRef.current = name;
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+      targetRef.current = name;
 
-    if (name === 'profile') {
-      const files = (e.target as HTMLInputElement).files as FileList;
-      encodeFileToBase64(files[0]);
-      return;
-    }
+      if (name === 'profile') {
+        const files = (e.target as HTMLInputElement).files as FileList;
+        encodeFileToBase64(files[0]);
+        return;
+      }
 
-    setUserInfo(prev => ({ ...prev, [name]: value }));
-  };
+      setUserInfo(prev => ({ ...prev, [name]: value }));
+    },
+    [encodeFileToBase64],
+  );
 
   useEffect(() => {
     if (targetRef.current === 'name' || targetRef.current === 'career') {
@@ -157,12 +168,11 @@ const MypageEditForm = () => {
   return (
     <>
       {isLoading && <Loading />}
-
       <Wrapper>
         <Confirm
           title="Edit Account"
           subTitle="나는 어떤 사람인가요?"
-          guide={['같이 일하는 사람들에게 나를 소개해주세요.', '새로운 정보를 업데이트해주세요.']}
+          guide={guide}
           error={pwError}
           pwValue={password}
           onChange={onChangePw}
@@ -176,28 +186,24 @@ const MypageEditForm = () => {
                 <span>저는 {name}입니다.</span>
               </Greeting>
               <InputForm
-                input={{
-                  id: 'name',
-                  type: 'text',
-                  name: 'name',
-                  className: error === 'name' ? 'error' : '',
-                  value: userInfo.name,
-                  onChange,
-                  placeholder: '이름을 입력해주세요.',
-                }}
-                label={{ htmlFor: 'name', children: 'name' }}
+                id="name"
+                type="text"
+                name="name"
+                title="name"
+                value={userInfo.name}
+                className={error === 'name' ? 'error' : ''}
+                placeholder="이름을 입력해주세요."
+                onChange={onChange}
               />
               <InputForm
-                input={{
-                  id: 'career',
-                  type: 'text',
-                  name: 'career',
-                  className: error === 'career' ? 'error' : '',
-                  value: userInfo.career,
-                  onChange,
-                  placeholder: '직업을 입력해주세요.',
-                }}
-                label={{ htmlFor: 'career', children: 'career' }}
+                id="career"
+                type="text"
+                name="career"
+                title="career"
+                value={userInfo.career}
+                className={error === 'career' ? 'error' : ''}
+                placeholder="직업을 입력해주세요."
+                onChange={onChange}
               />
               <div>
                 <label htmlFor="introduce">introduce</label>
@@ -212,8 +218,12 @@ const MypageEditForm = () => {
             </InfoGroup>
             <FileGroup>
               <InputForm
-                input={{ id: 'profile', name: 'profile', type: 'file', onChange }}
-                label={{ htmlFor: 'profile', labelClass: 'blind', children: 'profile' }}
+                id="profile"
+                type="file"
+                name="profile"
+                title="careprofileer"
+                onChange={onChange}
+                isBlindLabel={true}
               />
               <Profile src={userInfo.profile} width={250} height={250} />
               <Email>
@@ -223,7 +233,7 @@ const MypageEditForm = () => {
             </FileGroup>
           </MembershipCard>
         )}
-        <ButtonGroup onCancel={onCancel} onConfirm={onConfirmUser} />
+        <ButtonGroup onCancel={onCancel} onConfirm={onConfirm} />
       </Wrapper>
     </>
   );

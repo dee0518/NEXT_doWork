@@ -20,8 +20,7 @@ export type iDefaultUserInfo = {
   type: string;
   placeholder: string;
   value: string;
-  labelClass: string;
-  labelChildren: string;
+  title: string;
   error: string;
 };
 

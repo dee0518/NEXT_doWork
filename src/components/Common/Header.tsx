@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useCallback } from 'react';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
 import BlindTitle from 'components/Common/BlindTitle';
@@ -25,21 +25,21 @@ const linkList: TMenuLinkItem[] = [
   },
 ];
 
-const HomeHeader = () => {
+const Header = () => {
   const { data: session } = useSession();
   const [isOpenNav, setIsOpenNav] = useState<boolean>(false);
   const { user } = useReduxSelector(state => state.auth);
 
-  const onClickOpenNav = () => {
+  const onClickOpenNav = useCallback(() => {
     setIsOpenNav(prev => !prev);
-  };
+  }, []);
 
   const onOpenSnackBar = (menu: string, e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
   };
 
   return (
-    <Header>
+    <HomeHeader>
       <Inner>
         <h1>
           <LogoLink href={HOME}>
@@ -77,13 +77,13 @@ const HomeHeader = () => {
           </NavList>
         </Nav>
       </Inner>
-    </Header>
+    </HomeHeader>
   );
 };
 
-export default HomeHeader;
+export default Header;
 
-const Header = styled.header`
+const HomeHeader = styled.header`
   position: fixed;
   left: 0;
   top: 0;

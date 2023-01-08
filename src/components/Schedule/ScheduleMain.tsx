@@ -60,15 +60,14 @@ const ScheduleMain = () => {
       <ServiceMain>
         <SearchForm onSubmit={onSubmit}>
           <InputForm
-            input={{
-              id: 'search',
-              type: 'text',
-              name: 'search',
-              placeholder: '일정을 검색해보세요.',
-              value: searchKeyword,
-              onChange,
-            }}
-            label={{ htmlFor: 'search', className: 'blind', children: '일정 검색' }}
+            id="search"
+            type="text"
+            title="일정 검색"
+            name="search"
+            value={searchKeyword}
+            placeholder="일정을 검색해보세요."
+            onChange={onChange}
+            labelClass="blind"
           />
         </SearchForm>
         <ManageGroup>

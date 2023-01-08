@@ -1,35 +1,32 @@
+import { memo } from 'react';
 import styled from 'styled-components';
 import { blind } from 'styles/mixin';
 
 type EventHandler = (e: any) => void;
 
-type TLabelProps = {
-  htmlFor: string;
-  [key: string]: string;
-};
-
-type TInputProps = {
+type TProps = {
   id: string;
   type: string;
-  [key: string]: string | boolean | EventHandler;
+  title: string;
+  labelClass?: string | undefined;
+  [key: string]: string | boolean | undefined | EventHandler;
 };
 
-type TInputFormProps = {
-  label: TLabelProps;
-  input: TInputProps;
-};
+const InputType = (props: TProps) => {
+  const { id, type, title, ...rest } = props;
+  const { labelClass, ...inputProps } = rest;
 
-const InputForm = ({ label, input }: TInputFormProps) => {
-  const { htmlFor, ...labelProps } = label;
   return (
     <div className="input__form">
-      <Label htmlFor={htmlFor} {...labelProps} />
-      <Input {...input} />
+      <Label htmlFor={id} className={labelClass ?? ''}>
+        {title}
+      </Label>
+      <Input id={id} type={type} {...inputProps} />
     </div>
   );
 };
 
-export default InputForm;
+export default memo(InputType);
 
 const Input = styled.input`
   width: 100%;

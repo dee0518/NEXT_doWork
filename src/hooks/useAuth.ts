@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
-import { ChangeEvent, FormEvent, useEffect, useState, useRef } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState, useRef, useCallback } from 'react';
 import { postUser } from 'lib/user';
 import { checkOneValidation, checkAllValidation } from 'utils/checkValidation';
 import { LOGIN } from 'constants/navigation';
@@ -14,24 +14,27 @@ const useAuth = <T extends AuthType>(defaultUserInfo: iDefaultUserInfo[]) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<iDefaultUserInfo[]>(defaultUserInfo);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
     targetRef.current = name;
     setUserInfo(prev => prev.map(info => (info.id === name ? { ...info, value } : info)));
-  };
+  }, []);
 
-  const onCreateUser = async (data: iUserInfo): Promise<any> => {
-    try {
-      const response = await postUser(data);
+  const onCreateUser = useCallback(
+    async (data: iUserInfo): Promise<any> => {
+      try {
+        const response = await postUser(data);
 
-      if (response.result) router.push(LOGIN);
-      else setError({ id: 'all', message: response.error });
-    } catch (e) {
-      setError({ id: 'all', message: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        if (response.result) router.push(LOGIN);
+        else setError({ id: 'all', message: response.error });
+      } catch (e) {
+        setError({ id: 'all', message: 'error' });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router],
+  );
 
   const onSignIn = async (data: iLoginInfo) => {
     try {

@@ -19,8 +19,13 @@ const StatusFilter = () => {
       {(statusFilter as filterItem[]).map(({ id, name, checked }) => (
         <StatusItem key={id}>
           <InputForm
-            input={{ id, type: 'checkbox', name: 'status', checked, onChange }}
-            label={{ htmlFor: id, className: `${id} ${checked ? 'on' : ''}`, children: name }}
+            id={id}
+            type="checkbox"
+            title={name}
+            name="status"
+            checked={checked}
+            onChange={onChange}
+            labelClass={`${id} ${checked ? 'on' : ''}`}
           />
         </StatusItem>
       ))}

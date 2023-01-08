@@ -1,4 +1,5 @@
 import Button from 'components/Common/Button';
+import { memo } from 'react';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 
@@ -18,7 +19,7 @@ const ButtonGroup = ({ onCancel, onConfirm }: TProps) => (
   </ButtonWrapper>
 );
 
-export default ButtonGroup;
+export default memo(ButtonGroup);
 
 const ButtonWrapper = styled.div`
   margin-top: 20px;

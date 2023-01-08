@@ -1,16 +1,14 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import useAuth from 'hooks/useAuth';
+import Logo from 'components/Auth/Logo';
 import Button from 'components/Common/Button';
+import Loading from 'components/Common/Loading';
 import InputForm from 'components/Common/InputForm';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
-import logo from 'images/common/logo.svg';
-import { HOME } from 'constants/navigation';
 import { AuthType, iDefaultUserInfo } from 'types/auth';
-import Loading from 'components/Common/Loading';
 
 type TProps = {
   initialUserInfo: iDefaultUserInfo[];
@@ -27,28 +25,22 @@ const AuthLayout = <T extends AuthType>({ initialUserInfo, submitName, LinkHref,
     <>
       {isLoading && <Loading />}
       <Container>
-        <H1>
-          <LogoLink href={HOME}>
-            <Logo src={logo} alt="do work" />
-            <Title aria-hidden="true">doWork</Title>
-          </LogoLink>
-        </H1>
+        <Logo />
         <Message className={error ? 'error' : ''}>{(error && error.message) || '우리 같이 일해 보아요:)'}</Message>
         <Inner className="auth__inner">
           <AuthForm onSubmit={onSubmit}>
-            {userInfo.map(({ id, type, value, placeholder, labelClass, labelChildren }) => (
+            {userInfo.map(({ id, type, value, placeholder, title }) => (
               <InputForm
                 key={id}
-                input={{
-                  id,
-                  type,
-                  className: error && error.id === id ? 'error' : '',
-                  name: id,
-                  placeholder,
-                  value,
-                  onChange,
-                }}
-                label={{ htmlFor: id, className: labelClass, children: labelChildren }}
+                id={id}
+                type={type}
+                name={id}
+                title={title}
+                value={value}
+                className={error && error.id === id ? 'error' : ''}
+                placeholder={placeholder}
+                onChange={onChange}
+                labelClass={'blind'}
               />
             ))}
             <LinkBtn href={LinkHref}>{LinkBtnName}</LinkBtn>
@@ -72,41 +64,6 @@ const Container = styled.div`
   height: 100vh;
   ${flexbox('column', 'nowrap', 'center', 'center')}
   ${({ theme }) => `background: linear-gradient(to bottom, ${theme.color_purple_80}, ${theme.color_purple_50})`};
-`;
-
-const H1 = styled.h1`
-  margin-bottom: 5px;
-
-  ${mediaQuery768} {
-    margin-bottom: 15px;
-  }
-`;
-
-const LogoLink = styled(Link)`
-  ${flexbox('row', 'nowrap', 'normal', 'center')}
-  gap: 10px;
-
-  ${mediaQuery768} {
-    gap: 15px;
-  }
-`;
-
-const Logo = styled(Image)`
-  width: 28px;
-  height: auto;
-
-  ${mediaQuery768} {
-    width: 32px;
-  }
-`;
-
-const Title = styled.span`
-  font-size: 2.8rem;
-  color: ${({ theme }) => theme.white};
-
-  ${mediaQuery768} {
-    font-size: 3.6rem;
-  }
 `;
 
 const Message = styled.p`

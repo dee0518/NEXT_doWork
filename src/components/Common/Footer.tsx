@@ -4,21 +4,21 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 
-const HomeFooter = () => {
+const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <Footer>
+    <HomeFooter>
       <Inner>
         <Copyright>&copy; {year} doWork.</Copyright>
         <SnsList>
           <li>
             <VelogLink
-              href="https://github.com/dee0518/NEXT_doWork"
+              href="https://velog.io/@dee0518/Memoir-%ED%95%A8%EA%BB%98-%EC%9D%BC%ED%95%B4%EC%9A%94-doWork-t8otrvg1"
               passHref
               target="_blank"
               rel="noreferrer"
-              aria-label="velog 회고록"
+              aria-label="velog doWork 회고록"
             />
           </li>
           <li>
@@ -32,13 +32,13 @@ const HomeFooter = () => {
           </li>
         </SnsList>
       </Inner>
-    </Footer>
+    </HomeFooter>
   );
 };
 
-export default HomeFooter;
+export default Footer;
 
-const Footer = styled.footer`
+const HomeFooter = styled.footer`
   width: 100%;
   padding: 15px 0;
   border-top: 1px solid ${({ theme }) => theme.color_gray_10};

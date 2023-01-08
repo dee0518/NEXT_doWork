@@ -66,24 +66,29 @@ const EditedScheduleModal = ({ onClose }: TProps) => {
             {statusList.map(({ id, name }) => (
               <StatusItem key={`new${id}`}>
                 <InputForm
-                  input={{ id: `new${id}`, type: 'radio', name: 'status', value: id, onChange }}
-                  label={{ htmlFor: `new${id}`, className: `new_${id} ${status === id ? 'on' : ''}`, children: name }}
+                  id={`new${id}`}
+                  type="radio"
+                  name="status"
+                  title={name}
+                  value={id}
+                  placeholder="직업을 입력해주세요."
+                  onChange={onChange}
+                  labelClass={`new_${id} ${status === id ? 'on' : ''}`}
                 />
               </StatusItem>
             ))}
           </StatusGroup>
           <InputForm
-            input={{
-              id: 'title',
-              type: 'text',
-              name: 'title',
-              value: title,
-              className: titleError ? 'error' : '',
-              placeholder: '새로운 일정을 알려주세요.',
-              onChange,
-              maxLength: '50',
-            }}
-            label={{ htmlFor: 'title', className: 'blind', children: '제목' }}
+            id="title"
+            type="text"
+            name="title"
+            title="제목"
+            value={title}
+            maxLength="50"
+            className={titleError ? 'error' : ''}
+            placeholder="새로운 일정을 알려주세요."
+            onChange={onChange}
+            labelClass={'blind'}
           />
           <TimeGroup>
             <TimeTitle>시간</TimeTitle>
@@ -112,17 +117,15 @@ const EditedScheduleModal = ({ onClose }: TProps) => {
           </TimeGroup>
           <InfoGroup>
             <InputForm
-              input={{
-                id: 'collaborators',
-                type: 'text',
-                value: searchUser,
-                name: 'collaborators',
-                placeholder: 'abc@email.com',
-                onChange,
-                onKeyUp: onSearchUser,
-                autoComplete: 'off',
-              }}
-              label={{ htmlFor: 'collaborators', children: '참석자' }}
+              id="collaborators"
+              type="text"
+              name="collaborators"
+              title="참석자"
+              value={searchUser}
+              placeholder="abc@email.com"
+              onChange={onChange}
+              onKeyUp={onSearchUser}
+              autoComplete="off"
             />
             {userResult && (
               <AddCollaborator

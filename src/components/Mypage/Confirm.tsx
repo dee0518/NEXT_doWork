@@ -2,7 +2,7 @@ import { useReduxSelector } from 'hooks/useRedux';
 import InputForm from 'components/Common/InputForm';
 import Title from 'components/Common/Title';
 import Wrapper from 'components/Common/Wrapper';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, memo } from 'react';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 
@@ -33,15 +33,14 @@ const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: T
         </div>
         {!(isEdit || user.provider) && (
           <InputForm
-            input={{
-              id: 'accountPw',
-              type: 'password',
-              placeholder: '비밀번호를 입력해주세요',
-              value: pwValue,
-              onChange,
-              className: error ? 'error' : '',
-            }}
-            label={{ htmlFor: 'accountPw', className: 'blind', children: '비밀번호' }}
+            id="accountPw"
+            type="password"
+            title="비밀번호"
+            value={pwValue}
+            className={error ? 'error' : ''}
+            placeholder="비밀번호를 입력해주세요."
+            onChange={onChange}
+            labelClass="blind"
           />
         )}
         {(isEdit || user.provider) && <Emoji aria-hidden="true">:&#41;</Emoji>}
@@ -50,7 +49,7 @@ const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: T
   );
 };
 
-export default Confirm;
+export default memo(Confirm);
 
 const AccountWrapper = styled(Wrapper)`
   padding: 30px;

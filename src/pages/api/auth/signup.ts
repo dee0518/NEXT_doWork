@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (checkExisting) {
       client.close();
-      res.status(422).json({ result: false, error: '이미 가입된 계정이에요!' });
+      res.status(201).json({ result: false, error: '이미 가입된 계정이에요!' });
       return;
     }
 
