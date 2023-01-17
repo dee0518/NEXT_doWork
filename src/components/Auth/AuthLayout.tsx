@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import useAuth from 'hooks/useAuth';
 import Logo from 'components/Auth/Logo';
 import Button from 'components/Common/Button';
@@ -62,6 +62,7 @@ const Container = styled.div`
   min-width: 360px;
   width: 100vw;
   height: 100vh;
+  padding: 80px 0;
   ${flexbox('column', 'nowrap', 'center', 'center')}
   ${({ theme }) => `background: linear-gradient(to bottom, ${theme.color_purple_80}, ${theme.color_purple_50})`};
 `;

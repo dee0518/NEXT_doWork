@@ -5,6 +5,7 @@ import Wrapper from 'components/Common/Wrapper';
 import { ChangeEvent, memo } from 'react';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
+import Guide from './Guide';
 
 type TProps = {
   title: string;
@@ -23,14 +24,7 @@ const Confirm = ({ title, subTitle, guide, error, pwValue, onChange, isEdit }: T
     <>
       <Title>{title}</Title>
       <AccountWrapper>
-        <div>
-          <H3>{subTitle}</H3>
-          <Guide>
-            {guide.map(text => (
-              <span key={text}>{text}</span>
-            ))}
-          </Guide>
-        </div>
+        <Guide subTitle={subTitle} guide={guide} />
         {!(isEdit || user.provider) && (
           <InputForm
             id="accountPw"
@@ -59,20 +53,6 @@ const AccountWrapper = styled(Wrapper)`
   input {
     min-width: 350px;
     max-width: 500px;
-  }
-`;
-
-const H3 = styled.h3`
-  font-size: 1.6rem;
-  margin-bottom: 10px;
-`;
-
-const Guide = styled.p`
-  font-size: 1.3rem;
-  color: ${({ theme }) => theme.color_gray_60};
-
-  span {
-    display: block;
   }
 `;
 

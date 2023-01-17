@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { memo } from 'react';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
@@ -17,7 +18,7 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default memo(Logo);
 
 const H1 = styled.h1`
   margin-bottom: 5px;

@@ -2,7 +2,6 @@ import { ChangeEvent, FormEvent } from 'react';
 import { scheduleActions } from 'store/modules/schedule';
 import { useReduxDispatch, useReduxSelector } from 'hooks/useRedux';
 import useScheduleDate from 'hooks/useScheduleDate';
-import InputForm from 'components/Common/InputForm';
 import ServiceMain from 'components/Common/ServiceMain';
 import Calendar from 'components/Calendar';
 import EditedScheduleModal from 'components/Schedule/EditedScheduleModal';
@@ -11,6 +10,7 @@ import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import { filterItem, iScheduleInfo } from 'types/schedule';
 import MoreScheduleModal from './MoreScheduleModal';
+import SearchForm from 'components/Common/SearchForm';
 
 const ScheduleMain = () => {
   const dispatch = useReduxDispatch();
@@ -58,18 +58,13 @@ const ScheduleMain = () => {
       {!isShowEditedModal && scheduleDetail && <ScheduleDetailModal />}
       {isShowMoreSchedule && <MoreScheduleModal />}
       <ServiceMain>
-        <SearchForm onSubmit={onSubmit}>
-          <InputForm
-            id="search"
-            type="text"
-            title="일정 검색"
-            name="search"
-            value={searchKeyword}
-            placeholder="일정을 검색해보세요."
-            onChange={onChange}
-            labelClass="blind"
-          />
-        </SearchForm>
+        <SearchForm
+          title="일정 검색"
+          value={searchKeyword}
+          placeholder="일정을 검색해주세요."
+          onSubmit={onSubmit}
+          onChange={onChange}
+        />
         <ManageGroup>
           <StatusBoard>
             {(statusFilter as filterItem[]).map(({ id, count }) => (
@@ -97,16 +92,6 @@ const ScheduleMain = () => {
 };
 
 export default ScheduleMain;
-
-const SearchForm = styled.form`
-  min-width: 600px;
-  margin-bottom: 30px;
-
-  input {
-    padding: 15px;
-    border-radius: 6px;
-  }
-`;
 
 const ManageGroup = styled.div`
   ${flexbox('row', 'nowrap', 'space-between', 'center')}

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components';
 
 const Title = styled.h2`
@@ -5,4 +6,4 @@ const Title = styled.h2`
   font-size: 2.4rem;
 `;
 
-export default Title;
+export default memo(Title);
