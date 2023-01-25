@@ -8,6 +8,7 @@ import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import { LOGIN, MAIN } from 'constants/navigation';
 import { useSession } from 'next-auth/react';
+import ContactSection from './ContactSection';
 
 const HomeMain = () => {
   const { data: session } = useSession();
@@ -30,6 +31,7 @@ const HomeMain = () => {
         </VisualInner>
       </Visual>
       <ProcessSection />
+      <ContactSection />
     </Main>
   );
 };
