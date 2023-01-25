@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { buttonNone, flexbox } from 'styles/mixin';
 import homeLogo from 'images/common/home_logo.svg';
-import { HOME, LOGIN, DOCS, CONTACT } from 'constants/navigation';
+import { HOME, LOGIN, DOCS, NOTICES, GAME } from 'constants/navigation';
 import { TMenuLinkItem } from 'types/home';
 import { useSession } from 'next-auth/react';
 import defaultProfile from 'images/mypage/profile.svg';
@@ -20,8 +20,12 @@ const linkList: TMenuLinkItem[] = [
     link: DOCS,
   },
   {
-    id: 'contact us',
-    link: CONTACT,
+    id: 'notices',
+    link: NOTICES,
+  },
+  {
+    id: 'game',
+    link: GAME,
   },
 ];
 

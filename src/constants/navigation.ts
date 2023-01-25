@@ -1,6 +1,7 @@
 export const HOME = '/';
 export const DOCS = '/docs';
-export const CONTACT = '/contact';
+export const NOTICES = '/notices';
+export const GAME = '/game';
 export const LOGIN = '/login';
 export const SIGNUP = '/signup';
 export const MAIN = '/main';

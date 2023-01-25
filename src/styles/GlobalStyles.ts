@@ -32,6 +32,14 @@ const GlobalStyles = createGlobalStyle`
   h1 {
     margin: 0;
   }
+
+  .clear {
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
 `;
 
 export default GlobalStyles;

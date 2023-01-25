@@ -10,6 +10,7 @@ import trello from 'images/home/process_trello_off.svg';
 import designTool from 'images/home/process_design_tool_off.svg';
 import final from 'images/home/process_final_off.svg';
 import { TProcessItem } from 'types/home';
+import HomeDesc from 'components/Common/HomeDesc';
 
 const processList: TProcessItem[] = [
   {
@@ -28,18 +29,19 @@ const processList: TProcessItem[] = [
   },
   {
     id: 'step2',
-    imgUrl: trello,
-    imgAlt: 'trello',
-    content: 'Trello를 이용하여 해야할 일과 끝낸 일 등으로 프로젝트를 관리할 수 있어요 ',
-    complete: false,
-  },
-  {
-    id: 'step3',
     imgUrl: designTool,
     imgAlt: 'design tool',
     content: '디자인 툴을 사용하여 유연하게 프로젝트를 관리해봐요',
     complete: false,
   },
+  {
+    id: 'step3',
+    imgUrl: trello,
+    imgAlt: 'trello',
+    content: 'Trello를 이용하여 해야할 일과 끝낸 일 등으로 프로젝트를 관리할 수 있어요 ',
+    complete: false,
+  },
+
   {
     id: 'final',
     imgUrl: final,
@@ -56,6 +58,10 @@ const ProcessSection = () => {
     <Container>
       <ContentInner>
         <HomeTitle>Process</HomeTitle>
+        <HomeDesc>
+          <span>doWork 서비스는 현재 3개의 업데이트를 준비하고 있어요.</span>
+          <span>함께 일하기 위해 앞으로 추가되는 기능들을 기대해주세요!</span>
+        </HomeDesc>
         <ContentWrap>
           <LineWrap>
             <Line aria-hidden="true" index={4} />
