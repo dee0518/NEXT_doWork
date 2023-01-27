@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, memo } from 'react';
+import { ReactNode } from 'react';
 import useAuth from 'hooks/useAuth';
 import Logo from 'components/Auth/Logo';
 import Button from 'components/Common/Button';

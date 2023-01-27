@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, MouseEvent, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
 import BlindTitle from 'components/Common/BlindTitle';
