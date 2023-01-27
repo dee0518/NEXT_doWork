@@ -29,7 +29,7 @@ const MypageChangePw = () => {
 
   const onCancel = useCallback(() => {
     router.push(MYPAGE);
-  }, []);
+  }, [router]);
 
   const onSubmit = async () => {
     const isPass = /^[A-Za-z0-9]{6,12}$/.test(newPw.newPw);
