@@ -9,6 +9,7 @@ import { flexbox } from 'styles/mixin';
 import { LOGIN, MAIN } from 'constants/navigation';
 import { useSession } from 'next-auth/react';
 import ContactSection from './ContactSection';
+import BrandSection from './BrandSection';
 
 const HomeMain = () => {
   const { data: session } = useSession();
@@ -30,6 +31,7 @@ const HomeMain = () => {
           </MainTextGroup>
         </VisualInner>
       </Visual>
+      <BrandSection />
       <ProcessSection />
       <ContactSection />
     </Main>

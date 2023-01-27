@@ -38,10 +38,6 @@ const Header = () => {
     setIsOpenNav(prev => !prev);
   }, []);
 
-  const onOpenSnackBar = (menu: string, e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <HomeHeader>
       <Inner>
@@ -60,9 +56,7 @@ const Header = () => {
           <NavList>
             {linkList.map(({ id, link }) => (
               <NavItem key={id}>
-                <NavLink href={link} onClick={onOpenSnackBar.bind(null, id)}>
-                  {id}
-                </NavLink>
+                <NavLink href={link}>{id}</NavLink>
               </NavItem>
             ))}
             {session ? (
