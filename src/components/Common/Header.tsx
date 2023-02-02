@@ -159,7 +159,7 @@ const Nav = styled.nav`
 
   &.on {
     display: block;
-    height: 192px;
+    height: 250px;
     box-shadow: 0 5px 5px 0 ${({ theme }) => theme.black_transparent_15};
   }
 
