@@ -1,5 +1,5 @@
 import ContentInner from 'components/Common/ContentInner';
-import HomeDesc from 'components/Common/HomeDesc';
+import ContentDesc from 'components/Common/ContentDesc';
 import Title from 'components/Common/Title';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
@@ -12,10 +12,10 @@ const BrandSection = () => {
     <Container>
       <ContentInner>
         <Title className="home__title">Brand Story</Title>
-        <HomeDesc>
+        <ContentDesc>
           <span>일하는 것도 일상 생활! 괴롭기보단 doWorker들이 자부심을 느끼고 즐거움을 느꼈으면 해요</span>
           <span>doWork는 아래의 모토를 가지고 서비스를 운영하려 해요</span>
-        </HomeDesc>
+        </ContentDesc>
         <ConceptGroup>
           <ConceptImgWrapper>
             <BrandEnjoySvg />

@@ -1,6 +1,6 @@
 import Button from 'components/Common/Button';
 import ContentInner from 'components/Common/ContentInner';
-import HomeDesc from 'components/Common/HomeDesc';
+import ContentDesc from 'components/Common/ContentDesc';
 import Title from 'components/Common/Title';
 import InputForm from 'components/Common/InputForm';
 import Wrapper from 'components/Common/Wrapper';
@@ -40,7 +40,7 @@ const Container = styled.section`
   }
 `;
 
-const Desc = styled(HomeDesc)`
+const Desc = styled(ContentDesc)`
   ${mediaQuery768} {
     float: left;
     width: calc(50% - 15px);
