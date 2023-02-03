@@ -6,12 +6,12 @@ import { mediaQuery768 } from 'styles/mediaQuery';
 
 const DocsContent = () => {
   const router = useRouter();
-  const { docsId } = router.query;
+  const { id } = router.query;
 
   return (
     <Wrapper>
-      {docsId === 'gettingStart' && <GettingStart />}
-      {docsId === 'schedule' && <Schedule />}
+      {id === 'gettingStart' && <GettingStart />}
+      {id === 'schedule' && <Schedule />}
     </Wrapper>
   );
 };

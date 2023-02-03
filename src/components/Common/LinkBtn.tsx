@@ -32,18 +32,28 @@ const LinkBtn = styled(Link)<TProps>`
   text-transform: capitalize;
 
   ${({ type }) => type?.includes('arrow') && flexbox('row', 'nowrap', 'space-between', 'center')}
-  ${({ type, theme }) =>
-    type?.includes('arrow') &&
-    `gap: 15px;
-    &::after {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-right: 1px solid ${theme.color_purple_50};
-      border-top: 1px solid ${theme.color_purple_50};
-      transform: rotate(45deg);
-    }
-  `}
+  ${({ type, theme }) => {
+    if (type?.includes('arrow__right'))
+      return `gap: 15px;
+            &::after {
+              content: "";
+              width: 8px;
+              height: 8px;
+              border-right: 2px solid ${theme.color_purple_50};
+              border-top: 2px solid ${theme.color_purple_50};
+              transform: rotate(45deg);
+            }`;
+    else if (type?.includes('arrow__left'))
+      return `gap: 15px;
+            &::before {
+              content: "";
+              width: 8px;
+              height: 8px;
+              border-left: 2px solid ${theme.color_purple_50};
+              border-top: 2px solid ${theme.color_purple_50};
+              transform: rotate(-45deg);
+            }`;
+  }}
 `;
 
 export default LinkBtn;

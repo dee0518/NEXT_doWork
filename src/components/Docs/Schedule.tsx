@@ -1,5 +1,7 @@
 import ContentDesc from 'components/Common/ContentDesc';
+import LinkBtn from 'components/Common/LinkBtn';
 import Title from 'components/Common/Title';
+import { DOCS } from 'constants/navigation';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 
@@ -48,6 +50,11 @@ const Schedule = () => {
           본인이 생성한 스케쥴에 한해서 삭제 가능해요.&#41;
         </p>
       </Article>
+      <BtnWrapper>
+        <NextBtn href={DOCS} type="text__arrow__left">
+          getting start
+        </NextBtn>
+      </BtnWrapper>
     </>
   );
 };
@@ -81,4 +88,17 @@ const Article = styled.article`
       font-size: 1.8em;
     }
   }
+`;
+
+const BtnWrapper = styled.div`
+  margin-top: 50px;
+
+  ${mediaQuery768} {
+    margin-top: 80px;
+  }
+`;
+
+const NextBtn = styled(LinkBtn)`
+  width: 180px;
+  margin-left: -16px;
 `;

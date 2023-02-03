@@ -19,7 +19,7 @@ const DocsNavList = [
 
 const DocsNav = () => {
   const router = useRouter();
-  const { docsId } = router.query;
+  const { id } = router.query;
 
   return (
     <Nav>
@@ -28,7 +28,7 @@ const DocsNav = () => {
       </Title>
       <NavList>
         {DocsNavList.map(({ path, name }) => (
-          <NavItem key={path} className={path === `/docs/${docsId}` ? 'on' : ''}>
+          <NavItem key={path} className={path === `/docs/${id}` ? 'on' : ''}>
             <Link href={path}>{name}</Link>
           </NavItem>
         ))}

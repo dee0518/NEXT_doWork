@@ -3,6 +3,7 @@ import LinkBtn from 'components/Common/LinkBtn';
 import Title from 'components/Common/Title';
 import { DOCSSCHEDULE } from 'constants/navigation';
 import styled from 'styled-components';
+import { mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 
 const GettingStart = () => {
@@ -21,7 +22,7 @@ const GettingStart = () => {
       </ContentDesc>
       <ContentDesc>즐겁게 이용해주시고 많은 관심 부탁드려요.</ContentDesc>
       <BtnWrapper>
-        <NextBtn href={DOCSSCHEDULE} type="text__arrow">
+        <NextBtn href={DOCSSCHEDULE} type="text__arrow__right">
           Schedule
         </NextBtn>
       </BtnWrapper>
@@ -34,6 +35,10 @@ export default GettingStart;
 const BtnWrapper = styled.div`
   ${flexbox('row-reverse')}
   margin-top: 50px;
+
+  ${mediaQuery768} {
+    margin-top: 80px;
+  }
 `;
 
 const NextBtn = styled(LinkBtn)`
