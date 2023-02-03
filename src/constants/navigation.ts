@@ -1,5 +1,7 @@
 export const HOME = '/';
-export const DOCS = '/docs';
+export const DOCS = '/docs/gettingStart';
+export const DOCSSCHEDULE = '/docs/schedule';
+export const DOCSDESIGN = '/docs/design';
 export const NOTICES = '/notices';
 export const GAME = '/game';
 export const LOGIN = '/login';

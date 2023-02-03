@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import ContentInner from 'components/Common/ContentInner';
-import HomeTitle from 'components/Common/HomeTitle';
+import Title from 'components/Common/Title';
+import HomeDesc from 'components/Common/HomeDesc';
 import styled from 'styled-components';
 import { mediaQuery1024 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
@@ -10,7 +11,6 @@ import trello from 'images/home/process_trello_off.svg';
 import designTool from 'images/home/process_design_tool_off.svg';
 import final from 'images/home/process_final_off.svg';
 import { TProcessItem } from 'types/home';
-import HomeDesc from 'components/Common/HomeDesc';
 
 const processList: TProcessItem[] = [
   {
@@ -57,7 +57,7 @@ const ProcessSection = () => {
   return (
     <Container>
       <ContentInner>
-        <HomeTitle>Process</HomeTitle>
+        <Title className="home__title">Process</Title>
         <HomeDesc>
           <span>doWork 서비스는 현재 3개의 업데이트를 준비하고 있어요.</span>
           <span>함께 일하기 위해 앞으로 추가되는 기능들을 기대해주세요!</span>

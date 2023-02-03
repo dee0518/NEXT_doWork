@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import BlindTitle from 'components/Common/BlindTitle';
+import Title from 'components/Common/Title';
 import styled from 'styled-components';
 import { flexbox } from 'styles/mixin';
 import logo from 'images/common/logo.svg';
@@ -34,7 +34,7 @@ const GlobalNavBar = () => {
         </LogoLink>
       </H1>
       <Nav>
-        <BlindTitle>Navigataion</BlindTitle>
+        <Title className="blind">Navigataion</Title>
         <Ul>
           {menuList.map(({ id, link }) => (
             <Li key={id}>

@@ -1,18 +1,18 @@
 import Button from 'components/Common/Button';
 import ContentInner from 'components/Common/ContentInner';
 import HomeDesc from 'components/Common/HomeDesc';
-import HomeTitle from 'components/Common/HomeTitle';
+import Title from 'components/Common/Title';
 import InputForm from 'components/Common/InputForm';
 import Wrapper from 'components/Common/Wrapper';
+import ContactSvg from 'components/Home/ContactSvg';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
-import ContactSvg from './ContactSvg';
 
 const ContactSection = () => {
   return (
     <Container className="clear">
       <ContentInner>
-        <HomeTitle>Contact Us</HomeTitle>
+        <Title className="home__title">Contact Us</Title>
         <Desc>
           <span>doWork의 발전을 위해 여러분의 의견을 들려주세요! </span>
           <span>궁금한 점도 언제든지 환영이에요:&#41;</span>

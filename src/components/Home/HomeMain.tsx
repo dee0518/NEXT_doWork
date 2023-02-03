@@ -1,15 +1,15 @@
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
-import BlindTitle from 'components/Common/BlindTitle';
-import ProcessSection from 'components/Home/ProcessSection';
+import Title from 'components/Common/Title';
 import VisualSvg from 'components/Home/VisualSvg';
+import BrandSection from 'components/Home/BrandSection';
+import ProcessSection from 'components/Home/ProcessSection';
+import ContactSection from 'components/Home/ContactSection';
 import styled from 'styled-components';
 import { mediaQuery1024, mediaQuery768 } from 'styles/mediaQuery';
 import { flexbox } from 'styles/mixin';
 import { LOGIN, MAIN } from 'constants/navigation';
 import { useSession } from 'next-auth/react';
-import ContactSection from './ContactSection';
-import BrandSection from './BrandSection';
 
 const HomeMain = () => {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const HomeMain = () => {
   return (
     <Main>
       <Visual>
-        <BlindTitle>Visual</BlindTitle>
+        <Title className="blind">Visual</Title>
         <VisualInner>
           <VisualImageGroup>
             <VisualSvg />
@@ -25,7 +25,7 @@ const HomeMain = () => {
           <MainTextGroup>
             <p>
               <Span>doWork</Span>
-              <Span>Enojoy working together.</Span>
+              <Span>Enjoy working together.</Span>
             </p>
             <LoginLink href={session ? MAIN : LOGIN}>{session ? 'go main' : 'start doWork'}</LoginLink>
           </MainTextGroup>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useCallback } from 'react';
 import ContentInner from 'components/Common/ContentInner';
 import LinkBtn from 'components/Common/LinkBtn';
-import BlindTitle from 'components/Common/BlindTitle';
+import Title from 'components/Common/Title';
 import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 import { buttonNone, flexbox } from 'styles/mixin';
@@ -52,7 +52,7 @@ const Header = () => {
           <HamburgerSpan />
         </HamburgerBtn>
         <Nav className={isOpenNav ? 'on' : ''}>
-          <BlindTitle>네비게이션</BlindTitle>
+          <Title className="blind">네비게이션</Title>
           <NavList>
             {linkList.map(({ id, link }) => (
               <NavItem key={id}>
