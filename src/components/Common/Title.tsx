@@ -21,6 +21,12 @@ const Title = styled.h2`
       font-size: 3.6rem;
     }
   }
+
+  &.docs__title {
+    ${mediaQuery768} {
+      font-size: 3.6rem;
+    }
+  }
 `;
 
 export default memo(Title);
