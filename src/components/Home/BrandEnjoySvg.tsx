@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const BrandEnjoySvg = () => {
   return (
     <Svg viewBox="0 0 539 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="266" cy="250" r="250" fill="#FF9B2A" fill-opacity="0.2" />
+      <circle cx="266" cy="250" r="250" fill="#FF9B2A" fillOpacity="0.2" />
       <rect x="337" y="44" width="178" height="109" rx="10" fill="#FFB562" />
       <rect x="354" y="59" width="90" height="6" rx="3" fill="#8A5D29" />
       <rect x="406" y="75" width="91" height="8" rx="4" fill="#D33C3C" />
@@ -22,8 +22,8 @@ const BrandEnjoySvg = () => {
         fill="#FF9B2A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M428.456 412H284.729C292.752 390.422 311.367 356.641 316.853 350.412C332.081 338.661 346.683 332.011 355.368 329.621C365.221 326.91 376.866 326.006 387.615 331.43C390.76 333.017 394.289 334.526 397.954 336.094C406.816 339.885 416.475 344.018 423.445 350.412C430.856 357.21 446.5 372 461 400C454.229 401.108 442.309 405.947 428.456 412Z"
         fill="#FFE352"
       />
@@ -50,8 +50,8 @@ const BrandEnjoySvg = () => {
         fill="white"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M113.698 140.975C111.322 143.072 108.928 145.046 106.953 146.416C111.005 147.655 114.139 148.515 114.399 148.299C114.654 148.087 114.295 145.011 113.698 140.975Z"
         fill="#FF8B07"
       />
@@ -90,14 +90,14 @@ const BrandEnjoySvg = () => {
       />
       <mask id="path-38-inside-1_305_2159" fill="white">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M476.143 298.911C466.355 294.287 460 286.827 460 278.41C460 264.376 477.667 253 499.46 253C521.254 253 538.921 264.376 538.921 278.41C538.921 292.444 521.254 303.82 499.46 303.82C494.589 303.82 489.924 303.252 485.617 302.212L476.143 309.5V298.911Z"
         />
       </mask>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M476.143 298.911C466.355 294.287 460 286.827 460 278.41C460 264.376 477.667 253 499.46 253C521.254 253 538.921 264.376 538.921 278.41C538.921 292.444 521.254 303.82 499.46 303.82C494.589 303.82 489.924 303.252 485.617 302.212L476.143 309.5V298.911Z"
         fill="white"
       />

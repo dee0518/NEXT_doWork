@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from 'react';
 import Button from 'components/Common/Button';
 import ContentInner from 'components/Common/ContentInner';
 import ContentDesc from 'components/Common/ContentDesc';
@@ -9,6 +10,27 @@ import styled from 'styled-components';
 import { mediaQuery768 } from 'styles/mediaQuery';
 
 const ContactSection = () => {
+  const [contact, setContact] = useState({
+    email: '',
+    title: '',
+    content: '',
+  });
+
+  const onChange = (e: ChangeEvent) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+    setContact(prev => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = () => {
+    alert('아직 메일 보내는 기능이 연결되지 않았습니다.');
+    setContact({
+      email: '',
+      title: '',
+      content: '',
+    });
+  };
+
   return (
     <Container className="clear">
       <ContentInner>
@@ -18,9 +40,33 @@ const ContactSection = () => {
           <span>궁금한 점도 언제든지 환영이에요:&#41;</span>
         </Desc>
         <MailWrapper>
-          <InputForm id="title" type="text" title="제목" placeholder="제목을 입력해주세요." labelClass="blind" />
-          <Textarea placeholder="내용을 입력해주세요." />
-          <Button>전송</Button>
+          {/* <InputForm
+            id="email"
+            name="email"
+            type="text"
+            title="이메일"
+            placeholder="회신받을 메일 주소를 입력해주세요."
+            labelClass="blind"
+            value={contact.email}
+            onChange={onChange}
+          /> */}
+          <InputForm
+            id="title"
+            name="title"
+            type="text"
+            title="제목"
+            placeholder="제목을 입력해주세요."
+            labelClass="blind"
+            value={contact.title}
+            onChange={onChange}
+          />
+          <Textarea
+            name="content"
+            value={contact.content}
+            placeholder="여러분의 의견을 들려주세요."
+            onChange={onChange}
+          />
+          <Button onClick={onSubmit}>전송</Button>
         </MailWrapper>
         <SvgWrapper>
           <ContactSvg />
@@ -51,6 +97,10 @@ const MailWrapper = styled(Wrapper)`
   margin-top: 30px;
   padding: 30px 20px;
 
+  & > div {
+    margin-bottom: 15px;
+  }
+
   ${mediaQuery768} {
     float: right;
     width: 50%;
@@ -63,7 +113,7 @@ const Textarea = styled.textarea`
   width: 100%;
   min-height: 200px;
   padding: 15px;
-  margin: 15px 0 30px;
+  margin: 0 0 30px;
   border: 0;
   border-radius: 6px;
   font-size: 1.4rem;

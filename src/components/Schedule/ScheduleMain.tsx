@@ -57,7 +57,7 @@ const ScheduleMain = () => {
       {isShowEditedModal && <EditedScheduleModal onClose={onCloseEditModal} />}
       {!isShowEditedModal && scheduleDetail && <ScheduleDetailModal />}
       {isShowMoreSchedule && <MoreScheduleModal />}
-      <ServiceMain>
+      <SheduleMain>
         <SearchForm
           title="일정 검색"
           value={searchKeyword}
@@ -86,12 +86,19 @@ const ScheduleMain = () => {
           onClickDate={onClickDate}
           onClickHeaderBtn={onClickHeaderBtn}
         />
-      </ServiceMain>
+      </SheduleMain>
     </>
   );
 };
 
 export default ScheduleMain;
+
+const SheduleMain = styled(ServiceMain)`
+  .search__form {
+    margin-bottom: 30px;
+    min-width: 600px;
+  }
+`;
 
 const ManageGroup = styled.div`
   ${flexbox('row', 'nowrap', 'space-between', 'center')}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const BrandConnectSvg = () => {
   return (
     <Svg viewBox="0 0 511 443" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="249.5" cy="237.5" r="205.5" fill="#6F52ED" fill-opacity="0.1" />
+      <circle cx="249.5" cy="237.5" r="205.5" fill="#6F52ED" fillOpacity="0.1" />
       <rect width="230" height="151" rx="10" fill="#ACE1FF" />
       <rect x="327" y="89" width="184" height="117" rx="10" fill="#B2A2F3" />
       <path
@@ -51,8 +51,8 @@ const BrandConnectSvg = () => {
         fill="#FECBBB"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M425.888 343C389.982 402.904 324.423 443 249.5 443C174.577 443 109.018 402.904 73.1117 343H425.888Z"
         fill="#363051"
       />
@@ -65,8 +65,8 @@ const BrandConnectSvg = () => {
         fill="white"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M356.271 299.358L352.444 311.988H357.091C359.354 311.988 363.497 311.026 365.129 305.641C366.761 300.256 363.181 299.358 360.918 299.358H356.271ZM358.616 303.526L357.334 307.757H358.865C359.611 307.757 360.978 307.435 361.525 305.631C362.071 303.826 360.893 303.526 360.147 303.526H358.616Z"
         fill="#D5CCF9"
       />
@@ -151,9 +151,9 @@ const BrandConnectSvg = () => {
       <path
         d="M248.5 42H270M470 66.8316V52C470 46.4772 465.523 42 460 42H410M470 227.961V245C470 250.523 465.523 255 460 255H447.5M344.364 255H427M62.1304 255H37C31.4772 255 27 250.523 27 245V191M291.5 42H401.5"
         stroke="#9B87EF"
-        stroke-width="5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <circle cx="27" cy="180" r="3" fill="#9B87EF" />
       <circle cx="27" cy="170" r="3" fill="#9B87EF" />
