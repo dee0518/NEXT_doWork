@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import css from 'styled-jsx/css';
 import { flexbox } from 'styles/mixin';
 
 type TProps = {
