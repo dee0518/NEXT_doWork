@@ -7,8 +7,9 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyles from 'styles/GlobalStyles';
 import { lightTheme, darkTheme } from 'styles/theme';
 
-function MyApp({ Component, pageProps: { session, ...rest } }: AppProps) {
-  const { store, props } = wrapper.useWrappedStore(rest);
+function MyApp({ Component, pageProps }: AppProps) {
+  const { session, ...rest } = pageProps;
+  const { store } = wrapper.useWrappedStore(rest);
 
   const [storage, setStorage] = useState<Storage | null>(null);
   const isLightTheme =
@@ -23,7 +24,7 @@ function MyApp({ Component, pageProps: { session, ...rest } }: AppProps) {
       <Provider store={store}>
         <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
           <GlobalStyles />
-          <Component {...props.pageProps} />
+          <Component {...pageProps} />
         </ThemeProvider>
       </Provider>
     </SessionProvider>
