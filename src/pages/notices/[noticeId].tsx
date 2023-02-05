@@ -7,7 +7,7 @@ import { iNoticePromise } from 'types/notices';
 import { ParsedUrlQuery } from 'querystring';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3000/api/notices?page=1`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/notices?page=1`);
   const notices = await response.json();
 
   const paths = notices.data.map((notice: iNoticePromise) => ({ params: { noticeId: notice._id.toString() } }));
@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(`http://localhost:3000/api/notices/${(params as ParsedUrlQuery).noticeId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}//api/notices/${(params as ParsedUrlQuery).noticeId}`);
   const notice = await res.json();
 
   return {
