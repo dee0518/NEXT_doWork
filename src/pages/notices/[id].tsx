@@ -1,16 +1,19 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+import mongoDB from 'database/mongoDB';
+import { ObjectId } from 'mongodb';
 import Footer from 'components/Common/Footer';
 import Header from 'components/Common/Header';
 import NoticeDetail from 'components/Notices/NoticeDetail';
-import { iNoticePromise } from 'types/notices';
-import { ParsedUrlQuery } from 'querystring';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`https://next-do-work.vercel.app/api/notices?page=1`);
-  const notices = await response.json();
+  const { client, db } = await mongoDB();
+  const noticesCollection = db.collection('notices');
 
-  const paths = notices.data.map((notice: iNoticePromise) => ({ params: { id: notice._id.toString() } }));
+  const notices = await noticesCollection.find().sort({ created_at: -1 }).toArray();
+  client.close();
+
+  const paths = notices.map(notice => ({ params: { id: notice._id.toString() } }));
 
   return {
     paths,
@@ -19,12 +22,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(`https://next-do-work.vercel.app/api/notices/${(params as ParsedUrlQuery).id}`);
-  const notice = await res.json();
+  const { client, db } = await mongoDB();
+  const noticesCollection = db.collection('notices');
+
+  const notice = await noticesCollection.findOne({ _id: ObjectId(params.id) });
+  client.close();
 
   return {
     props: {
-      notice: notice.data,
+      notice: { ...notice, _id: notice._id.toString() },
     },
   };
 };
