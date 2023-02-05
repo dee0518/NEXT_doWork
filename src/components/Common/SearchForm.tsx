@@ -12,7 +12,7 @@ type TProps = {
 
 const SearchForm = ({ title, value, placeholder, onSubmit, onChange }: TProps) => {
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} className="search__form">
       <InputForm
         id="search"
         type="text"
@@ -30,9 +30,6 @@ const SearchForm = ({ title, value, placeholder, onSubmit, onChange }: TProps) =
 export default memo(SearchForm);
 
 const Form = styled.form`
-  min-width: 600px;
-  margin-bottom: 30px;
-
   input {
     padding: 15px;
     border-radius: 6px;
