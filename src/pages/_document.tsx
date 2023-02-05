@@ -42,6 +42,8 @@ export default class MyDocument extends Document {
           <meta property="og:description" content="함께 일해보아요:)" />
           <meta property="og:site_name" content="doWork" />
           <meta property="og:locale" content="en_US" />
+          <meta name="keywords" content="doWork, work, together, 같이, 일, 협업, 동료, 스케쥴, 일정, 관리" />
+          <meta name="description" content="자세한 설명으로 doWork를 사용하는 방법을 알아가요" />
           <link rel="icon" href="/favicon.ico" />
           <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
