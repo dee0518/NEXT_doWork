@@ -10,7 +10,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const response = await fetch(`https://next-do-work.vercel.app/api/notices?page=1`);
   const notices = await response.json();
 
-  const paths = notices.data.map((notice: iNoticePromise) => ({ params: { noticeId: notice._id.toString() } }));
+  const paths = notices.data.map((notice: iNoticePromise) => ({ params: { id: notice._id.toString() } }));
 
   return {
     paths,
@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(`https://next-do-work.vercel.app/api/notices/${(params as ParsedUrlQuery).noticeId}`);
+  const res = await fetch(`https://next-do-work.vercel.app/api/notices/${(params as ParsedUrlQuery).id}`);
   const notice = await res.json();
 
   return {
