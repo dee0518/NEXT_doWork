@@ -18,7 +18,7 @@ const DocsMain = () => {
 
 export default DocsMain;
 
-const DocsWrap = styled.div`
+const DocsWrap = styled.main`
   padding: 70px 0 50px;
 
   ${mediaQuery768} {
