@@ -7,7 +7,7 @@ import { iNoticePromise } from 'types/notices';
 
 export const getStaticProps = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/notices?page=1`);
+    const response = await fetch(`https://next-do-work.vercel.app/api/notices?page=1`);
     const notices = await response.json();
 
     if (!notices.result) {
