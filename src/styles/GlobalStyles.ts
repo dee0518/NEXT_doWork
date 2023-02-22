@@ -7,7 +7,7 @@ const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
-    list-style: none;
+    list-style-type: none;
     box-sizing: border-box;
   }
 
@@ -39,6 +39,12 @@ const GlobalStyles = createGlobalStyle`
       display: block;
       clear: both;
     }
+  }
+
+  .blind {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
   }
 `;
 
