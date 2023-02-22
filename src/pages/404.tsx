@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
 import Footer from 'components/Common/Footer';
@@ -9,7 +10,7 @@ import shape2 from 'images/404/shape_2.svg';
 import shape3 from 'images/404/shape_3.svg';
 import bubble from 'images/404/bubble.svg';
 
-const Custom404 = () => (
+const Custom404: NextPage = () => (
   <>
     <Head>
       <title>404 페이지를 찾을 수 없어요 : doWork</title>
