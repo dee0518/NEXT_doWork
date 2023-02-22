@@ -15,7 +15,7 @@ const Button = styled.button<TProps>`
   line-height: ${({ lineheight }) => lineheight || '50px'};
   color: ${({ category, theme }) => (category === 'secondary' ? theme.color_purple_50 : theme.white)};
   background: ${({ category, theme }) => {
-    if (category === 'cancel') return theme.color_gray_70;
+    if (category === 'gray70') return theme.color_gray_70;
     if (category === 'disabeled') return theme.color_gray_90;
     if (category === 'secondary') return theme.white;
     return theme.color_purple_50;
