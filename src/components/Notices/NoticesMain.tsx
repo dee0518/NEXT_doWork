@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { ChangeEvent, FormEvent, useState, useMemo } from 'react';
 import { changeDate } from 'utils/dateUtils';
 import ContentInner from 'components/Common/ContentInner';
+import SearchForm from 'components/Common/SearchForm';
 import Title from 'components/Common/Title';
 import Wrapper from 'components/Common/Wrapper';
 import Pagination from 'components/Common/Pagination';
@@ -15,11 +17,33 @@ type TProps = {
 };
 
 const NoticesMain = ({ notices }: TProps) => {
+  const [search, setSearch] = useState<string>('');
+  const noticesList = useMemo(() => {
+    if (search === '') return notices;
+
+    return notices.filter(({ title }) => title.includes(search));
+  }, [search]);
+
+  const onChange = (e: ChangeEvent) => {
+    setSearch((e.target as HTMLInputElement).value);
+  };
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <NoticesWrap>
       <ContentInner>
         <NoticesTopGroup>
           <Title className="home__title">Notices</Title>
+          <SearchForm
+            title="공지사항 검색"
+            value={search}
+            placeholder="검색어를 입력해주세요."
+            onSubmit={onSubmit}
+            onChange={onChange}
+          />
         </NoticesTopGroup>
         <Table>
           <TableHeader>
@@ -30,14 +54,21 @@ const NoticesMain = ({ notices }: TProps) => {
             </TableHeaderRow>
           </TableHeader>
           <TableBody>
-            {notices.length > 0 &&
-              notices.map(({ _id, title, created_at }, i) => (
+            {noticesList.length > 0 &&
+              noticesList.map(({ _id, title, created_at }, i) => (
                 <TableRow key={_id} href={`${NOTICES}/${_id}`}>
                   <TableCell>{notices.length - i}</TableCell>
                   <TableCell>{title}</TableCell>
                   <TableCell>{changeDate(new Date(created_at))}</TableCell>
                 </TableRow>
               ))}
+            {noticesList.length === 0 && (
+              <EmptyRow>
+                <EmptyCell />
+                <EmptyCell>빈 목록입니다.</EmptyCell>
+                <EmptyCell />
+              </EmptyRow>
+            )}
           </TableBody>
         </Table>
         <Pagination total={2} current={1} />
@@ -189,4 +220,15 @@ const TableCell = styled.div`
       text-align: center;
     }
   }
+`;
+
+const EmptyRow = styled.div`
+  display: table-row;
+`;
+
+const EmptyCell = styled.div`
+  display: table-cell;
+  font-size: 1.6rem;
+  color: ${({ theme }) => theme.color_gray_50};
+  padding: 25px 0;
 `;
